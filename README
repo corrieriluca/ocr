@@ -1,0 +1,11 @@
+# OCR
+A simple optical character recognition system made for the final S3 project at EPITA
+
+# Building
+Type `make` in the repository root to build the OCR
+
+# Authors
+- Alexis Boissière
+- Alexis Boyadjan
+- Valentin Cambazard
+- Luca Corrieri
