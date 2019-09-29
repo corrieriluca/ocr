@@ -6,7 +6,7 @@ CPPFLAGS =
 LDFLAGS =
 LDLIBS =
 
-SRC = src/main.c
+SRC = main.c
 OBJ = ${SRC:.c=.o}
 
 main: ${OBJ}
