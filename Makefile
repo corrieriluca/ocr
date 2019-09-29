@@ -1,15 +1,18 @@
-# Override C compiler
-CC=gcc
-CFLAGS=-W -Wall -Wextra -std=c99 -Werror -O3
-LDFLAGS=
-CFILES=src/main.c
+# Makefile
+CC = gcc
 
-all: ocr
+CFLAGS = -W -Wall -Wextra -std=c99 -Werror -O3
+CPPFLAGS =
+LDFLAGS =
+LDLIBS =
+
+SRC = src/main.c
+OBJ = ${SRC:.c=.o}
+
+main: ${OBJ}
 
 clean:
-	rm -rf bin/ocr
-	rm -rf src/*.o
+	${RM} ${OBJ} # remove object files
+	${RM} main # remove main program
 
-ocr:
-	mkdir -p bin
-	$(CC) $(CFILES) -o bin/ocr $(LDFLAGS)
+# END
