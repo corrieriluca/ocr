@@ -11,4 +11,5 @@ clean:
 	rm -rf src/*.o
 
 ocr:
+	mkdir -p bin
 	$(CC) $(CFILES) -o bin/ocr $(LDFLAGS)
