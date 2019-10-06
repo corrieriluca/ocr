@@ -1,5 +1,6 @@
 # Project custom
 bin/
+tmp/
 
 # Prerequisites
 *.d

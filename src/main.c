@@ -19,13 +19,13 @@ SIMPLE OPTICAL CHARACTER RECOGNITION
 int main(int argc, char** argv)
 {
     if (argc != 2)
-        errx(1, "Error");
+        errx(1, "Error: You must specify the path of the image");
     
     SDL_Surface *image_surface;
     init_sdl();
     image_surface = load_image(argv[1]);
     size_t *matrix = image_to_matrix(image_surface);
-    printf("image_to_bin_matrix called\nThe matrix is:\n");
+    printf("image_to_matrix called\nThe matrix is:\n");
     print_matrix(matrix, image_surface->h, image_surface->w);
 
     return 0;

@@ -11,7 +11,7 @@ SRC = src/segmentation.c src/preprocessing.c src/matrix_tools.c src/main.c src/i
 all: ocr tmp
 
 ocr: $(SRC)
-	$(CC) -o $@ $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
+	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
 
 tmp:
 	mkdir -p tmp
@@ -19,7 +19,7 @@ tmp:
 .PHONY: clean
 
 clean:
-	${RM} ocr
+	${RM} ocr.out
 	${RM} ocr.d
 	rm -r tmp
 
