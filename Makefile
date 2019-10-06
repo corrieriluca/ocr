@@ -1,28 +1,28 @@
 # Makefile OCR
-TARGET = ocr
 
 CC = gcc
 CFLAGS = -W -Wall -Wextra -std=c99 -Werror -O3
-CPPFLAGS =
+CPPFLAGS = `pkg-config --cflags sdl` -MMD
 LDFLAGS =
-
-SDL = `pkg-config --cflags --libs sdl` -lSDL_image
-LM = -lm
+LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm
 
 SRC = src/segmentation.c src/preprocessing.c src/matrix_tools.c src/main.c src/image_operations.c
+OBJ = ${SRC:.c=.o}
+DEP = ${SRC:.c=.d}
 
-all: $(TARGET) tmp
+all: ocr tmp
 
-ocr: $(SRC)
-	$(CC) -o $@ $(SRC) $(CFLAGS) $(SDL) $(LM)
+ocr: ${OBJ}
 
 tmp:
 	mkdir -p tmp
 
 .PHONY: clean
+
 clean:
-	# remove program file
-	${RM} $(TARGET)
-	# remove temp folder
+	${RM} ${OBJ}
+	${RM} ${DEP}
+	${RM} ocr
 	rm -r tmp
+
 # END
