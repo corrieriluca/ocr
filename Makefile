@@ -6,7 +6,7 @@ CFLAGS = -W -Wall -Wextra -std=c99 -Werror -O3
 CPPFLAGS =
 LDFLAGS =
 
-SDL = `pkg-config --cflags sdl` -lSDL_image
+SDL = `pkg-config --cflags --libs sdl` -lSDL_image
 LM = -lm
 
 SRC = src/segmentation.c src/preprocessing.c src/matrix_tools.c src/main.c src/image_operations.c
@@ -16,7 +16,7 @@ all: $(TARGET) tmp
 ocr: $(SRC)
 	$(CC) -o $@ $(SRC) $(CFLAGS) $(SDL) $(LM)
 
-tmpdir:
+tmp:
 	mkdir -p tmp
 
 .PHONY: clean

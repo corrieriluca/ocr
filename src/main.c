@@ -14,7 +14,7 @@ SIMPLE OPTICAL CHARACTER RECOGNITION
 #include <err.h>
 #include "preprocessing.h"
 #include "image_operations.h"
-#include "matrix_tools.h";
+#include "matrix_tools.h"
 
 int main(int argc, char** argv)
 {
@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     image_surface = load_image(argv[1]);
     size_t *matrix = image_to_bin_matrix(image_surface);
     printf("image_to_bin_matrix called\nThe matrix is:\n");
-    print_matrix(&matrix, image_surface->h, image_surface->w);
+    print_matrix(matrix, image_surface->h, image_surface->w);
 
     return 0;
 }
