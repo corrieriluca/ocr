@@ -7,12 +7,11 @@ LDFLAGS =
 LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm
 
 SRC = src/segmentation.c src/preprocessing.c src/matrix_tools.c src/main.c src/image_operations.c
-OBJ = ${SRC:.c=.o}
-DEP = ${SRC:.c=.d}
 
 all: ocr tmp
 
-ocr: ${OBJ}
+ocr: $(SRC)
+	$(CC) -o $@ $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
 
 tmp:
 	mkdir -p tmp
@@ -20,9 +19,10 @@ tmp:
 .PHONY: clean
 
 clean:
-	${RM} ${OBJ}
-	${RM} ${DEP}
 	${RM} ocr
+	${RM} ocr.d
 	rm -r tmp
+
+-include ${DEP}
 
 # END
