@@ -165,20 +165,20 @@ void image_to_bin_matrix(SDL_Surface *img_surface, size_t *bin_matrix)
 	size_t width = img_surface->w;
 	size_t height = img_surface->h;
 
-	for (int x = 0; x < height; x++)                                            
-    {                                                                           
-        for (int y = 0; y < width; y++)                                         
-        {
+	for (size_t x = 0; x < height; x++)                                            
+	{                                                                           
+        	for (size_t y = 0; y < width; y++)                                         
+        	{
 			Uint32 pixel = get_pixel(img_surface, x, y);
 			Uint8 r, g, b;
 			SDL_GetRGB(pixel,img_surface->format, &r, &g, &b);
-			bin_matrix[y*width+x] = (r==0)?1:0;
+			bin_matrix[x*width+y] = (r==0)?1:0;
 		}
 	}
 }
 
 
-int main()
+size_t *image_to_matrix()
 {
     SDL_Surface *image_surface;
     SDL_Surface *screen_surface;
@@ -190,12 +190,12 @@ int main()
 
     wait_for_keypressed();
 
-    int width = image_surface->w;
-    int height = image_surface->h;
+    size_t width = image_surface->w;
+    size_t height = image_surface->h;
 
-    for (int x = 0; x < height; x++)
+    for (size_t x = 0; x < height; x++)
     {
-        for (int y = 0; y < width; y++)
+        for (size_t y = 0; y < width; y++)
         {
             Uint32 pixel = get_pixel(image_surface, x, y);
             Uint8 r, g, b;
@@ -205,7 +205,7 @@ int main()
 				average = 255;
 			else
 				average = 0;
-			pixel = SDL_MapRGB(image_surface->format,average,average,average);
+	pixel = SDL_MapRGB(image_surface->format,average,average,average);
             put_pixel(image_surface, x, y, pixel);
         }
     }
@@ -218,14 +218,12 @@ int main()
 
 	//wait_for_keypressed();
 
-	size_t bin_matrix[];
+	size_t *bin_matrix = calloc(width*height, sizeof(size_t));
 
+	image_to_bin_matrix(image_surface, bin_matrix);	
 
-	return surface_to_bin_matrix(image_surface, bin_matrix);
-	
+	SDL_FreeSurface(image_surface);
+	SDL_FreeSurface(screen_surface);
 
-    SDL_FreeSurface(image_surface);
-    SDL_FreeSurface(screen_surface);
-
-    return 0;
+	return bin_matrix;
 }
