@@ -29,11 +29,20 @@ void print_matrix(size_t matrix[], size_t height, size_t width)
     printf("*\n");
 }
 
+// Fill randomly a matrix of size width * height with 0 and 1
+void matrix_random_fill(size_t matrix[], size_t height, size_t width)
+{
+    for (size_t i = 0; i < width * height; i++)
+        matrix[i] = (size_t)rand() % 2; // random values : 0 or 1
+}
+
 // Debugging
 int main()
 {
-    size_t matrix[] = {0, 1, 1, 0, 1, 0};
-    print_matrix(matrix, 2, 3);
+    size_t width = 16, height = 16;
+    size_t *matrix = calloc(height*width, sizeof(size_t));
+    matrix_random_fill(matrix, height, width);
+    print_matrix(matrix, height, width);
 
     return 0;
 }
