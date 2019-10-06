@@ -65,6 +65,119 @@ void wait_for_keypressed()
     } while (event.type != SDL_KEYUP);
 }
 
+/*size_t otsu(SDL_Surface *img)
+{
+	int width = img->w;                                               
+    int height = img->h;
+
+	float hist[256] = {0};
+
+
+	for (int x = 0; x < height; x++)                                            
+    {                                                                           
+        for (int y = 0; y < width; y++)                                         
+        {                                                                       
+            Uint32 pixel = get_pixel(img, x, y);                      
+            Uint8 r, g, b;                                                      
+            SDL_GetRGB(pixel, img->format, &r, &g, &b);               
+            hist[r] += 1;                              
+        }                                                                       
+    }
+
+	int nb_pixels = width*height;
+
+	for (int i=0; i<256; ++i)
+		hist[i] /= nb_pixels;
+
+	float ut = 0;
+
+    for (int i = 0; i < 256; i++)
+        ut += i*hist[i];
+
+
+
+    int max_k = 0;
+
+    float max_sigma_k = 0;
+
+    for (int k = 0; k < 256; k++)
+    {
+
+        float wk = 0;
+
+        for (int i = 0; i <= k; i++)
+            wk += hist[i];
+
+        float uk = 0;
+
+        for (int i = 0; i <= k; i++)
+            uk += i*hist[i];
+
+
+
+        float sigma_k = 0;
+
+        if (wk != 0 && wk != 1)
+            sigma_k = ((ut*wk - uk)*(ut*wk - uk)) / (wk*(1 - wk));
+
+        if (sigma_k > max_sigma_k)
+        {
+
+            max_k = k;
+
+            max_sigma_k = sigma_k;
+
+        }
+
+    }
+
+    return (size_t)max_k;
+}
+
+void binarize(SDL_Surface *image_surface, size_t threshold)
+{
+    size_t width = image_surface->w;
+    size_t height = image_surface->h;
+
+    for(size_t x=0; x < width; x++)
+    {
+        for(size_t y=0; y < height; y++)
+        {
+            Uint32 pixel;
+            pixel = get_pixel(image_surface, x, y);
+            Uint8 r, g, b;
+            SDL_GetRGB(pixel,image_surface->format, &r, &g, &b);
+            size_t graylevel = r;
+
+            if (graylevel < threshold)
+            	{ r = 0; g = 0; b = 0; }
+            else
+				{ r = 255; g = 255; b=255; }
+
+            pixel = SDL_MapRGB(image_surface->format, r, g, b);
+            put_pixel(image_surface, x, y, pixel);
+        }
+    }
+}*/
+
+void image_to_bin_matrix(SDL_Surface *img_surface, size_t *bin_matrix)
+{
+	size_t width = img_surface->w;
+	size_t height = img_surface->h;
+
+	for (int x = 0; x < height; x++)                                            
+    {                                                                           
+        for (int y = 0; y < width; y++)                                         
+        {
+			Uint32 pixel = get_pixel(img_surface, x, y);
+			Uint8 r, g, b;
+			SDL_GetRGB(pixel,img_surface->format, &r, &g, &b);
+			bin_matrix[y*width+x] = (r==0)?1:0;
+		}
+	}
+}
+
+
 int main()
 {
     SDL_Surface *image_surface;
@@ -72,7 +185,7 @@ int main()
 
     init_sdl();
 
-    image_surface = load_image("my_image.jpg");
+    image_surface = load_image("my_image.bmp");
     screen_surface = display_image(image_surface);
 
     wait_for_keypressed();
@@ -88,7 +201,11 @@ int main()
             Uint8 r, g, b;
             SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
             Uint8 average = 0.3*r + 0.59*g + 0.11*b;
-            pixel = SDL_MapRGB(image_surface->format,average,average,average);
+            if (average>127)
+				average = 255;
+			else
+				average = 0;
+			pixel = SDL_MapRGB(image_surface->format,average,average,average);
             put_pixel(image_surface, x, y, pixel);
         }
     }
@@ -96,6 +213,16 @@ int main()
     update_surface(screen_surface, image_surface);
 
     wait_for_keypressed();
+
+	//binarize(image_surface,otsu(image_surface));
+
+	//wait_for_keypressed();
+
+	size_t bin_matrix[];
+
+
+	return surface_to_bin_matrix(image_surface, bin_matrix);
+	
 
     SDL_FreeSurface(image_surface);
     SDL_FreeSurface(screen_surface);
