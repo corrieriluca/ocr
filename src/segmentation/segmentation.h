@@ -3,6 +3,22 @@
 
 #define MATRIX_SIZE 16 // size of square matrix for input in the NN
 
-// Mettre ici des structures pour les lignes de texte, les caractères, etc...
+// Represent a character
+typedef struct Character
+{
+    size_t startingPoint;
+    size_t endPoint;
+    size_t *matrix; // the matrix of 0 and 1 representing the character
+    char character; // to be determined by the neural network
+} Character;
+
+// Represent a text line
+typedef struct Line
+{
+    size_t startingPoint;
+    size_t endPoint;
+    size_t nbCharacters;
+    Character *characters;
+} Line;
 
 #endif
