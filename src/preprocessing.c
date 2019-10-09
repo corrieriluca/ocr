@@ -25,7 +25,7 @@ void grayscale(SDL_Surface *image_surface)
     }
 }
 
-//Calculate the treshold
+//Calculate the Otsu treshold
 int otsu(SDL_Surface *image_surface, size_t h, size_t w)
 {
 	float hist_proba[256] = {0}; //array of prob of each grey pixel
@@ -57,7 +57,7 @@ int otsu(SDL_Surface *image_surface, size_t h, size_t w)
 
 		c2 = 1 - c1;
 
-		float S2;
+		//float S2; //unused
 
 		float m1 = 0;
 		float m2 = 0;
@@ -87,7 +87,7 @@ int otsu(SDL_Surface *image_surface, size_t h, size_t w)
 	return treshold;
 }
 
-//Change pixel to black or white depending on the treshold from otsu
+//Change pixel to black or white depending on the treshold from Otsu
 void binarize(SDL_Surface *image_surface)
 {
 	size_t width = image_surface->w;                                            
@@ -102,7 +102,7 @@ void binarize(SDL_Surface *image_surface)
             Uint32 pixel = get_pixel(image_surface, x, y);
             Uint8 r, g, b;
             SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
-			Uint8 bin_pixel_color = r>treshold ? 255:0;
+			Uint8 bin_pixel_color = r > treshold ? 255 : 0;
             pixel = SDL_MapRGB(image_surface->format,
                         bin_pixel_color, bin_pixel_color, bin_pixel_color);
             put_pixel(image_surface, x, y, pixel);
@@ -145,17 +145,17 @@ size_t *image_to_matrix(SDL_Surface *image_surface)
 
     // Grayscale
     grayscale(image_surface);
-    save_image(image_surface, "tmp/grayscale.bmp");
+    save_image(image_surface, "tmp/grayscale.bmp"); // for debug
 
     // Binarization (basic for the moment)
     binarize(image_surface);
-    save_image(image_surface, "tmp/binarized.bmp");
+    save_image(image_surface, "tmp/binarized.bmp"); // for debug
 
     // Binary matrix creation
 	size_t *bin_matrix = calloc(width*height, sizeof(size_t));
 	image_to_bin_matrix(image_surface, bin_matrix);	
 
-	SDL_FreeSurface(image_surface);
+	//SDL_FreeSurface(image_surface);
 
 	return bin_matrix;
 }
