@@ -25,26 +25,86 @@ void grayscale(SDL_Surface *image_surface)
     }
 }
 
-// Temp function for binarization (Otsu later...)
-void binarize_simple(SDL_Surface *image_surface)
+//Calculate the treshold
+int otsu(SDL_Surface *image_surface, size_t h, size_t w)
 {
-    size_t width = image_surface->w;
+	float hist_proba[256] = {0}; //array of prob of each grey pixel
+	float P = 1/(h*w);
+
+	//double for to fill the hist_proba
+	for (size_t x = 0; x < h; x++)                   
+    {                                                                           
+        for (size_t y = 0; y < w; y++)                                      
+        {
+			Uint32 pixel = get_pixel(image_surface, x, y);                      
+            Uint8 r, g, b;                                                      
+            SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
+            hist_proba[r] += P;
+        }                                                                       
+	}
+
+
+	float min_var = 0;
+	int treshold = 0;
+
+	for (int i = 0; i<256; ++i)
+	{
+		float c1 = 0;
+		float c2 = 0;
+
+		for (int j = 0; j<i; ++j)
+			c1 += hist_proba[j];
+
+		c2 = 1 - c1;
+
+		float S2;
+
+		float m1 = 0;
+		float m2 = 0;
+
+		for(int n = 0; n<i; ++n)
+			m1 += (n*hist_proba[n])/c1;
+
+		for(int n = i; n<256; ++n)
+			m2 += (n*hist_proba[n])/c2;
+
+		float var1 = 0;
+		float var2 = 0;
+
+		for(int n = 0; n<i; ++n)
+			var1 += (n-m1)*(n-m1)*hist_proba[n];
+
+		for(int n = i; n<256; ++n)
+			var2 += (n-m2)*(n-m2)*hist_proba[n];
+
+		if (min_var > var1 + var2)
+		{
+			min_var = var1 + var2;
+			treshold = i;
+		}
+	}
+
+	return treshold;
+}
+
+//Change pixel to black or white depending on the treshold from otsu
+void binarize(SDL_Surface *image_surface)
+{
+	size_t width = image_surface->w;                                            
     size_t height = image_surface->h;
 
-    for (size_t x = 0; x < height; x++)
+	int treshold = otsu(image_surface, height, width);
+
+	for (size_t x = 0; x < height; x++)
     {
         for (size_t y = 0; y < width; y++)
         {
             Uint32 pixel = get_pixel(image_surface, x, y);
             Uint8 r, g, b;
             SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
-            Uint8 average = 0.3 * r + 0.59 * g + 0.11 * b;
-            if (average > 127)
-                average = 255;
-            else
-                average = 0;
+			Uint8 bin_pixel_color = r>treshold ? 255:0;
             pixel = SDL_MapRGB(image_surface->format,
-                        average, average, average);
+                        bin_pixel_color, bin_pixel_color, bin_pixel_color);
             put_pixel(image_surface, x, y, pixel);
         }
     }
@@ -88,7 +148,7 @@ size_t *image_to_matrix(SDL_Surface *image_surface)
     save_image(image_surface, "tmp/grayscale.bmp");
 
     // Binarization (basic for the moment)
-    binarize_simple(image_surface);
+    binarize(image_surface);
     save_image(image_surface, "tmp/binarized.bmp");
 
     // Binary matrix creation
