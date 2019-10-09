@@ -7,7 +7,7 @@
 
 #include "image_operations.h"
 
-// Represent a character
+// Represents a character
 typedef struct Character
 {
     size_t startingPoint;
@@ -16,13 +16,13 @@ typedef struct Character
     char character; // to be determined by the neural network
 } Character;
 
-// Represent a text line
+// Represents a text line
 typedef struct Line
 {
     size_t startingPoint; // the starting point of the line in the matrix
-    size_t endPoint; // the end point of the line in the matrix
+    size_t endPoint;      // the end point of the line in the matrix
     size_t nbCharacters;
-    Character *characters;
+    Character *characters; // characters array of this line
 } Line;
 
 size_t Find_Lines(Line lines[],
@@ -31,5 +31,7 @@ size_t Find_Lines(Line lines[],
 
 void Debug_Lines(Line lines[], size_t nbLines);
 void Show_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines);
+
+void Find_Characters(Line *line, size_t binarized_matrix[], size_t width);
 
 #endif

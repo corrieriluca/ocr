@@ -3,6 +3,8 @@
 #include "segmentation.h"
 #include "image_operations.h"
 
+/* ****************** LINE SEGMENTATION *********************** */
+
 /* This function finds the text lines on the image (binarized matrix) with
  * the XY-Cut algorithm. It returns the number of lines, and fills the array
  * lines[] with Line struct elements. (see "segmentation.h")
@@ -12,8 +14,10 @@ size_t Find_Lines(Line lines[],
         size_t height, size_t width)
 {
     size_t nbLines = 0;
+
     // boolean indicating the state of the last iteration
     int isInLine = 0;
+
     // indicating the index of the starting point of the current line
     size_t startingPoint = 0;
 
@@ -74,14 +78,75 @@ void Debug_Lines(Line lines[], size_t nbLines)
     }
 }
 
+/* ******************** CHARACTER SEGMENTATION *********************** */
+
+/* This function finds all the characters in the given line with the XY-Cut
+ * algorithm. It fills the 'characters' array of the given line.
+ * It is the same process as the Find_Lines function but on the X axis.
+ */
+void Find_Characters(Line *line, size_t binarized_matrix[], size_t width)
+{
+    size_t upperBound = line->startingPoint;
+    size_t lowerBound = line->endPoint;
+    size_t nbCharacters = 0;
+    int isInChar = 0; // boolean indicating the state of the last iteration
+    size_t startingPoint = 0; // <=> Character.startingPoint
+
+    for (size_t x = 0; x < width; x++)
+    {
+        // Sum of the black pixels on this line.
+        // Also taken as boolean (we are inside a character)
+        size_t isTherePixelsOnThisLine = 0;
+        // Counting for black pixels
+        for (size_t y = upperBound; y <= lowerBound; y++)
+            isTherePixelsOnThisLine += binarized_matrix[y * width + x];
+
+        // In the case we have found a new character
+        if (!isInChar && isTherePixelsOnThisLine)
+        {
+            startingPoint = x;
+            isInChar = 1; // <=> True
+        }
+
+        // In the case we are at the end of a character
+        if (isInChar && !isTherePixelsOnThisLine)
+        {
+            Character character;
+            character.startingPoint = startingPoint;
+            character.endPoint = x;
+            line->characters[nbCharacters] = character;
+            nbCharacters++;
+            isInChar = 0; // <=> False
+        }
+    }
+
+    line->nbCharacters = nbCharacters;
+}
+
+/* ************************** MISC *********************************** */
+
 // For debugging; draws the lines of the XY-Cut on the image, and save it to
 // the tmp/ folder.
 void Show_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines)
 {
     for (size_t i = 0; i < nbLines; i++)
     {
-        draw_horizontal_line(image, lines[i].startingPoint);
-        draw_horizontal_line(image, lines[i].endPoint);
+        size_t lineStartingPoint = lines[i].startingPoint;
+        size_t lineEndPoint = lines[i].endPoint;
+
+        // LINES BOUNDS
+        draw_horizontal_line(image, lineStartingPoint);
+        draw_horizontal_line(image, lineEndPoint);
+
+        // CHARACTERS BOUNDS
+        for (size_t j = 0; j < lines[i].nbCharacters; j++)
+        {
+            Character current = lines[i].characters[j];
+            draw_vertical_line(image, current.startingPoint,
+                            lineStartingPoint, lineEndPoint);
+            draw_vertical_line(image, current.endPoint,
+                            lineStartingPoint, lineEndPoint);
+        }
     }
 
     save_image(image, "tmp/segmentation.bmp");

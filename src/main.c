@@ -39,12 +39,26 @@ int main(int argc, char** argv)
     print_matrix(binarized_matrix, image_height, image_width);
     */
 
-    // Segmentation (lines only for the moment)
+    // Segmentation
+    
+    // Lines
     printf("------ Segmentation started ------\n");
     Line *lines = calloc(MAX_LINE_NUMBER, sizeof(Line));
     size_t nbLines = Find_Lines(lines, binarized_matrix,
                                 image_height, image_width);
     Debug_Lines(lines, nbLines);
+
+    // Characters per line
+    for (size_t i = 0; i < nbLines; i++)
+    {
+        Line *current = &lines[i];
+        current->characters = calloc(MAX_CHARACTER_NUMBER, sizeof(Character));
+        Find_Characters(current, binarized_matrix, image_width);
+
+        printf("On line %zu : %zu characters found\n",
+                    i, current->nbCharacters);
+    }
+
     Show_Segmentation(image_surface, lines, nbLines);
 
     SDL_FreeSurface(image_surface);

@@ -161,14 +161,14 @@ void draw_horizontal_line(SDL_Surface *image, size_t line)
     }
 }
 
-// Draw an vertical red line on the surface, at the specified column (x)
+// Draw an vertical blue line on the surface, at the specified column (x)
 // Designed to be used for segmentation debugging (showing characters)
 void draw_vertical_line(SDL_Surface *image, size_t column,
     size_t start, size_t end)
 {
     for (size_t y = start; y < end; y++)
     {
-        Uint8 r = 255, g = 0, b = 0;
+        Uint8 r = 0, g = 0, b = 255;
         Uint32 pixel = SDL_MapRGB(image->format, r, g, b);
         put_pixel(image, column, y, pixel);
     }
