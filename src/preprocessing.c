@@ -10,9 +10,9 @@ void grayscale(SDL_Surface *image_surface)
     size_t width = image_surface->w;
     size_t height = image_surface->h;
 
-    for (size_t x = 0; x < height; x++)
+    for (size_t y = 0; y < height; y++)
     {
-        for (size_t y = 0; y < width; y++)
+        for (size_t x = 0; x < width; x++)
         {
             Uint32 pixel = get_pixel(image_surface, x, y);
             Uint8 r, g, b;
@@ -25,29 +25,29 @@ void grayscale(SDL_Surface *image_surface)
     }
 }
 
-//Calculate the Otsu treshold
-int otsu(SDL_Surface *image_surface, size_t h, size_t w)
+// Calculate the Otsu threshold
+size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
 {
-	float hist_proba[256] = {0}; //array of prob of each grey pixel
-	float P = 1/(h*w);
+	float hist_proba[256] = { 0.0F }; //array of prob of each grey pixel
+	float P = 1 / (h * w);
 
-	//double for to fill the hist_proba
-	for (size_t x = 0; x < h; x++)                   
+	// double for loop to fill the hist_proba
+	for (size_t y = 0; y < h; y++)                   
     {                                                                           
-        for (size_t y = 0; y < w; y++)                                      
+        for (size_t x = 0; x < w; x++)                                      
         {
 			Uint32 pixel = get_pixel(image_surface, x, y);                      
             Uint8 r, g, b;                                                      
             SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
-            hist_proba[r] += P;
+			size_t graylevel = r;
+            hist_proba[graylevel] += P;
         }                                                                       
 	}
 
-
 	float min_var = 0;
-	int treshold = 0;
+	int threshold = 0;
 
-	for (int i = 0; i<256; ++i)
+	for (int i = 0; i < 256; ++i)
 	{
 		float c1 = 0;
 		float c2 = 0;
@@ -80,29 +80,29 @@ int otsu(SDL_Surface *image_surface, size_t h, size_t w)
 		if (min_var > var1 + var2)
 		{
 			min_var = var1 + var2;
-			treshold = i;
+			threshold = i;
 		}
 	}
 
-	return treshold;
+	return (size_t)threshold;
 }
 
-//Change pixel to black or white depending on the treshold from Otsu
+// Change pixel to black or white depending on the treshold from Otsu
 void binarize(SDL_Surface *image_surface)
 {
 	size_t width = image_surface->w;                                            
     size_t height = image_surface->h;
 
-	int treshold = otsu(image_surface, height, width);
+	size_t threshold = otsu(image_surface, height, width);
 
-	for (size_t x = 0; x < height; x++)
+	for (size_t y = 0; y < height; y++)
     {
-        for (size_t y = 0; y < width; y++)
+        for (size_t x = 0; x < width; x++)
         {
             Uint32 pixel = get_pixel(image_surface, x, y);
             Uint8 r, g, b;
             SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
-			Uint8 bin_pixel_color = r > treshold ? 255 : 0;
+			Uint8 bin_pixel_color = (size_t)r > threshold ? 255 : 0;
             pixel = SDL_MapRGB(image_surface->format,
                         bin_pixel_color, bin_pixel_color, bin_pixel_color);
             put_pixel(image_surface, x, y, pixel);
