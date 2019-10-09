@@ -31,13 +31,16 @@ int main(int argc, char** argv)
     save_image(image_surface, "tmp/original.bmp");
 
     // Pre-processing
+    printf("------ Pre-processing started ------\n");
     size_t *binarized_matrix = image_to_matrix(image_surface);
-    
-    // Debug (print the matrix)
+
+    /* Debug (print the matrix)
     printf("image_to_matrix called\nThe matrix is:\n");
     print_matrix(binarized_matrix, image_height, image_width);
+    */
 
     // Segmentation (lines only for the moment)
+    printf("------ Segmentation started ------\n");
     Line *lines = calloc(MAX_LINE_NUMBER, sizeof(Line));
     size_t nbLines = Find_Lines(lines, binarized_matrix,
                                 image_height, image_width);

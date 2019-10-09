@@ -146,14 +146,17 @@ size_t *image_to_matrix(SDL_Surface *image_surface)
     // Grayscale
     grayscale(image_surface);
     save_image(image_surface, "tmp/grayscale.bmp"); // for debug
+	printf("--- Grayscaling done --- => tmp/grayscale.bmp\n");
 
     // Binarization (basic for the moment)
     binarize(image_surface);
     save_image(image_surface, "tmp/binarized.bmp"); // for debug
+	printf("--- Binarization done --- => tmp/binarized.bmp\n");
 
     // Binary matrix creation
 	size_t *bin_matrix = calloc(width*height, sizeof(size_t));
-	image_to_bin_matrix(image_surface, bin_matrix);	
+	image_to_bin_matrix(image_surface, bin_matrix);
+	printf("--- Image to Matrix done ---\n");
 
 	//SDL_FreeSurface(image_surface);
 

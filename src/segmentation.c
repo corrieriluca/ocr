@@ -65,12 +65,12 @@ size_t Find_Lines(Line lines[],
 // For debugging; shows the lines characteristics on the console
 void Debug_Lines(Line lines[], size_t nbLines)
 {
-    printf("------- Debugging lines -------\n");
+    printf("---- Detected Lines ----\n");
     for (size_t i = 0; i < nbLines; i++)
     {
-        printf("--- Line %zu ---\n", i);
-        printf("Starting Point : %zu\n", lines[i].startingPoint);
-        printf("End Point : %zu\n", lines[i].endPoint);
+        printf("-- Line %zu --\n", i);
+        printf("Starting Index : %zu\n", lines[i].startingPoint);
+        printf("End Index : %zu\n", lines[i].endPoint);
     }
 }
 
@@ -85,4 +85,5 @@ void Show_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines)
     }
 
     save_image(image, "tmp/segmentation.bmp");
+    printf("---- Segmentation saved ---- => tmp/segmentation.bmp\n");
 }
