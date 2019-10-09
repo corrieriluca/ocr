@@ -1,7 +1,11 @@
 #ifndef SEGMENTATION_H
 #define SEGMENTATION_H
 
+#define MAX_LINE_NUMBER 100 // for the memory allocation
+#define MAX_CHARACTER_NUMBER 100 // idem
 #define MATRIX_SIZE 16 // size of square matrix for input in the NN
+
+#include "image_operations.h"
 
 // Represent a character
 typedef struct Character
@@ -15,10 +19,17 @@ typedef struct Character
 // Represent a text line
 typedef struct Line
 {
-    size_t startingPoint;
-    size_t endPoint;
+    size_t startingPoint; // the starting point of the line in the matrix
+    size_t endPoint; // the end point of the line in the matrix
     size_t nbCharacters;
     Character *characters;
 } Line;
+
+size_t Find_Lines(Line lines[],
+                  size_t binarized_matrix[],
+                  size_t height, size_t width);
+
+void Debug_Lines(Line lines[], size_t nbLines);
+void Show_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines);
 
 #endif

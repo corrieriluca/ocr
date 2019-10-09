@@ -141,8 +141,35 @@ void update_surface(SDL_Surface *screen, SDL_Surface *image)
     SDL_UpdateRect(screen, 0, 0, image->w, image->h);
 }
 
-void save_image(SDL_Surface *image, char *name)
+// Save an image in the BMP format at the specified path
+void save_image(SDL_Surface *image, char *path)
 {
-    if ((SDL_SaveBMP(image, name)) != 0)
+    if ((SDL_SaveBMP(image, path)) != 0)
         exit(EXIT_FAILURE);
+}
+
+// Draws an horizontal red line on the surface, at the specified line (y)
+// Designed to be used for segmentation debugging (showing lines)
+void draw_horizontal_line(SDL_Surface *image, size_t line)
+{
+    size_t width = image->w;
+    for (size_t x = 0; x < width; x++)
+    {
+        Uint8 r = 255, g = 0, b = 0;
+        Uint32 pixel = SDL_MapRGB(image->format, r, g, b);
+        put_pixel(image, x, line, pixel);
+    }
+}
+
+// Draw an vertical red line on the surface, at the specified column (x)
+// Designed to be used for segmentation debugging (showing characters)
+void draw_vertical_line(SDL_Surface *image, size_t column,
+    size_t start, size_t end)
+{
+    for (size_t y = start; y < end; y++)
+    {
+        Uint8 r = 255, g = 0, b = 0;
+        Uint32 pixel = SDL_MapRGB(image->format, r, g, b);
+        put_pixel(image, column, y, pixel);
+    }
 }
