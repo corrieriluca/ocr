@@ -33,51 +33,56 @@ size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
 
 	// double for loop to fill the hist_proba
 	for (size_t y = 0; y < h; y++)                   
-    {                                                                           
-        for (size_t x = 0; x < w; x++)                                      
-        {
+        {                                                                           
+		for (size_t x = 0; x < w; x++)                                      
+		{
 			Uint32 pixel = get_pixel(image_surface, x, y);                      
-            Uint8 r, g, b;                                                      
-            SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
+            		Uint8 r, g, b;                                                      
+            		SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
 			size_t graylevel = r;
-            hist_proba[graylevel] += P;
-        }                                                                       
+            		hist_proba[graylevel] += P;
+        	}                                                                       
 	}
 
-	float min_var = 0;
+	float max_var = 0;
 	int threshold = 0;
 
 	for (int i = 0; i < 256; ++i)
 	{
 		float c1 = 0;
-		float c2 = 0;
+		//float c2 = 0;
 
 		for (int j = 0; j<i; ++j)
 			c1 += hist_proba[j];
 
-		c2 = 1 - c1;
-
-		//float S2; //unused
-
+		//c2 = 1 - c1;
+		
 		float m1 = 0;
-		float m2 = 0;
+		//float m2 = 0;
 
 		for(int n = 0; n<i; ++n)
-			m1 += (n*hist_proba[n])/c1;
+			m1 += (n*hist_proba[n]); // /c1;
 
-		for(int n = i; n<256; ++n)
-			m2 += (n*hist_proba[n])/c2;
+		/*for(int n = i; n<256; ++n)
+			m2 += (n*hist_proba[n])/c2;*/
 
 		float var1 = 0;
-		float var2 = 0;
+		//float var2 = 0;
 
-		for(int n = 0; n<i; ++n)
-			var1 += (n-m1)*(n-m1)*hist_proba[n];
+		/*for(int n = 0; n<i; ++n)
+			var1 += (n-m1)*(n-m1)*hist_proba[n];*/
 
-		for(int n = i; n<256; ++n)
-			var2 += (n-m2)*(n-m2)*hist_proba[n];
+		/*for(int n = i; n<256; ++n)
+			var2 += (n-m2)*(n-m2)*hist_proba[n];*/
 
-		if (min_var > var1 + var2)
+		float sum_c = 0;
+
+		var1 = ((sum_c*c1 - m1)*(sum_c*c1 - m1))/(c1-c1*c1)
+
+		for (i=0; i<256; ++i)
+			sum_c += i*hist_proba[i];
+
+		if (max_var < var1)
 		{
 			min_var = var1 + var2;
 			threshold = i;
