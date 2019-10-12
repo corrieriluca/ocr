@@ -2,6 +2,5 @@
 #define NEURALXOR_H
 
 
-
 #endif
 

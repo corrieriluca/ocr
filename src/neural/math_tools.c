@@ -14,32 +14,53 @@ void init_matrix_random(double *input, size_t i, size_t j)
 }
 
 
-void multiply_matrix(double mat1[], double mat2[],double output[],                            
-      size_t larg_mat1, size_t larg_mat2, size_t haut_mat1, size_t haut_mat2)   
+void multiply_matrix(double mat1[], double mat2[], double mat_out[], 
+		int size_w0[], int size_mat2[])   
 {                                                                               
    size_t i,j,k;                                                                
-                                                                                
-   for(i = 0; i <  haut_mat1; ++i)                                              
-   {                                                                            
-      for(j = 0; j < larg_mat1; ++j)                                            
-      { 
-         double sum = 0;                                                        
+	double sum;
 
-         for (k = 0; k < larg_mat2; ++k)                                        
+	printf("START THE FIRST MULTIPLICATION ######################################\n\n\n");
+   for(i = 0; i <  size_w0[1]; ++i)                                              
+   {                                                                            
+      for(j = 0; j < size_mat2[0]; ++j)                                            
+      { 
+         sum = 0;                                                        
+
+         for (k = 0; k < size_w0[0]; k++)                                        
          {                                                                      
-            sum = sum + mat1[i * larg_mat1 + k] * mat2[k * larg_mat2 + j];      
-         }                                                                      
-                                                                                
-         output[i * larg_mat2 + j] = sum;                                       
-      }                                                                         
+            sum = sum + mat1[i * size_w0[0] + k] * mat2[k * size_mat2[0] + j];      
+
+				printf("val weight = %lf and val input = %lf \n", mat1[i*size_w0[0]+k], mat2[k*size_mat2[0]+j]);
+				printf("%lf\n", sum);
+         }             
+			printf("\n");
+         mat_out[i * size_mat2[0] + j] = sum;                                       
+      }                              
    }                                                                            
+	printf("END OF FIRST MULTIPLICATION ######################################\n");
 }
 
+void sum_matrix(double mat1[], double mat2[], int size)
+{
+	for (int index = 0; index < size; index++)
+	{
+		mat1[index] += mat2[index];
+	}
+}
 
 double sigmoid(double z)
 {
 	return (double)(1.0 / (1.0 + exp(-z)));
 }
+void apply_sigmoid_to_matrix(double mat1[], int size)
+{
+	for (int index = 0; index < size; index++)
+	{
+		mat1[index] = sigmoid(mat1[index]);
+	}
+}
+
 
 
 double sigmoid_prime(double z)

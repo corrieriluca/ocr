@@ -1,0 +1,1 @@
+to compile, use : gcc -lm math_tools.c neuralxor.c && ./a.out
