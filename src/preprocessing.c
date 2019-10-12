@@ -77,14 +77,15 @@ size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
 
 		float sum_c = 0;
 
-		var1 = ((sum_c*c1 - m1)*(sum_c*c1 - m1))/(c1-c1*c1)
-
 		for (i=0; i<256; ++i)
 			sum_c += i*hist_proba[i];
+		
+		if (c1!=0 && c1!=1)
+			var1 = ((sum_c*c1 - m1)*(sum_c - m1))/(c1 - (c1*c1));
 
 		if (max_var < var1)
 		{
-			min_var = var1 + var2;
+			max_var = var1;
 			threshold = i;
 		}
 	}
@@ -96,23 +97,23 @@ size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
 void binarize(SDL_Surface *image_surface)
 {
 	size_t width = image_surface->w;                                            
-    size_t height = image_surface->h;
+    	size_t height = image_surface->h;
 
 	size_t threshold = otsu(image_surface, height, width);
 
 	for (size_t y = 0; y < height; y++)
-    {
-        for (size_t x = 0; x < width; x++)
-        {
-            Uint32 pixel = get_pixel(image_surface, x, y);
-            Uint8 r, g, b;
-            SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
+    	{
+        	for (size_t x = 0; x < width; x++)
+        	{
+			Uint32 pixel = get_pixel(image_surface, x, y);
+            		Uint8 r, g, b;
+            		SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
 			Uint8 bin_pixel_color = (size_t)r > threshold ? 255 : 0;
-            pixel = SDL_MapRGB(image_surface->format,
+			pixel = SDL_MapRGB(image_surface->format,
                         bin_pixel_color, bin_pixel_color, bin_pixel_color);
-            put_pixel(image_surface, x, y, pixel);
-        }
-    }
+			put_pixel(image_surface, x, y, pixel);
+        	}
+    	}
 }
 
 // Convert the SDL_Surface into a matrix of 0 and 1
