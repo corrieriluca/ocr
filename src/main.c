@@ -53,7 +53,7 @@ int main(int argc, char** argv)
     {
         Line *current = &lines[i];
         current->characters = calloc(MAX_CHARACTER_NUMBER, sizeof(Character));
-        Find_Characters(current, binarized_matrix, image_width);
+        Get_Characters(current, binarized_matrix, image_width);
 
         printf("On line %zu : %zu characters found\n",
                     i, current->nbCharacters);

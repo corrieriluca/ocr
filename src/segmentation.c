@@ -124,6 +124,36 @@ void Find_Characters(Line *line, size_t binarized_matrix[], size_t width)
     line->nbCharacters = nbCharacters;
 }
 
+/* This is the main function for character segmentation. It calls
+ * Find_Characters in order to find where are the characters in the image and
+ * then associate to each character a square matrix of size MATRIX_SIZE (which
+ * is defined in 'segmentation.h') in order to have a correct input to the
+ * neural network.
+ */
+void Get_Characters(Line *line, size_t binarized_matrix[], size_t width)
+{
+    // Find where are the characters on the matrix for this line
+    Find_Characters(line, binarized_matrix, width);
+
+    for (size_t i = 0; i < line->nbCharacters; i++)
+    {
+        Character *current = &(line->characters[i]);
+
+        size_t charHeight = line->endPoint - line->startingPoint;
+        size_t charWidth = current->endPoint - current->startingPoint;
+
+        size_t *extracted = extract_matrix(binarized_matrix, width,
+            line->startingPoint, current->startingPoint, charHeight, charWidth);
+        
+        current->matrix = resize_matrix(extracted, charHeight, charWidth);
+        
+        // for debugging
+        print_matrix(current->matrix, MATRIX_SIZE, MATRIX_SIZE);
+        
+        free(extracted); // needed
+    }
+}
+
 /* ************************** MISC *********************************** */
 
 // For debugging; draws the lines of the XY-Cut on the image, and save it to

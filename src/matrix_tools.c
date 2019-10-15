@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix_tools.h"
+#include "segmentation.h"
 
 // Print a matrix only filled with 0 and 1 in the console
 void print_matrix(size_t matrix[], size_t height, size_t width)
@@ -39,7 +40,7 @@ void matrix_random_fill(size_t matrix[], size_t height, size_t width)
 /* This function creates a matrix by extracting it from a source matrix at
  * a specified row and column, for specified width and column.
  * Used for extracting characters in the image binarized matrix.
-*/
+ */
 size_t *extract_matrix(size_t sourceMatrix[], size_t width,
                        size_t startingRow, size_t startingColumn,
                        size_t resultHeight, size_t resultWidth)
@@ -55,5 +56,64 @@ size_t *extract_matrix(size_t sourceMatrix[], size_t width,
         }
     }
 
+    return result;
+}
+
+/* This functions puts the source matrix into a larger squared one
+ * which has already been declared previously with calloc.
+ */
+void matrix_in_square(size_t matrix[], size_t square[], size_t height,
+        size_t width, size_t squareSize)
+{
+    size_t startingRow = squareSize / 2 - height / 2;
+    size_t startingCol = squareSize / 2 - width / 2;
+
+    for (size_t row = 0; row < height; row++)
+    {
+        for (size_t col = 0; col < width; col++)
+        {
+            square[(startingRow + row) * squareSize + (startingCol + col)] =
+                matrix[row * width + col];
+        }
+    }
+}
+
+/* This function resizes a square matrix of size squareSize into a smaller one
+ * of size resizedSize (with resizedSize being a divisor of squareSize)
+ */
+void resize_square_matrix(size_t square[], size_t resized[],
+        size_t squareSize, size_t resizedSize)
+{
+    size_t ratio = squareSize / resizedSize;
+
+    for (size_t row = 0; row < resizedSize; row++)
+    {
+        for (size_t col = 0; col < resizedSize; col++)
+        {
+            
+        }
+    }
+}
+
+/* This functions returns the transformed matrix 'matrix' into a squared one
+ * of size MATRIX_SIZE * MATRIX_SIZE (defined in "segmentation.h").
+ */
+size_t *resize_matrix(size_t matrix[], size_t height, size_t width)
+{
+    size_t *result = calloc(MATRIX_SIZE * MATRIX_SIZE, sizeof(size_t));
+    
+    // Determine the size of the larger square for the 'matrix_in_square'
+    // function. Using MATRIX_SIZE is necessary to obtain a divisor of it.
+    size_t squareSize = (height > width) ?
+        height + (MATRIX_SIZE - height % MATRIX_SIZE) :
+        width + (MATRIX_SIZE - width % MATRIX_SIZE);
+
+    size_t *square = calloc(squareSize * squareSize, sizeof(size_t));
+
+    matrix_in_square(matrix, square, height, width, squareSize);
+    
+    resize_square_matrix(square, result, squareSize, MATRIX_SIZE);
+
+    free(square);
     return result;
 }

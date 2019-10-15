@@ -33,6 +33,8 @@ void Debug_Lines(Line lines[], size_t nbLines);
 
 void Find_Characters(Line *line, size_t binarized_matrix[], size_t width);
 
+void Get_Characters(Line *line, size_t binarized_matrix[], size_t width);
+
 void Save_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines);
 
 #endif
