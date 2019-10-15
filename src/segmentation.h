@@ -2,7 +2,7 @@
 #define SEGMENTATION_H
 
 #define MAX_LINE_NUMBER 100 // for the memory allocation
-#define MAX_CHARACTER_NUMBER 100 // idem
+#define MAX_CHARACTER_NUMBER 100 // for the memory allocation
 #define MATRIX_SIZE 16 // size of square matrix for input in the NN
 
 #include "image_operations.h"
@@ -30,8 +30,9 @@ size_t Find_Lines(Line lines[],
                   size_t height, size_t width);
 
 void Debug_Lines(Line lines[], size_t nbLines);
-void Show_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines);
 
 void Find_Characters(Line *line, size_t binarized_matrix[], size_t width);
+
+void Save_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines);
 
 #endif

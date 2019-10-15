@@ -2,7 +2,6 @@
 #define IMAGE_OPERATIONS_H_
 
 #include <stdlib.h>
-#include <SDL.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 

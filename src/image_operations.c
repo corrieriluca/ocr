@@ -1,6 +1,5 @@
 #include <err.h>
 #include <stdlib.h>
-#include <SDL.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "image_operations.h"

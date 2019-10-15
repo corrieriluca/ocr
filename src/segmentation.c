@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "segmentation.h"
 #include "image_operations.h"
+#include "matrix_tools.h"
 
 /* ****************** LINE SEGMENTATION *********************** */
 
@@ -127,7 +128,7 @@ void Find_Characters(Line *line, size_t binarized_matrix[], size_t width)
 
 // For debugging; draws the lines of the XY-Cut on the image, and save it to
 // the tmp/ folder.
-void Show_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines)
+void Save_Segmentation(SDL_Surface *image, Line lines[], size_t nbLines)
 {
     for (size_t i = 0; i < nbLines; i++)
     {

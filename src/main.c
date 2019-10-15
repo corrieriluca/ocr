@@ -41,14 +41,14 @@ int main(int argc, char** argv)
 
     // Segmentation
     
-    // Lines
+    // Get Lines
     printf("------ Segmentation started ------\n");
     Line *lines = calloc(MAX_LINE_NUMBER, sizeof(Line));
     size_t nbLines = Find_Lines(lines, binarized_matrix,
                                 image_height, image_width);
     Debug_Lines(lines, nbLines);
 
-    // Characters per line
+    // Get Characters per Line
     for (size_t i = 0; i < nbLines; i++)
     {
         Line *current = &lines[i];
@@ -59,7 +59,7 @@ int main(int argc, char** argv)
                     i, current->nbCharacters);
     }
 
-    Show_Segmentation(image_surface, lines, nbLines);
+    Save_Segmentation(image_surface, lines, nbLines);
 
     SDL_FreeSurface(image_surface);
 
