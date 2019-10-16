@@ -84,13 +84,25 @@ void matrix_in_square(size_t matrix[], size_t square[], size_t height,
 void resize_square_matrix(size_t square[], size_t resized[],
         size_t squareSize, size_t resizedSize)
 {
+    // ratio is size_t because resizedSize divides squareSize
     size_t ratio = squareSize / resizedSize;
 
+    // double for loop inside the resized matrix !
     for (size_t row = 0; row < resizedSize; row++)
     {
         for (size_t col = 0; col < resizedSize; col++)
         {
-            
+            // Counting for the number of ones in the square matrix
+            // double for loop inside the square matrix !
+            size_t nbOne = 0;
+            for (size_t i = row * ratio; i < (row + 1) * ratio; i++)
+            {
+                for (size_t j = col * ratio; j < (col + 1) * ratio; j++)
+                    if (square[i * squareSize + j]) // == 1
+                        nbOne++;
+            }
+            size_t value = (nbOne / ratio * ratio >= 0.4) ? 1 : 0;
+            resized[row * resizedSize + col] = value;
         }
     }
 }
@@ -114,6 +126,6 @@ size_t *resize_matrix(size_t matrix[], size_t height, size_t width)
     
     resize_square_matrix(square, result, squareSize, MATRIX_SIZE);
 
-    free(square);
+    free(square); // needed
     return result;
 }
