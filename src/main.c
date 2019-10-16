@@ -6,7 +6,7 @@
 \____/\___/ \__, |_|\__\___/ 
             |___/            
 
-SIMPLE OPTICAL CHARACTER RECOGNITION
+A SIMPLE OPTICAL CHARACTER RECOGNITION
 */
 
 #include <stdio.h>
@@ -15,18 +15,53 @@ SIMPLE OPTICAL CHARACTER RECOGNITION
 #include "image_operations.h"
 #include "matrix_tools.h"
 #include "preprocessing.h"
+#include "segmentation.h"
 
 int main(int argc, char** argv)
 {
     if (argc != 2)
         errx(1, "Error: You must specify the path of the image");
     
+    // Image loading
     SDL_Surface *image_surface;
     init_sdl();
     image_surface = load_image(argv[1]);
-    size_t *matrix = image_to_matrix(image_surface);
+    size_t image_width = image_surface->w;
+    size_t image_height = image_surface->h;
+    save_image(image_surface, "tmp/original.bmp");
+
+    // Pre-processing
+    printf("------ Pre-processing started ------\n");
+    size_t *binarized_matrix = image_to_matrix(image_surface);
+
+    /* Debug (print the matrix)
     printf("image_to_matrix called\nThe matrix is:\n");
-    print_matrix(matrix, image_surface->h, image_surface->w);
+    print_matrix(binarized_matrix, image_height, image_width);
+    */
+
+    // Segmentation
+    
+    // Get Lines
+    printf("------ Segmentation started ------\n");
+    Line *lines = calloc(MAX_LINE_NUMBER, sizeof(Line));
+    size_t nbLines = Find_Lines(lines, binarized_matrix,
+                                image_height, image_width);
+    Debug_Lines(lines, nbLines);
+
+    // Get Characters per Line
+    for (size_t i = 0; i < nbLines; i++)
+    {
+        Line *current = &lines[i];
+        current->characters = calloc(MAX_CHARACTER_NUMBER, sizeof(Character));
+        Get_Characters(current, binarized_matrix, image_width);
+
+        printf("On line %zu : %zu characters found\n",
+                    i, current->nbCharacters);
+    }
+
+    Save_Segmentation(image_surface, lines, nbLines);
+
+    SDL_FreeSurface(image_surface);
 
     return 0;
 }
