@@ -28,66 +28,63 @@ void grayscale(SDL_Surface *image_surface)
 // Calculate the Otsu threshold
 size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
 {
-	float hist_proba[256] = { 0.0F }; //array of prob of each grey pixel
-	float P = 1 / (h * w);
 
-	// double for loop to fill the hist_proba
-	for (size_t y = 0; y < h; y++)                   
+	// Calculate histogram
+	float histogram[256] = { 0.0F }; // Number of each levels of grey
+                                                                               
+        // Double 'for' to fill the histogram                              
+        for (size_t y = 0; y < h; y++)                                          
         {                                                                           
-		for (size_t x = 0; x < w; x++)                                      
-		{
-			Uint32 pixel = get_pixel(image_surface, x, y);                      
-            		Uint8 r, g, b;                                                      
-            		SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
-			size_t graylevel = r;
-            		hist_proba[graylevel] += P;
-        	}                                                                       
+                for (size_t x = 0; x < w; x++)                                      
+                {                                                               
+                        Uint32 pixel = get_pixel(image_surface, x, y);                      
+                        Uint8 r, g, b;                                                      
+                        SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);   
+                        size_t graylevel = r;                                   
+                        histogram[graylevel] += 1;                             
+                }                                                                       
+        }
+
+	// Number of pixels
+	int nb_pixels = w * h;
+
+	float sum = 0;
+
+	for (int i = 0 ; i < 256 ; i++)
+	{
+		sum += i * histogram[i];
 	}
 
-	float max_var = 0;
+	float sumB = 0;
+	int BackG = 0;
+	int ForeG = 0;
+
+	float varMax = 0;
 	int threshold = 0;
 
-	for (int i = 0; i < 256; ++i)
+	for (int t=0 ; t<256 ; t++)
 	{
-		float c1 = 0;
-		//float c2 = 0;
+   		BackG += histogram[t];
+   		if (BackG == 0) continue;
 
-		for (int j = 0; j<i; ++j)
-			c1 += hist_proba[j];
+   		ForeG = nb_pixels - BackG;
+   		if (ForeG == 0) break;
 
-		//c2 = 1 - c1;
-		
-		float m1 = 0;
-		//float m2 = 0;
+   		sumB += (float) (t * histogram[t]);
 
-		for(int n = 0; n<i; ++n)
-			m1 += (n*hist_proba[n]); // /c1;
+   		float mB = sumB / BackG;
+   		float mF = (sum - sumB) / ForeG;
 
-		/*for(int n = i; n<256; ++n)
-			m2 += (n*hist_proba[n])/c2;*/
+   		// Calculate Between Class Variance
+   		float var_inter = 
+			(float)BackG * (float)ForeG * (mB - mF) * (mB -mF);
 
-		float var1 = 0;
-		//float var2 = 0;
-
-		/*for(int n = 0; n<i; ++n)
-			var1 += (n-m1)*(n-m1)*hist_proba[n];*/
-
-		/*for(int n = i; n<256; ++n)
-			var2 += (n-m2)*(n-m2)*hist_proba[n];*/
-
-		float sum_c = 0;
-
-		for (i=0; i<256; ++i)
-			sum_c += i*hist_proba[i];
-		
-		if (c1!=0 && c1!=1)
-			var1 = ((sum_c*c1 - m1)*(sum_c - m1))/(c1 - (c1*c1));
-
-		if (max_var < var1)
+   		// Check if new maximum found
+  		if (var_inter > varMax)
 		{
-			max_var = var1;
-			threshold = i;
-		}
+      			varMax = var_inter;
+      			threshold = t;
+   		}
 	}
 
 	return (size_t)threshold;
