@@ -15,23 +15,23 @@ void init_matrix_random(double *input, size_t i, size_t j)
 
 
 void multiply_matrix(double mat1[], double mat2[], double mat_out[], 
-		int size_w0[], int size_mat2[])   
+		int size_mat1[], int size_mat2[])   
 {                                                                               
    size_t i,j,k;                                                                
 	double sum;
 
 	printf("START THE FIRST MULTIPLICATION ######################################\n\n\n");
-   for(i = 0; i <  size_w0[1]; ++i)                                              
+   for(i = 0; i <  size_mat1[1]; ++i)                                              
    {                                                                            
       for(j = 0; j < size_mat2[0]; ++j)                                            
       { 
          sum = 0;                                                        
 
-         for (k = 0; k < size_w0[0]; k++)                                        
+         for (k = 0; k < size_mat1[0]; k++)                                        
          {                                                                      
-            sum = sum + mat1[i * size_w0[0] + k] * mat2[k * size_mat2[0] + j];      
+            sum = sum + mat1[i * size_mat1[0] + k] * mat2[k * size_mat2[0] + j];      
 
-				printf("val weight = %lf and val input = %lf \n", mat1[i*size_w0[0]+k], mat2[k*size_mat2[0]+j]);
+				printf("val weight = %lf and val input = %lf \n", mat1[i*size_mat1[0]+k], mat2[k*size_mat2[0]+j]);
 				printf("%lf\n", sum);
          }             
 			printf("\n");
