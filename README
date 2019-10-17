@@ -1,8 +1,14 @@
 # OCR
-A simple optical character recognition system made for the final S3 project at EPITA
+A simple optical character recognition system made for the final S3 project at EPITA.
 
 # Building
-Type `make` in the repository root to build the OCR
+Type `make done` in the repository root to build the OCR.
+
+Then type `./ocr.out` to execute the program.
+
+Usage : `./ocr.out <path_to_image>`.
+
+You can type `make clean` when you're done.
 
 # Authors
 - Alexis Boissière
