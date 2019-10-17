@@ -94,22 +94,53 @@ size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
 void binarize(SDL_Surface *image_surface)
 {
 	size_t width = image_surface->w;                                            
-    	size_t height = image_surface->h;
+   	size_t height = image_surface->h;
 
 	size_t threshold = otsu(image_surface, height, width);
+	
+	int black_pixels = 0;
+	int white_pixels = 0;	
 
 	for (size_t y = 0; y < height; y++)
-    	{
-        	for (size_t x = 0; x < width; x++)
-        	{
+    {
+		for (size_t x = 0; x < width; x++)
+       	{
 			Uint32 pixel = get_pixel(image_surface, x, y);
-            		Uint8 r, g, b;
-            		SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
-			Uint8 bin_pixel_color = (size_t)r > threshold ? 255 : 0;
+           	Uint8 r, g, b;
+           	SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);
+			Uint8 bin_pixel_color = 255;
+			if ((size_t) r < threshold)
+			{
+				bin_pixel_color = 0;
+				black_pixels++;
+			}
+			else
+			{
+				white_pixels++;
+			}
 			pixel = SDL_MapRGB(image_surface->format,
-                        bin_pixel_color, bin_pixel_color, bin_pixel_color);
+           		bin_pixel_color, bin_pixel_color, bin_pixel_color);
 			put_pixel(image_surface, x, y, pixel);
-        	}
+       	}
+   	}
+
+	if (black_pixels > white_pixels)
+		for (size_t y = 0; y < height; y++)                                         
+    	{                                                                           
+        	for (size_t x = 0; x < width; x++)                                      
+        	{	                                                                       
+       		    Uint32 pixel = get_pixel(image_surface, x, y);                      
+            	Uint8 r, g, b;                                                      
+            	SDL_GetRGB(pixel, image_surface->format, &r, &g, &b);               
+            	Uint8 bin_pixel_color = 0;
+				if (r == 0)                                         
+            	{                                                  
+					bin_pixel_color = 255;
+				}                                                           
+            	pixel = SDL_MapRGB(image_surface->format,
+            		bin_pixel_color, bin_pixel_color, bin_pixel_color);                 
+            	put_pixel(image_surface, x, y, pixel);                              
+        	}                                                                       
     	}
 }
 
