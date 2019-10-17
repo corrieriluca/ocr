@@ -167,13 +167,6 @@ void image_to_bin_matrix(SDL_Surface *img_surface, size_t *bin_matrix)
 // Main function of image preprocessing
 size_t *image_to_matrix(SDL_Surface *image_surface)
 {
-    /* init_sdl(); // not necessary
-
-    image_surface = load_image("my_image.bmp");
-    screen_surface = display_image(image_surface);
-
-    wait_for_keypressed(); */
-
     size_t width = image_surface->w;
     size_t height = image_surface->h;
 
@@ -191,8 +184,6 @@ size_t *image_to_matrix(SDL_Surface *image_surface)
 	size_t *bin_matrix = calloc(width*height, sizeof(size_t));
 	image_to_bin_matrix(image_surface, bin_matrix);
 	printf("--- Image to Matrix done ---\n");
-
-	//SDL_FreeSurface(image_surface);
 
 	return bin_matrix;
 }
