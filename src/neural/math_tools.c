@@ -31,7 +31,7 @@ void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 {                                                                               
 	if (size_mat1[1] != size_mat2[0])
 	{
-		printf("\n\nPlease provide good matrix$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n\n\n");
+		printf("Can't multiply matrix with these dimension\n");
 	}
 
 	else
@@ -39,7 +39,6 @@ void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 		size_t i,j,k;                                                                
 		double sum;
 
-		printf("START THE FIRST MULTIPLICATION ######################################\n\n\n");
 		for(i = 0; i <  size_mat1[0]; ++i)                                              
 		{                                                                            
 			for(j = 0; j < size_mat2[1]; ++j)                                            
@@ -49,15 +48,10 @@ void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 				for (k = 0; k < size_mat1[1]; k++)                                        
 				{                                                                      
 					sum = sum + mat1[i * size_mat1[1] + k] * mat2[k * size_mat2[1] + j];      
-
-					printf("val weight = %lf and val input = %lf \n", mat1[i*size_mat1[1]+k], mat2[k*size_mat2[1]+j]);
-					printf("%lf\n", sum);
 				}             
-				printf("\n");
 				mat_out[i * size_mat2[1] + j] = sum;              
 			}                              
 		}                                                                            
-		printf("END OF FIRST MULTIPLICATION ######################################\n");
 	}
 }
 
@@ -80,8 +74,6 @@ void apply_sigmoid_to_matrix(double mat1[], int size)
 		mat1[index] = sigmoid(mat1[index]);
 	}
 }
-
-
 
 double sigmoid_prime(double z)
 {
