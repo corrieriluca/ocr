@@ -14,31 +14,51 @@ void init_matrix_random(double *input, size_t i, size_t j)
 }
 
 
+void transpose_matrix(double mat1[], double mat1_t[], int size_mat1[], int size_mat1_t[])
+{
+	for (int i = 0; i < size_mat1[1]; i++)
+	{
+		for (int j = 0; j < size_mat1[0]; j++)
+		{
+			mat1_t[j + i * size_mat1[0]] = mat1[i + j * size_mat1[1]];
+		}
+	}
+}
+
+
 void multiply_matrix(double mat1[], double mat2[], double mat_out[], 
 		int size_mat1[], int size_mat2[])   
 {                                                                               
-   size_t i,j,k;                                                                
-	double sum;
+	if (size_mat1[1] != size_mat2[0])
+	{
+		printf("\n\nPlease provide good matrix$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n\n\n");
+	}
 
-	printf("START THE FIRST MULTIPLICATION ######################################\n\n\n");
-   for(i = 0; i <  size_mat1[1]; ++i)                                              
-   {                                                                            
-      for(j = 0; j < size_mat2[0]; ++j)                                            
-      { 
-         sum = 0;                                                        
+	else
+	{
+		size_t i,j,k;                                                                
+		double sum;
 
-         for (k = 0; k < size_mat1[0]; k++)                                        
-         {                                                                      
-            sum = sum + mat1[i * size_mat1[0] + k] * mat2[k * size_mat2[0] + j];      
+		printf("START THE FIRST MULTIPLICATION ######################################\n\n\n");
+		for(i = 0; i <  size_mat1[0]; ++i)                                              
+		{                                                                            
+			for(j = 0; j < size_mat2[1]; ++j)                                            
+			{ 
+				sum = 0;                                                        
 
-				printf("val weight = %lf and val input = %lf \n", mat1[i*size_mat1[0]+k], mat2[k*size_mat2[0]+j]);
-				printf("%lf\n", sum);
-         }             
-			printf("\n");
-         mat_out[i * size_mat2[0] + j] = sum;                                       
-      }                              
-   }                                                                            
-	printf("END OF FIRST MULTIPLICATION ######################################\n");
+				for (k = 0; k < size_mat1[1]; k++)                                        
+				{                                                                      
+					sum = sum + mat1[i * size_mat1[1] + k] * mat2[k * size_mat2[1] + j];      
+
+					printf("val weight = %lf and val input = %lf \n", mat1[i*size_mat1[1]+k], mat2[k*size_mat2[1]+j]);
+					printf("%lf\n", sum);
+				}             
+				printf("\n");
+				mat_out[i * size_mat2[1] + j] = sum;              
+			}                              
+		}                                                                            
+		printf("END OF FIRST MULTIPLICATION ######################################\n");
+	}
 }
 
 void sum_matrix(double mat1[], double mat2[], int size)

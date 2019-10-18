@@ -3,6 +3,8 @@
 
 void init_matrix_random(double *input, size_t i, size_t j);
 
+void transpose_matrix(double mat1[], double mat1_t[], int size_mat1[], int size_mat1_t[]);
+
 
 void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[]);
