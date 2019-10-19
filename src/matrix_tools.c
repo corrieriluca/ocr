@@ -30,6 +30,33 @@ void print_matrix(size_t matrix[], size_t height, size_t width)
     printf("*\n");
 }
 
+// Print a matrix only filled with 0.0 and 1.0 in the console (doubles)
+void print_matrix_double(double matrix[], size_t height, size_t width)
+{
+    printf("*");
+    for (size_t i = 0; i < width; i++)
+        printf("-");
+    printf("*\n");
+
+    for (size_t j = 0; j < height; j++)
+    {
+        printf("|");
+        for (size_t k = 0; k < width; k++)
+        {
+            if (matrix[j * width + k] == 1.0)
+                printf("o");
+            else
+                printf(" ");
+        }
+        printf("|\n");
+    }
+
+    printf("*");
+    for (size_t l = 0; l < width; l++)
+        printf("-");
+    printf("*\n");
+}
+
 // Fill randomly a matrix of size width * height with 0 and 1
 void matrix_random_fill(size_t matrix[], size_t height, size_t width)
 {
@@ -81,7 +108,7 @@ void matrix_in_square(size_t matrix[], size_t square[], size_t height,
 /* This function resizes a square matrix of size squareSize into a smaller one
  * of size resizedSize (with resizedSize being a divisor of squareSize)
  */
-void resize_square_matrix(size_t square[], size_t resized[],
+void resize_square_matrix(size_t square[], double resized[],
         size_t squareSize, size_t resizedSize)
 {
     // ratio is size_t because resizedSize divides squareSize
@@ -101,7 +128,7 @@ void resize_square_matrix(size_t square[], size_t resized[],
                     if (square[i * squareSize + j]) // == 1
                         nbOne++;
             }
-            size_t value = (nbOne / ratio * ratio >= 0.4) ? 1 : 0;
+            double value = (nbOne / ratio >= 0.4) ? 1.0 : 0.0;
             resized[row * resizedSize + col] = value;
         }
     }
@@ -109,10 +136,11 @@ void resize_square_matrix(size_t square[], size_t resized[],
 
 /* This functions returns the transformed matrix 'matrix' into a squared one
  * of size MATRIX_SIZE * MATRIX_SIZE (defined in "segmentation.h").
+ * Return type is double for Character matrix
  */
-size_t *resize_matrix(size_t matrix[], size_t height, size_t width)
+double *resize_matrix(size_t matrix[], size_t height, size_t width)
 {
-    size_t *result = calloc(MATRIX_SIZE * MATRIX_SIZE, sizeof(size_t));
+    double *result = calloc(MATRIX_SIZE * MATRIX_SIZE, sizeof(double));
     
     // Determine the size of the larger square for the 'matrix_in_square'
     // function. Using MATRIX_SIZE is necessary to obtain a divisor of it.
