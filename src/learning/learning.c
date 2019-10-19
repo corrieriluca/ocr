@@ -9,14 +9,15 @@ int main()
 {   
     SDL_Surface *character_surface;
     init_sdl();
-    char letters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    char letters[] = 
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'";
     
-    Character characters[52];
+    Character characters[57];
 
     printf("-------------- LEARNING PROCESS -----------------\n\n");
     printf("--- LOADING CHARACTERS ---\n");
     
-    for (size_t i = 0; i < 52; i++)
+    for (size_t i = 0; i < 57; i++)
     {
         printf("Loading letters/%zu.png => It's a '%c'\n", i, letters[i]);
         char path[15];
@@ -30,7 +31,7 @@ int main()
         size_t *bin_matrix = calloc(width * height, sizeof(size_t));
         image_to_bin_matrix(character_surface, bin_matrix);
         
-        double char_mat[width * height];
+        double *char_mat = calloc(width * height, sizeof(double));
         for (size_t j = 0; j < width * height; j++)
             char_mat[j] = (double)bin_matrix[j];
 
