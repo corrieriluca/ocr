@@ -1,1 +1,1 @@
-to compile, use : gcc -lm math_tools.c neuralxor.c && ./a.out
+to compile, use : gcc -W -Wall -Wextra -std=c99 -O3 -lm *.c && ./a.out

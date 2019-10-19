@@ -16,13 +16,17 @@ void subtract_matrix(double mat1[], double mat2[], double mat_out[],
 
 double sigmoid(double val);
 
-void apply_sigmoid_to_matrix(double mat1[], int size);
+void apply_sigmoid_to_matrix(double mat1[], int size[]);
 
 double sigmoid_prime(double z);
 
-void hadamard_product(double mat1[], double mat2[], 
+void apply_sigmoid_prime_to_matrix(double mat1[], double mat_out[], int size_mat1[], int size_mat_out[]);
+
+void hadamard_product(double mat1[], double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[]);
 
+void multiply_matrix_by_constant(double mat1[], double c, double mat_out[], 
+		int size_mat1[], int size_mat_out[]);
 
 #endif
 
