@@ -59,3 +59,4 @@ dkms.conf
 .vscode/
 .idea/
 .DS_Store
+*test.c

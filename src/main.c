@@ -34,11 +34,6 @@ int main(int argc, char** argv)
     printf("------ Pre-processing started ------\n");
     size_t *binarized_matrix = image_to_matrix(image_surface);
 
-    /* Debug (print the matrix)
-    printf("image_to_matrix called\nThe matrix is:\n");
-    print_matrix(binarized_matrix, image_height, image_width);
-    */
-
     // Segmentation
     
     // Get Lines
