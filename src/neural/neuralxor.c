@@ -68,7 +68,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	{
 		wanted_output[0] = 1.0;
 	}
-	printf("\nwe want :%lf\n", wanted_output[0]);
 	int size_wanted_output[] = {1,1};
 
 
@@ -104,8 +103,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	int size_delta_w1[] = {1,1};
 
 	multiply_matrix_by_constant(D, nu, delta_b1, size_D, size_delta_b1);
-	print_matrix_double(delta_b1, size_delta_b1);
-	add_matrix(b1, delta_b1, size_b1, size_delta_b1);
 
 	//--------------------------------------------------------
 
@@ -121,7 +118,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	double a1_tt[3];
 	int size_a1_tt[] = {size_a1_t[1], size_a1_t[0]};
 
-	add_matrix(weight1, a1_tt, size_w1, size_a1_tt);
 
 
 	//--------------------------------------------------------
@@ -142,9 +138,7 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 
 	apply_sigmoid_prime_to_matrix(a1, sigmoid_prime_output2, size_a1, size_spo2);
 
-
 	hadamard_product(tmp, sigmoid_prime_output2, D2, size_tmp, size_spo2);
-
 
 	//HIDDEN LAYER TO INPUT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -157,7 +151,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	int size_delta_b0[] = {3,1};
 
 	multiply_matrix_by_constant(D2, nu, delta_b0, size_D2, size_delta_b0);
-	add_matrix(b0, delta_b0, size_b0, size_delta_b0);
 
 	//--------------------------------------------------------
 
@@ -173,6 +166,15 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	double a0_tt[3];
 	int size_a0_tt[] = {size_a0_t[1], size_a0_t[0]};
 
+
+
+
+
+
+
+	add_matrix(b1, delta_b1, size_b1, size_delta_b1);
+	add_matrix(weight1, a1_tt, size_w1, size_a1_tt);
+	add_matrix(b0, delta_b0, size_b0, size_delta_b0);
 	add_matrix(weight0, a0_tt, size_w0, size_a0_tt);
 }
 
@@ -225,7 +227,7 @@ int main()
 	print_matrix_double(weight0, size_w0);
 
 	printf("\n\nBeginning learning process...\n");
-	for (size_t k = 0; k < 1; k++)
+	for (size_t k = 0; k < 100000; k++)
 	{
 		for (double i = 0; i < 2; i++)
 		{
@@ -240,7 +242,7 @@ int main()
 				backpropagation(weight0, weight1, a0, a1, a2, b0, b1, 
 						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
-				print_matrix_double(weight1, size_w0);
+				//print_matrix_double(weight1, size_w0);
 			}
 		}
 	}
