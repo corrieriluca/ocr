@@ -6,7 +6,7 @@ CPPFLAGS = `pkg-config --cflags sdl` -MMD
 LDFLAGS =
 LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm
 
-SRC = learning.c
+SRC = learning.c ../image_operations.c ../segmentation.c ../preprocessing.c ../matrix_tools.c
 
 all: learn
 

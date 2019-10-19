@@ -49,7 +49,14 @@ int main()
 
     SDL_FreeSurface(character_surface);
 
+    printf("\nDEBUGGIN Characters array = [");
+    for (size_t i = 0; i < 57; i++)
+        printf("%c", characters[i].character);
+    printf("]\n");
+
     // ----- HERE ARE THE CALLS TO FUNCTIONS FROM THE NN FOR TRAINING IT -------
+
+    printf("\n--- SENDING CHARACTERS TO THE NEURAL NETWORK ---\n");
 
     return 0;
 }
