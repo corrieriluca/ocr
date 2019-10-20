@@ -197,39 +197,37 @@ int main()
 	double a2[1];
 	int size_a2[] = {1,1};
 
-	double weight0[6] = {1.5,-1.8,2.0,0.1,-1.5,0.7};
+	//double weight0[6] = {1.5,-1.8,2.0,0.1,-1.5,0.7};
 	srand(time(NULL));
-	/*double weight0[40];
-	for (size_t i = 0; i < 40; i++)
+	double weight0[6];
+	for (size_t i = 0; i < 6; i++)
 	{
 		weight0[i] =((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
 	}
-	*/int size_w0[] = {3,2};
+	int size_w0[] = {3,2};
 	print_matrix_double(weight0, size_w0);
 	
 
-	double weight1[3] = {0.5, -1.8, 1.2};
-	/*
-	double weight1[20];
-	for (size_t i = 0; i < 20; i++)
+	//double weight1[3] = {0.5, -1.8, 1.2};
+	double weight1[3];
+	for (size_t i = 0; i < 3; i++)
 	{
 		weight1[i] = ((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
 	}
-	*/
+	
 	int size_w1[] = {1,3};
 
 
-	double b0[3] = {-2.0,1.0,-0.1};
-	/*
-	double b0[20];
-	for (size_t i = 0; i < 20; i++)
+	//double b0[3] = {-2.0,1.0,-0.1};
+	double b0[3];
+	for (size_t i = 0; i < 3; i++)
 	{
 		b0[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
-	}*/
+	}
 	int size_b0[] = {3,1}; 
 
-	double b1[1] = {-0.1};
-	//b1[0] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
+	//double b1[1] = {-0.1};
+	double b1[] = {(((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2};
 	int size_b1[] = {1,1}; 
 	
 
