@@ -57,7 +57,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 		double *d_b1, double *d_w1, double *d_b0, double *d_w0,
 		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0)
 {
-	printf("%lf %lf %lf\n", a0[0], a0[1], a2[0]);
 	double wanted_output[1];
 	//TODO : Need a way to convert a0[0] ^ a0[1]
 	if ((a0[0] == 0.0 && a0[1] == 0.0) || (a0[0] == 1.0 && a0[1] == 1.0))
@@ -70,14 +69,12 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	}
 	int size_wanted_output[] = {1,1};
 
-	printf("%lf\n", wanted_output[0]);
 
 	double error[1]; 
 	int size_error[] = {1,1};
 
 	subtract_matrix(a2, wanted_output, error, size_a2, size_wanted_output);
 	
-	print_matrix_double(error, size_error);
 	// -----------------------------------------------
 
 	double sigmoid_prime_output[1];
@@ -119,7 +116,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	//Update Delta W1
 	multiply_matrix(tmp10, a1_t, delta_w1, s_tmp10, size_a1_t);
 
-	print_matrix_double(delta_b1, size_delta_b1);
 
 	//--------------------------------------------------------
 	//Update D :
@@ -191,40 +187,38 @@ int main()
 	double a0[2];
 	int size_a0[] = {2,1};
 
-	double a1[3];
-	int size_a1[] = {3,1};
+	double a1[20];
+	int size_a1[] = {20,1};
 
 	double a2[1];
 	int size_a2[] = {1,1};
 
 	//double weight0[6] = {1.5,-1.8,2.0,0.1,-1.5,0.7};
 	srand(time(NULL));
-	double weight0[6];
-	for (size_t i = 0; i < 6; i++)
+	double weight0[40];
+	for (size_t i = 0; i < 40; i++)
 	{
 		weight0[i] =((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
 	}
-	int size_w0[] = {3,2};
-	print_matrix_double(weight0, size_w0);
+	int size_w0[] = {20,2};
 	
-
 	//double weight1[3] = {0.5, -1.8, 1.2};
-	double weight1[3];
-	for (size_t i = 0; i < 3; i++)
+	double weight1[20];
+	for (size_t i = 0; i < 20; i++)
 	{
 		weight1[i] = ((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
 	}
 	
-	int size_w1[] = {1,3};
+	int size_w1[] = {1,20};
 
 
 	//double b0[3] = {-2.0,1.0,-0.1};
-	double b0[3];
-	for (size_t i = 0; i < 3; i++)
+	double b0[20];
+	for (size_t i = 0; i < 20; i++)
 	{
 		b0[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
 	}
-	int size_b0[] = {3,1}; 
+	int size_b0[] = {20,1}; 
 
 	//double b1[1] = {-0.1};
 	double b1[] = {(((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2};
@@ -252,28 +246,28 @@ int main()
 		double d_b1[1] = {0};
 		int s_d_b1[] = {1,1};
 
-		double d_w1[3];
-		for (size_t i = 0; i < 3; i++)
+		double d_w1[20];
+		for (size_t i = 0; i < 20; i++)
 		{
 			d_w1[i] = 0;
 		}
-		int s_d_w1[] = {1,3};
+		int s_d_w1[] = {1,20};
 		
 
-		double d_b0[3];
-		for (size_t i = 0; i < 3; i++)
+		double d_b0[20];
+		for (size_t i = 0; i < 20; i++)
 		{
 			d_b0[i] = 0;
 		}
-		int s_d_b0[] = {3,1};
+		int s_d_b0[] = {20,1};
 		
 
-		double d_w0[6];
-		for (size_t i = 0; i < 6; i++)
+		double d_w0[40];
+		for (size_t i = 0; i < 40; i++)
 		{
 			d_w0[i] = 0;
 		}
-		int s_d_w0[] = {3,2};
+		int s_d_w0[] = {20,2};
 
 		for (double i = 0; i < 2; i++)
 		{
@@ -302,10 +296,8 @@ int main()
 		add_matrix(weight1, d_w1, size_w1, s_d_w1);
 		add_matrix(b0, d_b0, size_b0, s_d_b0);
 		add_matrix(weight0, d_w0, size_w0, s_d_w0);
-		print_matrix_double(d_w0, s_d_w0);
 	}
 
-	print_matrix_double(weight0, size_w0);
 
 	printf("\n\nAfter learning process...\n");
 	for (double i = 0; i < 2; i++)
