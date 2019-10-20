@@ -98,14 +98,14 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	double tmp10[size_D[0] * size_D[1]];
 	int s_tmp10[] = {size_D[0], size_D[1]};
 
-	double a1_t[3];
+	double a1_t[size_a1[0] * size_a1[1]];
 	int size_a1_t[] = {size_a1[1], size_a1[0]};
 
-	double delta_b1[1];
-	int size_delta_b1[] = {1,1};
+	double delta_b1[size_b1[0] * size_b1[1]];
+	int size_delta_b1[] = {size_b1[0], size_b1[1]};
 
-	double delta_w1[3];
-	int size_delta_w1[] = {1,3};
+	double delta_w1[size_w1[0] * size_w1[1]];
+	int size_delta_w1[] = {size_w1[0], size_w1[1]};
 
 	//Transpose the matrix of a1
 	transpose_matrix(a1, a1_t, size_a1, size_a1_t);
@@ -120,20 +120,21 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	multiply_matrix(tmp10, a1_t, delta_w1, s_tmp10, size_a1_t);
 
 	print_matrix_double(delta_b1, size_delta_b1);
+
 	//--------------------------------------------------------
 	//Update D :
 	//--------------------------------------------------------
 
-	double D2[3];
-	int size_D2[] = {3,1};
+	double D2[size_a1[0] * size_a1[1]];
+	int size_D2[] = {size_a1[0], size_a1[1]};
 
 	double tmp11[size_w1[1] * size_w1[0]];
 	int s_tmp11[] = {size_w1[1], size_w1[0]};
 
-	double sigmoid_prime_output2[3];
-	int size_spo2[] = {3,1};
+	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
+	int size_spo2[] = {size_a1[0], size_a1[1]};
 
-	double w1_t[3];
+	double w1_t[size_w1[0] * size_w1[1]];
 	int s_w1_t[] = {size_w1[1], size_w1[0]};
 
 	transpose_matrix(weight1, w1_t, size_w1, s_w1_t);
@@ -150,14 +151,14 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	double tmp12[size_D2[0] * size_D2[1]];
 	int s_tmp12[] = {size_D2[0], size_D2[1]};
 
-	double a0_t[3];
+	double a0_t[size_a0[0] * size_a0[1]];
 	int size_a0_t[] = {size_a0[1], size_a0[0]};
 
-	double delta_b0[3];
-	int size_delta_b0[] = {3,1};
+	double delta_b0[size_b0[0] * size_b0[1]];
+	int size_delta_b0[] = {size_b0[0], size_b0[1]};
 
-	double delta_w0[6];
-	int size_delta_w0[] = {3,2};
+	double delta_w0[size_w0[0] * size_w0[1]];
+	int size_delta_w0[] = {size_w0[0], size_w0[1]};
 
 	//Transpose the matrix of a0
 	transpose_matrix(a0, a0_t, size_a0, size_a0_t);
@@ -190,37 +191,37 @@ int main()
 	double a0[2];
 	int size_a0[] = {2,1};
 
-	double a1[3];
-	int size_a1[] = {3,1};
+	double a1[20];
+	int size_a1[] = {20,1};
 
 	double a2[1];
 	int size_a2[] = {1,1};
 
 	//double weight0[6] = {1.5,2.0,-1.5,-1.8,0.1,0.7};
 	srand(time(NULL));
-	double weight0[6];
-	for (size_t i = 0; i < 6; i++)
+	double weight0[40];
+	for (size_t i = 0; i < 40; i++)
 	{
 		weight0[i] =((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
 	}
-	int size_w0[] = {3,2};
+	int size_w0[] = {20,2};
 	print_matrix_double(weight0, size_w0);
 	
 	//double weight1[3] = {0.5, -1.8, 1.2};
-	double weight1[3];
-	for (size_t i = 0; i < 3; i++)
+	double weight1[20];
+	for (size_t i = 0; i < 20; i++)
 	{
 		weight1[i] = ((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
 	}
-	int size_w1[] = {1,3};
+	int size_w1[] = {1,20};
 
 	//double b0[3] = {-2.0,1.0,-0.1};
-	double b0[3];
-	for (size_t i = 0; i < 3; i++)
+	double b0[20];
+	for (size_t i = 0; i < 20; i++)
 	{
 		b0[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
 	}
-	int size_b0[] = {3,1}; 
+	int size_b0[] = {20,1}; 
 
 	double b1[1];
 	b1[0] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
@@ -247,12 +248,29 @@ int main()
 	{
 		double d_b1[1] = {0};
 		int s_d_b1[] = {1,1};
-		double d_w1[3] = {0,0,0};
-		int s_d_w1[] = {1,3};
-		double d_b0[3] = {0,0,0};
-		int s_d_b0[] = {3,1};
-		double d_w0[6] = {0,0,0,0,0,0};
-		int s_d_w0[] = {3,2};
+
+		double d_w1[20];
+		for (size_t i = 0; i < 20; i++)
+		{
+			d_w1[i] = 0;
+		}
+		int s_d_w1[] = {1,20};
+		
+
+		double d_b0[20];
+		for (size_t i = 0; i < 20; i++)
+		{
+			d_b0[i] = 0;
+		}
+		int s_d_b0[] = {20,1};
+		
+
+		double d_w0[40];
+		for (size_t i = 0; i < 40; i++)
+		{
+			d_w0[i] = 0;
+		}
+		int s_d_w0[] = {20,2};
 
 		for (double i = 0; i < 2; i++)
 		{
