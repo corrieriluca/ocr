@@ -54,6 +54,13 @@ void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 	apply_sigmoid_to_matrix(a2, size_a2);
 }
 
+
+void mini_batch()
+{
+	//
+}
+
+
 void backpropagation(double *weight0, double *weight1, double *a0, double *a1, 
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1, int *size_a0, 
 		int *size_a1, int size_a2[], int *size_b0, int *size_b1)
@@ -144,8 +151,8 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	double delta_w0[3];
-	int size_delta_w0[] = {3,1};
+	double delta_w0[6];
+	int size_delta_w0[] = {2,3};
 
 	double delta_b0[3];
 	int size_delta_b0[] = {3,1};
@@ -158,10 +165,16 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	int size_a0_t[] = {size_a0[1], size_a0[0]};
 
 	transpose_matrix(a0, a0_t, size_a0, size_a0_t);
+	
+	double tmp3[3];
+	int size_tmp3[] = {3,1};
 
-	multiply_matrix_by_constant(D2, nu, delta_w0, size_D2, size_delta_w0);
 
-	multiply_matrix(delta_w0, a0_t, a0_t, size_delta_w0, size_a0_t);
+	multiply_matrix_by_constant(D2, nu, tmp3, size_D2, size_tmp3);
+
+
+
+	multiply_matrix(tmp3, a0_t, delta_w0, size_tmp3, size_a0_t);
 
 	double a0_tt[3];
 	int size_a0_tt[] = {size_a0_t[1], size_a0_t[0]};
