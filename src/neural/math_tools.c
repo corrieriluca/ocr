@@ -42,7 +42,6 @@ void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 	{
 		printf("multiply_matrix : Can't multiply matrix with these dimension\n");
 	}
-
 	else
 	{
 		int i,j,k;                                                                
