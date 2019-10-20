@@ -4,7 +4,7 @@
 #include <time.h>
 
 
-void transpose_matrix(double mat1[], double mat1_t[], 
+void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[])
 {
 	if (size_mat1[0] != size_mat1_t[1] ||size_mat1[1] != size_mat1_t[0])
@@ -25,31 +25,31 @@ void transpose_matrix(double mat1[], double mat1_t[],
 }
 
 
-void multiply_matrix(double mat1[], double mat2[], double mat_out[], 
-		int size_mat1[], int size_mat2[])   
-{                                                                               
+void multiply_matrix(double mat1[], double mat2[], double mat_out[],
+		int size_mat1[], int size_mat2[])
+{
 	if (size_mat1[1] != size_mat2[0])
 	{
 		printf("multiply_matrix : Can't multiply matrix with these dimension\n");
 	}
 	else
 	{
-		int i,j,k;                                                                
+		int i,j,k;
 		double sum;
 
-		for(i = 0; i <  size_mat1[0]; ++i)                                              
-		{                                                                            
-			for(j = 0; j < size_mat2[1]; ++j)                                            
-			{ 
-				sum = 0;                                                        
+		for(i = 0; i <  size_mat1[0]; ++i)
+		{
+			for(j = 0; j < size_mat2[1]; ++j)
+			{
+				sum = 0;
 
-				for (k = 0; k < size_mat1[1]; k++)                                        
-				{                                                                      
-					sum += mat1[i * size_mat1[1] + k] * mat2[k * size_mat2[1] + j];      
-				}             
-				mat_out[i * size_mat2[1] + j] = sum;              
-			}                              
-		}                                                                            
+				for (k = 0; k < size_mat1[1]; k++)
+				{
+					sum += mat1[i * size_mat1[1] + k] * mat2[k * size_mat2[1] + j];
+				}
+				mat_out[i * size_mat2[1] + j] = sum;
+			}
+		}
 	}
 }
 
