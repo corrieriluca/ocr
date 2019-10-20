@@ -1,10 +1,10 @@
 /*
-   ___            _ _        
-  / __\___   __ _(_) |_ ___  
- / /  / _ \ / _` | | __/ _ \ 
+   ___            _ _
+  / __\___   __ _(_) |_ ___
+ / /  / _ \ / _` | | __/ _ \
 / /__| (_) | (_| | | || (_) |
-\____/\___/ \__, |_|\__\___/ 
-            |___/            
+\____/\___/ \__, |_|\__\___/
+            |___/
 
 A SIMPLE OPTICAL CHARACTER RECOGNITION
 */
@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 {
     if (argc != 2)
         errx(1, "Error: You must specify the path of the image");
-    
+
     // Image loading
     SDL_Surface *image_surface;
     init_sdl();
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
     size_t *binarized_matrix = image_to_matrix(image_surface);
 
     // Segmentation
-    
+
     // Get Lines
     printf("------ Segmentation started ------\n");
     Line *lines = calloc(MAX_LINE_NUMBER, sizeof(Line));

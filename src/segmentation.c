@@ -38,7 +38,7 @@ size_t Find_Lines(Line lines[],
             isInLine = 1; // <=> True
             continue;
         }
-        
+
         // In the case we are at the end of a line
         // (precedent iteration was in a line AND no pixel found in this
         // iteration)
@@ -144,12 +144,12 @@ void Get_Characters(Line *line, size_t binarized_matrix[], size_t width)
 
         size_t *extracted = extract_matrix(binarized_matrix, width,
             line->startingPoint, current->startingPoint, charHeight, charWidth);
-        
+
         current->matrix = resize_matrix(extracted, charHeight, charWidth);
-        
+
         // for debugging
         print_matrix_double(current->matrix, MATRIX_SIZE, MATRIX_SIZE);
-        
+
         free(extracted); // needed
     }
 }

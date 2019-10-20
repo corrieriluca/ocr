@@ -141,7 +141,7 @@ void resize_square_matrix(size_t square[], double resized[],
 double *resize_matrix(size_t matrix[], size_t height, size_t width)
 {
     double *result = calloc(MATRIX_SIZE * MATRIX_SIZE, sizeof(double));
-    
+
     // Determine the size of the larger square for the 'matrix_in_square'
     // function. Using MATRIX_SIZE is necessary to obtain a divisor of it.
     size_t squareSize = (height > width) ?
@@ -151,7 +151,7 @@ double *resize_matrix(size_t matrix[], size_t height, size_t width)
     size_t *square = calloc(squareSize * squareSize, sizeof(size_t));
 
     matrix_in_square(matrix, square, height, width, squareSize);
-    
+
     resize_square_matrix(square, result, squareSize, MATRIX_SIZE);
 
     free(square); // needed
