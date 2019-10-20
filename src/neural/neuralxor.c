@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "neuralxor.h"
 #include "math_tools.h"
 
@@ -169,22 +170,14 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	double tmp3[3];
 	int size_tmp3[] = {3,1};
 
-
 	multiply_matrix_by_constant(D2, nu, tmp3, size_D2, size_tmp3);
-
-
 
 	multiply_matrix(tmp3, a0_t, delta_w0, size_tmp3, size_a0_t);
 
 	double a0_tt[3];
 	int size_a0_tt[] = {size_a0_t[1], size_a0_t[0]};
 
-
-
-
-
-
-
+//----------------------------------------------------------------------------
 	add_matrix(b1, delta_b1, size_b1, size_delta_b1);
 	add_matrix(weight1, a1_tt, size_w1, size_a1_tt);
 	add_matrix(b0, delta_b0, size_b0, size_delta_b0);
@@ -224,6 +217,7 @@ int main()
 	int size_b1[] = {1,1}; 
 	
 
+
 	printf("\nOutputs with random weights and biais...\n");
 	for (double i = 0; i < 2; i++)
 	{
@@ -246,8 +240,9 @@ int main()
 		{
 			for (double j = 0; j < 2; j++)
 			{
-				a0[0] = i;
-				a0[1] = j;
+				a0[0] = ((double)rand() / (double)RAND_MAX) < 0.5;
+				a0[1] = ((double)rand() / (double)RAND_MAX) < 0.5;
+				printf("%lf %lf\n\n", a0[0], a0[1]);
 				feedforward(weight0, weight1, a0, a1, a2, b0, b1, 
 						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
