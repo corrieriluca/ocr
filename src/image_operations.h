@@ -7,8 +7,6 @@
 
 void init_sdl();
 SDL_Surface *load_image(char *path);
-SDL_Surface *display_image(SDL_Surface *img);
-void wait_for_keypressed();
 
 // from David Bouchet's pixel_operations.c
 Uint32 get_pixel(SDL_Surface *surface, unsigned x, unsigned y);
