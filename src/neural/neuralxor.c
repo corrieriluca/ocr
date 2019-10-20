@@ -48,11 +48,8 @@ void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 }
 
 
-
-
-
-void backpropagation(double *weight0, double *weight1, double *a0, double *a1, 
-		double *a2, double *b0, double *b1, int *size_w0, int *size_w1, int *size_a0, 
+void backpropagation(double *weight1, double *a0, double *a1, 
+		double *a2, int *size_w0, int *size_w1, int *size_a0, 
 		int *size_a1, int size_a2[], int *size_b0, int *size_b1,
 		double *d_b1, double *d_w1, double *d_b0, double *d_w0,
 		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0)
@@ -241,7 +238,7 @@ int main()
 
 	printf("\n\nBeginning learning process...\n");
 
-	for (size_t k = 0; k < 10000; k++)
+	for (size_t k = 0; k < 1000000; k++)
 	{
 		double d_b1[1] = {0};
 		int s_d_b1[] = {1,1};
@@ -275,20 +272,14 @@ int main()
 			{
 				a0[0] = i;
 				a0[1] = j;
-
-				//a0[0] = (((double)rand()) / (double)RAND_MAX) < 0.5;
-				//a0[1] = (((double)rand()) / (double)RAND_MAX) < 0.5;
-				//printf("%lf %lf\n\n", a0[0], a0[1]);
 				
 				feedforward(weight0, weight1, a0, a1, a2, b0, b1, 
 						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
+				backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0, 
+						size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0, 
+						s_d_b1, s_d_w1, s_d_b0, s_d_w0);
 
-				backpropagation(weight0, weight1, a0, a1, a2, b0, b1, 
-						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1,
-						d_b1, d_w1, d_b0, d_w0, s_d_b1, s_d_w1, s_d_b0, s_d_w0);
-
-				//print_matrix_double(weight1, size_w0);
 			}
 		}
 
