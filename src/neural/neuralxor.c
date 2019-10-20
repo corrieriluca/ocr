@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "neuralxor.h"
 #include "math_tools.h"
 
@@ -56,15 +57,14 @@ void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 }
 
 
-void mini_batch()
-{
-	//
-}
+
 
 
 void backpropagation(double *weight0, double *weight1, double *a0, double *a1, 
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1, int *size_a0, 
-		int *size_a1, int size_a2[], int *size_b0, int *size_b1)
+		int *size_a1, int size_a2[], int *size_b0, int *size_b1,
+		double *d_b1, double *d_w1, double *d_b0, double *d_w0,
+		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0)
 {
 	double wanted_output[1];
 	//TODO : Need a way to convert a0[0] ^ a0[1]
@@ -93,8 +93,6 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 
 	double D[1]; 
 	int size_D[] = {1,1};
-
-
 
 	hadamard_product(error, sigmoid_prime_output, D, size_error, size_spo);
 
@@ -178,10 +176,11 @@ void backpropagation(double *weight0, double *weight1, double *a0, double *a1,
 	int size_a0_tt[] = {size_a0_t[1], size_a0_t[0]};
 
 //----------------------------------------------------------------------------
-	add_matrix(b1, delta_b1, size_b1, size_delta_b1);
-	add_matrix(weight1, a1_tt, size_w1, size_a1_tt);
-	add_matrix(b0, delta_b0, size_b0, size_delta_b0);
-	add_matrix(weight0, a0_tt, size_w0, size_a0_tt);
+
+	add_matrix(d_b1, delta_b1, s_d_b1, size_delta_b1);
+	add_matrix(d_w1, a1_tt, s_d_w1, size_a1_tt);
+	add_matrix(d_b0, delta_b0, s_d_b0, size_delta_b0);
+	add_matrix(d_w0, a0_tt, s_d_w0, size_a0_tt);
 }
 
 
@@ -204,16 +203,35 @@ int main()
 	double a2[1];
 	int size_a2[] = {1,1};
 
-	double weight0[6] = {1.5,2.0,-1.5,-1.8,0.1,0.7};
+	//55double weight0[6] = {1.5,2.0,-1.5,-1.8,0.1,0.7};
+	srand(time(NULL));
+	double weight0[6];
+	for (size_t i = 0; i < 6; i++)
+	{
+		weight0[i] =((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
+	}
 	int size_w0[] = {2,3};
+	print_matrix_double(weight0, size_w0);
 	
-	double weight1[3] = {0.5, -1.8, 1.2};
+	//double weight1[3] = {0.5, -1.8, 1.2};
+	double weight1[3];
+	for (size_t i = 0; i < 3; i++)
+	{
+		weight1[i] = ((((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2) / 1;
+	}
 	int size_w1[] = {3,1};
+	print_matrix_double(weight1, size_w1);
 
-	double b0[3] = {-2.0,1.0,-0.1};
+	//double b0[3] = {-2.0,1.0,-0.1};
+	double b0[3];
+	for (size_t i = 0; i < 3; i++)
+	{
+		b0[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
+	}
 	int size_b0[] = {3,1}; 
 
-	double b1[1] = {-0.1};
+	double b1[1];
+	b1[0] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
 	int size_b1[] = {1,1}; 
 	
 
@@ -234,27 +252,50 @@ int main()
 	print_matrix_double(weight0, size_w0);
 
 	printf("\n\nBeginning learning process...\n");
-	for (size_t k = 0; k < 100000; k++)
+
+
+	for (size_t k = 0; k < 1000; k++)
 	{
+		double d_b1[1] = {0};
+		int s_d_b1[] = {1,1};
+		double d_w1[3] = {0,0,0};
+		int s_d_w1[] = {3,1};
+		double d_b0[3] = {0,0,0};
+		int s_d_b0[] = {3,1};
+		double d_w0[6] = {0,0,0,0,0,0};
+		int s_d_w0[] = {2,3};
+
 		for (double i = 0; i < 2; i++)
 		{
 			for (double j = 0; j < 2; j++)
 			{
-				a0[0] = ((double)rand() / (double)RAND_MAX) < 0.5;
-				a0[1] = ((double)rand() / (double)RAND_MAX) < 0.5;
-				printf("%lf %lf\n\n", a0[0], a0[1]);
+				a0[0] = i;
+				a0[1] = j;
+
+				//a0[0] = (((double)rand()) / (double)RAND_MAX) < 0.5;
+				//a0[1] = (((double)rand()) / (double)RAND_MAX) < 0.5;
+				//printf("%lf %lf\n\n", a0[0], a0[1]);
+				
 				feedforward(weight0, weight1, a0, a1, a2, b0, b1, 
 						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
 
 				backpropagation(weight0, weight1, a0, a1, a2, b0, b1, 
-						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+						size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1,
+						d_b1, d_w1, d_b0, d_w0, s_d_b1, s_d_w1, s_d_b0, s_d_w0);
 
 				//print_matrix_double(weight1, size_w0);
 			}
 		}
+
+		add_matrix(b1, d_b1, size_b1, s_d_b1);
+		add_matrix(weight1, d_w1, size_w1, s_d_w1);
+		add_matrix(b0, d_b0, size_b0, s_d_b0);
+		add_matrix(weight0, d_w0, size_w0, s_d_w0);
+		print_matrix_double(d_w0, s_d_w0);
 	}
 
+	print_matrix_double(weight0, size_w0);
 
 	printf("\n\nAfter learning process...\n");
 	for (double i = 0; i < 2; i++)
@@ -268,7 +309,6 @@ int main()
 			printf("Inputs: %lf %lf -> %lf\n", a0[0], a0[1], a2[0]);
 		}
 	}
-
 
 
 }
