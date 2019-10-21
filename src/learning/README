@@ -1,0 +1,11 @@
+Program for training the Neural Network.
+
+There is a folder for each font.
+
+To train the NN with samples : `make && ./learn.out <folder_name>/`
+Do not forget to add a '/' after the folder name. Otherwise the program will
+raise an error.
+
+When you're done : `make clean`
+
+Further instructions explaining where are saved the weights will be added later.
