@@ -150,7 +150,23 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	add_matrix(d_w0, delta_w0, s_d_w0, size_delta_w0);
 }
 
+//Init a matrix with values from -2 to 2
+void init_matrix_random(double *matrix, int *size)
+{
+	for (int i = 0; i < size[0] * size[1]; i++)
+	{
+		//To change the range put that after the RAND_MAX: (max - min) - min
+		matrix[i] = (((double) rand()) / (double) RAND_MAX) * (4) - 2;
+	}
+}
 
+void init_matrix_with_0(double *matrix, int *size)
+{
+	for (int i = 0; i < size[0] * size[1]; i++)
+	{
+		matrix[i] = 0;
+	}
+}
 
 int main()
 {
@@ -159,49 +175,48 @@ int main()
 	printf("###            NEURAL XOR             ###\n");
 	printf("#########################################\n");
 
+	//Seed for the random
 	srand(time(NULL));
+	
+	//Choosing the number of input neurons
+	int nb_input_neurons = 2;
+	
+	//Choosing the number of neurons in the hidden layer
+	int nb_hidden_layer_neurons = 20;
+
+	//Choosing the number of output neurons
+	int nb_output_neurons = 1;
+
+	//Choosing the number of epoch
+	int nb_epoch = 1000000;
+
 
 	//Init all the weights, biais and activation point
-	int size_a0[] = {2,1};
+	//-------------------------------------------------------------------------
+	int size_a0[] = {nb_input_neurons,1};
 	double a0[size_a0[0] * size_a0[1]];
 
-	int size_a1[] = {20,1};
+	int size_a1[] = {nb_hidden_layer_neurons,1};
 	double a1[size_a1[0] * size_a1[1]];
 
-	int size_a2[] = {1,1};
+	int size_a2[] = {nb_output_neurons,1};
 	double a2[size_a2[0] * size_a1[1]];
 
-	//-------------------------------------------------------------------------
-	int i;
-
-	int size_w0[] = {20,2};
+	int size_w0[] = {nb_hidden_layer_neurons,nb_input_neurons};
 	double weight0[size_w0[0] * size_w0[1]];
-	for (i = 0; i < (size_w0[0] * size_w0[1]); i++)
-	{
-		weight0[i] =(((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
-	}
+	init_matrix_random(weight0, size_w0);
 
-	int size_w1[] = {1,20};
+	int size_w1[] = {nb_output_neurons,nb_hidden_layer_neurons};
 	double weight1[size_w1[0] * size_w1[1]];
-	for (i = 0; i < size_w1[0] * size_w1[1]; i++)
-	{
-		weight1[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
-	}
+	init_matrix_random(weight1, size_w1);
 
-	//-------------------------------------------------------------------------
-	int size_b0[] = {20,1};
+	int size_b0[] = {nb_hidden_layer_neurons,1};
 	double b0[size_b0[0] * size_b0[1]];
-	for (i = 0; i < size_b0[0] * size_b0[1]; i++)
-	{
-		b0[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
-	}
+	init_matrix_random(b0, size_b0);
 
-	int size_b1[] = {1,1};
+	int size_b1[] = {nb_output_neurons,1};
 	double b1[size_b1[0] * size_b1[1]];
-	for (i = 0; i < size_b1[0] * size_b1[1]; i++)
-	{
-		b1[i] = (((double) rand()) / (double) RAND_MAX) * (2 + 2) - 2;
-	}
+	init_matrix_random(b1, size_b1);
 
 
 	//Test neural Xor with the random value for the weight and biais
@@ -213,37 +228,29 @@ int main()
 
 	printf("\n\nBeginning learning process...\n");
 
-	for (size_t k = 0; k < 100000; k++)
+	//Init matrix for epoch
+	int s_d_b1[] = {nb_output_neurons, 1};
+	double d_b1[s_d_b1[0] * s_d_b1[1]];
+
+	int s_d_w1[] = {nb_output_neurons, nb_hidden_layer_neurons};
+	double d_w1[s_d_w1[0] * s_d_w1[1]];
+	
+	int s_d_b0[] = {nb_hidden_layer_neurons, 1};
+	double d_b0[s_d_b0[0] * s_d_b0[1]];
+	
+	int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
+	double d_w0[s_d_w0[0] * s_d_w0[1]];
+	
+	for (int k = 0; k < nb_epoch; k++)
 	{
-		//Init matrix for epoch
-		//----------------------------------------------------------------------
-		int s_d_b1[] = {1,1};
-		double d_b1[s_d_b1[0] * s_d_b1[1]];
-		for (i = 0; i < s_d_b1[0] * s_d_b1[1]; i++)
-		{
-			d_b1[i] = 0;
-		}
+		//Reset the matrix to 0
+		init_matrix_with_0(d_b1, s_d_b1);
 
-		int s_d_w1[] = {1,20};
-		double d_w1[s_d_w1[0] * s_d_w1[1]];
-		for (i = 0; i < s_d_w1[0] * s_d_w1[1]; i++)
-		{
-			d_w1[i] = 0;
-		}
+		init_matrix_with_0(d_w1, s_d_w1);
 
-		int s_d_b0[] = {20,1};
-		double d_b0[s_d_b0[0] * s_d_b0[1]];
-		for (i = 0; i < s_d_b0[0] * s_d_b0[1]; i++)
-		{
-			d_b0[i] = 0;
-		}
+		init_matrix_with_0(d_b0, s_d_b0);
 
-		int s_d_w0[] = {20,2};
-		double d_w0[s_d_w0[0] * s_d_w0[1]];
-		for (i = 0; i < s_d_w0[0] * s_d_w0[1]; i++)
-		{
-			d_w0[i] = 0;
-		}
+		init_matrix_with_0(d_w0, s_d_w0);
 
 		//Start the learning phase
 		//----------------------------------------------------------------------

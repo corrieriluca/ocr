@@ -12,5 +12,11 @@ void backpropagation(double *weight1, double *a0, double *a1,
       int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0);
 
 
+void init_matrix_random(double *matrix, int *size);
+
+
+void init_matrix_with_0(double *matrix, int *size);
+
+
 #endif
 
