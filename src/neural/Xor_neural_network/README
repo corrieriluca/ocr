@@ -1,0 +1,24 @@
+To launch the neural Xor, use : make && ./neural.out
+
+If you have any question, please send an email at alexis.boissiere@epita.fr
+
+The output should look like this:
+#########################################
+###            NEURAL XOR             ###
+#########################################
+
+Outputs with random weights and biais...
+Inputs: 0.000000 0.000000 -> 0.919764
+Inputs: 0.000000 1.000000 -> 0.750380
+Inputs: 1.000000 0.000000 -> 0.387931
+Inputs: 1.000000 1.000000 -> 0.187614
+
+
+Beginning learning process...
+
+
+After learning process...
+Inputs: 0.000000 0.000000 -> 0.003243
+Inputs: 0.000000 1.000000 -> 0.997300
+Inputs: 1.000000 0.000000 -> 0.997301
+Inputs: 1.000000 1.000000 -> 0.001740
