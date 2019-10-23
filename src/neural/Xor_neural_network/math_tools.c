@@ -72,7 +72,7 @@ void add_matrix(double mat1[], double mat2[], int size_mat1[], int size_mat2[])
 }
 
 
-void subtract_matrix(double mat1[], double mat2[], double mat_out[], 
+void subtract_matrix(double mat1[], double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[])
 {
 	if (size_mat1[0] != size_mat2[0] && size_mat1[1] != size_mat2[1])
@@ -113,10 +113,10 @@ double sigmoid_prime(double z)
 }
 
 
-void apply_sigmoid_prime_to_matrix(double mat1[], double mat_out[], 
+void apply_sigmoid_prime_to_matrix(double mat1[], double mat_out[],
 		int size_mat1[], int size_mat_out[])
 {
-	if (size_mat1[0] != size_mat_out[0] || size_mat1[1] != size_mat_out[1]) 
+	if (size_mat1[0] != size_mat_out[0] || size_mat1[1] != size_mat_out[1])
 	{
 		printf("apply_signoid_prime_to_matrix: ");
 		printf("Please provide matrix of the same size\n");
@@ -133,7 +133,7 @@ void apply_sigmoid_prime_to_matrix(double mat1[], double mat_out[],
 }
 
 
-void hadamard_product(double mat1[],double mat2[], double mat_out[], 
+void hadamard_product(double mat1[],double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[])
 {
 	if (size_mat1[0] != size_mat2[0] || size_mat1[1] != size_mat2[1])
@@ -152,10 +152,10 @@ void hadamard_product(double mat1[],double mat2[], double mat_out[],
 }
 
 
-void multiply_matrix_by_constant(double mat1[], double c, double mat_out[], 
+void multiply_matrix_by_constant(double mat1[], double c, double mat_out[],
 		int size_mat1[], int size_mat_out[])
 {
-	if (size_mat1[0] != size_mat_out[0] || size_mat1[1] != size_mat_out[1]) 
+	if (size_mat1[0] != size_mat_out[0] || size_mat1[1] != size_mat_out[1])
 	{
 		printf("multiply_matrix_by_constant: ");
 		printf("Please provide matrix of the same size\n");

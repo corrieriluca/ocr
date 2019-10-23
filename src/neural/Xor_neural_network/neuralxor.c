@@ -177,10 +177,10 @@ int main()
 
 	//Seed for the random
 	srand(time(NULL));
-	
+
 	//Choosing the number of input neurons
 	int nb_input_neurons = 2;
-	
+
 	//Choosing the number of neurons in the hidden layer
 	int nb_hidden_layer_neurons = 20;
 
@@ -234,13 +234,13 @@ int main()
 
 	int s_d_w1[] = {nb_output_neurons, nb_hidden_layer_neurons};
 	double d_w1[s_d_w1[0] * s_d_w1[1]];
-	
+
 	int s_d_b0[] = {nb_hidden_layer_neurons, 1};
 	double d_b0[s_d_b0[0] * s_d_b0[1]];
-	
+
 	int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
 	double d_w0[s_d_w0[0] * s_d_w0[1]];
-	
+
 	for (int k = 0; k < nb_epoch; k++)
 	{
 		//Reset the matrix to 0

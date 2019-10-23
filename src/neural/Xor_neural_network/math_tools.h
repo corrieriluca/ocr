@@ -7,7 +7,7 @@ void transpose_matrix(double mat1[], double mat1_t[],
 void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[]);
 
-void add_matrix(double mat1[], double mat2[], 
+void add_matrix(double mat1[], double mat2[],
 		int size_mat1[], int size_mat2[]);
 
 void subtract_matrix(double mat1[], double mat2[], double mat_out[],
@@ -19,7 +19,7 @@ void apply_sigmoid_to_matrix(double mat1[], int size[]);
 
 double sigmoid_prime(double z);
 
-void apply_sigmoid_prime_to_matrix(double mat1[], double mat_out[], 
+void apply_sigmoid_prime_to_matrix(double mat1[], double mat_out[],
 		int size_mat1[], int size_mat_out[]);
 
 void hadamard_product(double mat1[], double mat2[], double mat_out[],
