@@ -11,9 +11,7 @@ int main(int argc, char **argv)
 	if (argc == 1)
 	{
 	printf("%s",argv[1]);
-	pretty_print_xor(25, "NEURAL XOR");
-	pretty_print_xor(50, "NEURAL XOR");
-	pretty_print_xor(100, "NEURAL XOR");
+	pretty_print_xor(40, "NEURAL XOR");
 
 	//Seed for the random
 	srand(time(NULL));

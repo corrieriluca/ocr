@@ -5,33 +5,44 @@
 
 void pretty_print_xor(size_t nb_char, char *str)
 {
-	for (size_t i = 0; i < nb_char; i++)
+	if (nb_char < strlen(str)+6)
 	{
-		printf("#");
+		printf("pretty_print_xor: Can't print with these imputs");
 	}
 
-   printf("\n###");
-
-
-	for (size_t i = 0; i < nb_char - strlen(str) - 5; i++)
+	else
 	{
-		if (i == nb_char / 2 - strlen(str) / 2 - 3)
+		size_t i;
+		size_t middle = nb_char / 2 - strlen(str) / 2 - 3;
+
+		for (i = 0; i < nb_char; i++)
 		{
-			printf("%s",str);
+			printf("#");
 		}
-		else
+
+		printf("\n###");
+
+
+		for (i = 0; i < nb_char - strlen(str) - 5; i++)
 		{
-			printf(" ");
+			if (i == middle)
+			{
+				printf("%s",str);
+			}
+			else
+			{
+				printf(" ");
+			}
 		}
-	}
-   printf("###\n");
+		printf("###\n");
 
-	for (size_t i = 0; i < nb_char; i++)
-	{
-		printf("#");
-	}
+		for (i = 0; i < nb_char; i++)
+		{
+			printf("#");
+		}
 
-   printf("\n");
+		printf("\n");
+	}
 }
 
 
