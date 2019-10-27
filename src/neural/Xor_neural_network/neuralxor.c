@@ -182,7 +182,7 @@ int main()
 	int nb_input_neurons = 2;
 
 	//Choosing the number of neurons in the hidden layer
-	int nb_hidden_layer_neurons = 20;
+	int nb_hidden_layer_neurons = 5;
 
 	//Choosing the number of output neurons
 	int nb_output_neurons = 1;
