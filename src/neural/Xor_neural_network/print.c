@@ -1,5 +1,38 @@
 #include <stdio.h>
+#include <string.h>
 #include "neuralxor.h"
+
+
+void pretty_print_xor(size_t nb_char, char *str)
+{
+	for (size_t i = 0; i < nb_char; i++)
+	{
+		printf("#");
+	}
+
+   printf("\n###");
+
+
+	for (size_t i = 0; i < nb_char - strlen(str) - 5; i++)
+	{
+		if (i == nb_char / 2 - strlen(str) / 2 - 3)
+		{
+			printf("%s",str);
+		}
+		else
+		{
+			printf(" ");
+		}
+	}
+   printf("###\n");
+
+	for (size_t i = 0; i < nb_char; i++)
+	{
+		printf("#");
+	}
+
+   printf("\n");
+}
 
 
 void print_matrix_double(double matrix[], int size[])

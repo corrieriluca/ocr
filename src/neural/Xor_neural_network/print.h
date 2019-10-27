@@ -1,6 +1,6 @@
 #ifndef PRINT_H
 #define PRINT_H
-
+void pretty_print_xor(size_t nb_char, char *str) ;
 
 void print_matrix_double(double matrix[], int size[]);
 
