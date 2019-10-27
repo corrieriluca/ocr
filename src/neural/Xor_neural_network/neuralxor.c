@@ -4,6 +4,7 @@
 #include "neuralxor.h"
 #include "math_tools.h"
 #include "print.h"
+#include "init.h"
 
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
@@ -149,7 +150,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	add_matrix(d_b0, delta_b0, s_d_b0, size_delta_b0);
 	add_matrix(d_w0, delta_w0, s_d_w0, size_delta_w0);
 }
-
+/*
 //Init a matrix with values from -2 to 2
 void init_matrix_random(double *matrix, int *size)
 {
@@ -167,7 +168,7 @@ void init_matrix_with_0(double *matrix, int *size)
 		matrix[i] = 0;
 	}
 }
-
+*/
 int main()
 {
 	//For a XOR with a hidden layer of 20 neurons
