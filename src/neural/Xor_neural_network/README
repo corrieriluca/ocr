@@ -22,3 +22,7 @@ Inputs: 0.000000 0.000000 -> 0.003243
 Inputs: 0.000000 1.000000 -> 0.997300
 Inputs: 1.000000 0.000000 -> 0.997301
 Inputs: 1.000000 1.000000 -> 0.001740
+
+To test with different number of neurons and epoch use ./test.sh
+If a messahe saying permission denied pop, use 'chmod +x test.sh
+The output will be store in test.txt
