@@ -54,7 +54,34 @@ int main(int argc, char** argv)
                     i, current->nbCharacters);
     }
 
+    // save the image of the segmentation for the debugging (in the tmp folder)
     Save_Segmentation(image_surface, lines, nbLines);
+
+    // Character Recognition
+    printf("Recognized text :\n");
+    for (size_t j = 0; j < nbLines; j++)
+    {
+        for (size_t k = 0; k < lines[j].nbCharacters; k++)
+        {
+            // HERE THE NN ANALYSES lines[j].characters[k].matrix
+            printf("-");
+
+            // is there a space after this character ?
+            if (k + 1 < lines[j].nbCharacters &&
+                    lines[j].characters[k + 1].startingPoint -
+                    lines[j].characters[k].endPoint >
+                    lines[j].averageSpace * 1.5)
+            {
+                printf(" ");
+            }
+
+            free(lines[j].characters[k].matrix); // calloc in matrix_tools.c
+        }
+        printf("\n");
+        free(lines[j].characters); // calloc previously
+    }
+
+    free(lines); // calloc previously
 
     SDL_FreeSurface(image_surface);
 

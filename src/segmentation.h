@@ -22,6 +22,9 @@ typedef struct Line
     size_t startingPoint; // the starting point of the line in the matrix
     size_t endPoint;      // the end point of the line in the matrix
     size_t nbCharacters;
+    // the average space width on this line, used to determine if the program
+    // has to add a space to the result text
+    size_t averageSpace;
     Character *characters; // characters array of this line
 } Line;
 

@@ -93,6 +93,9 @@ void Find_Characters(Line *line, size_t binarized_matrix[], size_t width)
     int isInChar = 0; // boolean indicating the state of the last iteration
     size_t startingPoint = 0; // <=> Character.startingPoint
 
+    // total space width between characters for computing averageSpace
+    size_t totalSpace = 0;
+
     for (size_t x = 0; x < width; x++)
     {
         // Sum of the black pixels on this line.
@@ -107,6 +110,14 @@ void Find_Characters(Line *line, size_t binarized_matrix[], size_t width)
         {
             startingPoint = x;
             isInChar = 1; // <=> True
+
+            if (nbCharacters) // <=> nbCharacters > 0
+            {
+                // computes the space width between this new character
+                // and the previous one
+                totalSpace += startingPoint -
+                    line->characters[nbCharacters - 1].endPoint;
+            }
         }
 
         // In the case we are at the end of a character
@@ -122,6 +133,10 @@ void Find_Characters(Line *line, size_t binarized_matrix[], size_t width)
     }
 
     line->nbCharacters = nbCharacters;
+
+    // fills the avergeSpace field once this line is finished
+    if (nbCharacters > 1)
+        line->averageSpace = totalSpace / (nbCharacters - 1);
 }
 
 /* This is the main function for character segmentation. It calls
