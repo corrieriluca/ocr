@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <err.h>
 
-int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[], 
+int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 	double mat6[], double mat7[], double mat8[], char filename[])
 {
 	FILE * f; //f = flux used to write our file
@@ -74,8 +74,8 @@ int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 				{
 					fprintf(f, "%f ", mat8[i*m4+j]);
 				}
-			}                                                       
-		}		
+			}
+		}
 
 		fclose(f);
 	}
@@ -87,7 +87,7 @@ int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 	return 0;
 }
 /*
-int main()                                                                      
+int main()
 {
 	int a[2] = {3,3};
 	int b[2] = {2,3};
@@ -106,6 +106,6 @@ int main()
 	else
 	{
 		return 1;
-	}                                                                     
+	}
 }
 */

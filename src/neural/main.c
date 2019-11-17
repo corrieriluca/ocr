@@ -71,8 +71,8 @@ int main(int argc, char **argv)
 		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
 				size_a0, size_a1, size_a2, size_b0, size_b1);
 */
-		mat_to_file(size_w0, size_w1, size_b0, size_b1, 
-				weight0, weight1, b0, b1, "test.ocr")
+		mat_to_file(size_w0, size_w1, size_b0, size_b1,
+				weight0, weight1, b0, b1, "test.ocr");
 
 		printf("\n\nBeginning learning process...\n");
 
