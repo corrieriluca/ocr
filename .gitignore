@@ -60,3 +60,4 @@ dkms.conf
 .idea/
 .DS_Store
 *test.c
+*.ocr

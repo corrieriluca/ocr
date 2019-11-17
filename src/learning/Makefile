@@ -20,5 +20,6 @@ clean:
 	${RM} learn.out
 	${RM} learn.d
 	rm -r tmp/
+	rm *.ocr
 
 # END

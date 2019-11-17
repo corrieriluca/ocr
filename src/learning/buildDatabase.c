@@ -7,7 +7,7 @@
 #include "../matrix_tools.h"
 #include "parser.h"
 
-int main_building(char* image_path, char* text_path)
+int main_building(char* image_path, char* text_path, FILE* matrix_database, FILE* char_database)
 {
     // Image loading
     SDL_Surface *image_surface;
@@ -47,7 +47,7 @@ int main_building(char* image_path, char* text_path)
     // save the image of the segmentation for the debugging (in the tmp folder)
     Save_Segmentation(image_surface, lines, nbLines);
 
-    // Character association to the wantedCharacter
+    // Character association to the wantedCharacter and building the .ocr Database file
     for (size_t j = 0; j < nbLines; j++)
     {
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
@@ -61,17 +61,22 @@ int main_building(char* image_path, char* text_path)
             }
             currentCharacterIndex += k; //counting this line
 
-            // Filling 'character' attribute of this Character from the .txt file
-            lines[j].characters[k].character = getCharacterFromFile(text_path, currentCharacterIndex);
+            // Writing the corresponding character to the char_database
+            fputc(getCharacterFromFile(text_path, currentCharacterIndex), char_database);
+            fputc('\n', char_database); //newline char
 
-            // free(lines[j].characters[k].matrix); // calloc in matrix_tools.c
+            //Writing the matrix in the matrix_database
+            for (size_t m = 0; m < MATRIX_SIZE * MATRIX_SIZE; m++)
+            {
+                char val;
+                val = lines[j].characters[k].matrix[m] == 1.0 ? '1' : '0';
+                fputc(val, matrix_database);
+            }
+            fputc('\n', matrix_database); // newline char
+
+            free(lines[j].characters[k].matrix); // calloc in matrix_tools.c
         }
-        // free(lines[j].characters); // calloc previously
-    }
-
-    for (size_t m = 0; m < nbLines; m++)
-    {
-        // Call to NN
+        free(lines[j].characters); // calloc previously
     }
 
     free(lines); // calloc previously
@@ -83,16 +88,27 @@ int main_building(char* image_path, char* text_path)
 
 int main()
 {
-    for (size_t i = 0; i < 3; i++)
+    FILE *matrix_database;
+    FILE *char_database;
+    matrix_database = fopen("matrix_database.ocr", "w+");
+    char_database = fopen("character_database.ocr", "w+");
+
+    for (size_t i = 0; i < 35; i++)
     {
+        if (i == 21)
+            continue;
+
         printf("\n------------- LOADING Lorem%zu.png... -----------------\n\n", i);
         char image_path[40];
         snprintf(image_path, 40, "../../samples/Lorem/Lorem%zu.png", i);
         char text_path[40];
         snprintf(text_path, 40, "../../samples/Lorem/Lorem%zu.txt", i);
 
-        main_building(image_path, text_path);
+        main_building(image_path, text_path, matrix_database, char_database);
     }
+
+    fclose(matrix_database);
+    fclose(char_database);
 
     return 0;
 }
