@@ -23,5 +23,7 @@ char getCharacterFromFile(char* path, size_t characterIndex)
             alphaIndex++;
     }
 
+	fclose(input_file);
+
     return character;
 }
