@@ -84,8 +84,8 @@ int main(int argc, char **argv)
 {
 	if (argc == 1)
 	{
-		printf("%s\n",argv[0]);
-		pretty_print_xor(40, "NEURAL XOR");
+		printf("%s  ",argv[0]);
+		//pretty_print_xor(40, "NEURAL XOR");
 
 		//Seed for the random
 		srand(time(NULL));
@@ -126,19 +126,15 @@ int main(int argc, char **argv)
 		int size_b1[] = {nb_output_neurons,1};
 		double b1[size_b1[0] * size_b1[1]];
 
-		init_matrix_random(weight0, size_w0);
-		init_matrix_random(weight1, size_w1);
-		init_matrix_random(b0, size_b0);
-		init_matrix_random(b1, size_b1);
 
 		//Test neural Xor with the random value for the weight and biais
 		//-------------------------------------------------------------------------
-		printf("\nOutputs with random weights and biais...\n");
-		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
-				size_a0, size_a1, size_a2, size_b0, size_b1);
+		//printf("\nOutputs with random weights and biais...\n");
+		//print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
+		//		size_a0, size_a1, size_a2, size_b0, size_b1);
 
 
-		printf("\n\nBeginning learning process...\n");
+		//printf("\n\nBeginning learning process...\n");
 
 		//Init matrix for epoch
 		int s_d_b1[] = {nb_output_neurons, 1};
@@ -153,6 +149,13 @@ int main(int argc, char **argv)
 		int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
 		double d_w0[s_d_w0[0] * s_d_w0[1]];
 
+		
+
+
+		init_matrix_random(weight0, size_w0);
+		init_matrix_random(weight1, size_w1);
+		init_matrix_random(b0, size_b0);
+		init_matrix_random(b1, size_b1);
 		for (int k = 0; k < nb_epoch; k++)
 		{
 			//Reset the matrix to 0
@@ -194,6 +197,57 @@ int main(int argc, char **argv)
 		printf("\n\nAfter learning process...\n");
 		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, 
 				size_a0, size_a1, size_a2, size_b0, size_b1);
+
+		int work = 0;
+
+		a0[0] = 0.0;
+		a0[1] = 0.0;
+		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+				size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+		if (a2[0] < 0.5)
+		{
+			work += 1;
+		}
+
+
+		a0[0] = 1.0;
+		a0[1] = 0.0;
+		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+				size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+		if (a2[0] > 0.5)
+		{
+			work += 1;
+		}
+		
+
+		a0[0] = 0.0;
+		a0[1] = 1.0;
+		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+				size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+		if (a2[0] > 0.5)
+		{
+			work += 1;
+		}
+		
+
+		a0[0] = 1.0;
+		a0[1] = 1.0;
+		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+				size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+		if (a2[0] < 0.5)
+		{
+			work += 1;
+		}
+
+
+		if (work == 4)
+		{
+			printf("Sucess\n");
+		}
+		else
+		{
+			printf("Failed\n");
+		}
 	}
 
 
