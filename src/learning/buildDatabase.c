@@ -7,15 +7,12 @@
 #include "../matrix_tools.h"
 #include "parser.h"
 
-int main(int argc, char** argv)
+int main_building(char* image_path, char* text_path)
 {
-    if (argc != 3)
-        errx(1, "Error: You must specify the path of the image AND the path of the .txt file");
-
     // Image loading
     SDL_Surface *image_surface;
     init_sdl();
-    image_surface = load_image(argv[1]);
+    image_surface = load_image(image_path);
     size_t image_width = image_surface->w;
     size_t image_height = image_surface->h;
     save_image(image_surface, "tmp/original.bmp");
@@ -66,7 +63,7 @@ int main(int argc, char** argv)
             currentCharacterIndex += k; //counting this line
 
             // Filling 'character' attribute of this Character from the .txt file
-            lines[j].characters[k].character = getCharacterFromFile(argv[2], currentCharacterIndex);
+            lines[j].characters[k].character = getCharacterFromFile(text_path, currentCharacterIndex);
 
             // HERE THE NN ANALYSES lines[j].characters[k].matrix
             printf("%c", lines[j].characters[k].character);
@@ -90,6 +87,22 @@ int main(int argc, char** argv)
     free(lines); // calloc previously
 
     SDL_FreeSurface(image_surface);
+
+    return 0;
+}
+
+int main()
+{
+    for (size_t i = 0; i < 3; i++)
+    {
+        printf("\n------------- LOADING Lorem%zu.png... -----------------\n\n", i);
+        char image_path[40];
+        snprintf(image_path, 40, "../../samples/Lorem/Lorem%zu.png", i);
+        char text_path[40];
+        snprintf(text_path, 40, "../../samples/Lorem/Lorem%zu.txt", i);
+
+        main_building(image_path, text_path);
+    }
 
     return 0;
 }
