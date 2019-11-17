@@ -7,15 +7,12 @@
 #include "../matrix_tools.h"
 #include "parser.h"
 
-int main(int argc, char** argv)
+int main_building(char* image_path, char* text_path, FILE* matrix_database, FILE* char_database)
 {
-    if (argc != 3)
-        errx(1, "Error: You must specify the path of the image AND the path of the .txt file");
-
     // Image loading
     SDL_Surface *image_surface;
     init_sdl();
-    image_surface = load_image(argv[1]);
+    image_surface = load_image(image_path);
     size_t image_width = image_surface->w;
     size_t image_height = image_surface->h;
     save_image(image_surface, "tmp/original.bmp");
@@ -50,8 +47,7 @@ int main(int argc, char** argv)
     // save the image of the segmentation for the debugging (in the tmp folder)
     Save_Segmentation(image_surface, lines, nbLines);
 
-    // Character Recognition
-    printf("Recognized text :\n");
+    // Character association to the wantedCharacter and building the .ocr Database file
     for (size_t j = 0; j < nbLines; j++)
     {
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
@@ -65,31 +61,54 @@ int main(int argc, char** argv)
             }
             currentCharacterIndex += k; //counting this line
 
-            // Filling 'character' attribute of this Character from the .txt file
-            lines[j].characters[k].character = getCharacterFromFile(argv[2], currentCharacterIndex);
+            // Writing the corresponding character to the char_database
+            fputc(getCharacterFromFile(text_path, currentCharacterIndex), char_database);
+            fputc('\n', char_database); //newline char
 
-            // HERE THE NN ANALYSES lines[j].characters[k].matrix
-            printf("%c", lines[j].characters[k].character);
-            //printf("-");
-
-            // is there a space after this character ?
-            if (k + 1 < lines[j].nbCharacters &&
-                lines[j].characters[k + 1].startingPoint -
-                        lines[j].characters[k].endPoint >
-                    lines[j].averageSpace * 1.5)
+            //Writing the matrix in the matrix_database
+            for (size_t m = 0; m < MATRIX_SIZE * MATRIX_SIZE; m++)
             {
-                printf(" ");
+                char val;
+                val = lines[j].characters[k].matrix[m] == 1.0 ? '1' : '0';
+                fputc(val, matrix_database);
             }
+            fputc('\n', matrix_database); // newline char
 
             free(lines[j].characters[k].matrix); // calloc in matrix_tools.c
         }
-        printf("\n");
         free(lines[j].characters); // calloc previously
     }
 
     free(lines); // calloc previously
 
     SDL_FreeSurface(image_surface);
+
+    return 0;
+}
+
+int main()
+{
+    FILE *matrix_database;
+    FILE *char_database;
+    matrix_database = fopen("matrix_database.ocr", "w+");
+    char_database = fopen("character_database.ocr", "w+");
+
+    for (size_t i = 0; i < 35; i++)
+    {
+        if (i == 21)
+            continue;
+
+        printf("\n------------- LOADING Lorem%zu.png... -----------------\n\n", i);
+        char image_path[40];
+        snprintf(image_path, 40, "../../samples/Lorem/Lorem%zu.png", i);
+        char text_path[40];
+        snprintf(text_path, 40, "../../samples/Lorem/Lorem%zu.txt", i);
+
+        main_building(image_path, text_path, matrix_database, char_database);
+    }
+
+    fclose(matrix_database);
+    fclose(char_database);
 
     return 0;
 }

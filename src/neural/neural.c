@@ -6,6 +6,35 @@
 #include "print.h"
 #include "init.h"
 
+
+void init_a0(double *a0, int *size_a0, char *good_char, 
+		FILE *matrix_db, FILE *char_db)
+{
+	char charac[3];
+	fgets(charac, sizeof(charac), char_db);
+	*good_char = charac[0];
+	printf("charac[0] : %c\n\n", charac[0]);
+
+
+	char matrix[800]; //TODO : Find good size
+	fgets(matrix, sizeof(matrix), matrix_db);
+
+	int size = size_a0[0] * size_a0[1];
+	for (int i = 0; i < size; i++)
+	{
+		if (matrix[i] == '0')
+		{
+			a0[i] = 0.0;
+		}
+		else
+		{
+			a0[i] = 1.0;
+		}
+	}
+
+	//print_matrix_double(a0,size_a0);
+}
+
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
 		int *size_a0, int *size_a1, int *size_a2, int *size_b0, int *size_b1)

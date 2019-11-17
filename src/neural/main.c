@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdlib.h> //For atoi
+#include <err.h>
 #include "neural.h"
 #include "math_tools.h"
 #include "print.h"
@@ -13,22 +14,25 @@ int main(int argc, char **argv)
 	if (argc == 1)
 	{
 		printf("%s\n",argv[0]);
-		pretty_print_xor(40, "NEURAL XOR");
+		pretty_print_xor(40, "NEURAL");
 
 		//Seed for the random
 		srand(time(NULL));
 
 		//Choosing the number of input neurons
-		int nb_input_neurons = 2;
+		int nb_input_neurons = 28*28;
 
 		//Choosing the number of neurons in the hidden layer
-		int nb_hidden_layer_neurons = 20;
+		int nb_hidden_layer_neurons = 200;
 
 		//Choosing the number of output neurons
-		int nb_output_neurons = 1;
+		int nb_output_neurons = 67;
 
 		//Choosing the number of epoch
-		int nb_epoch = 1000000;
+		int nb_epoch = 10;
+
+		char path_matrix[] = "../learning/matrix_database.ocr";
+		char path_char[] = "../learning/character_database.ocr";
 
 
 		//Init all the weights, biais and activation point
@@ -59,12 +63,13 @@ int main(int argc, char **argv)
 		init_matrix_random(b0, size_b0);
 		init_matrix_random(b1, size_b1);
 
-		//Test neural Xor with the random value for the weight and biais
+		
+		/*//Test neural with the random value for the weight and biais
 		//-------------------------------------------------------------------------
 		printf("\nOutputs with random weights and biais...\n");
 		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
 				size_a0, size_a1, size_a2, size_b0, size_b1);
-
+*/
 
 		printf("\n\nBeginning learning process...\n");
 
@@ -81,6 +86,16 @@ int main(int argc, char **argv)
 		int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
 		double d_w0[s_d_w0[0] * s_d_w0[1]];
 
+
+		char good_char;
+
+		FILE *matrix_db;
+		matrix_db = fopen(path_matrix, "r");
+		
+		FILE *char_db;
+		char_db = fopen(path_char, "r");
+
+
 		for (int k = 0; k < nb_epoch; k++)
 		{
 			//Reset the matrix to 0
@@ -94,20 +109,19 @@ int main(int argc, char **argv)
 
 			//Start the learning phase
 			//----------------------------------------------------------------------
-			for (double i = 0; i < 2; i++)
+			for (int i = 0; i < 20; i++)
 			{
-				for (double j = 0; j < 2; j++)
-				{
-					a0[0] = i;
-					a0[1] = j;
+				init_a0(a0, size_a0, &good_char, matrix_db, char_db);
 
-					feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
-							size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+				//TODO : INIT a0 with coresponding matrix from file
 
-					backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
-							size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
-							s_d_b1, s_d_w1, s_d_b0, s_d_w0);
-				}
+				feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+						size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+
+				/*backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
+						size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
+						s_d_b1, s_d_w1, s_d_b0, s_d_w0);
+						*/
 			}
 
 			//End of epoch
@@ -116,6 +130,9 @@ int main(int argc, char **argv)
 			add_matrix(b0, d_b0, size_b0, s_d_b0);
 			add_matrix(weight0, d_w0, size_w0, s_d_w0);
 		}
+
+		fclose(matrix_db);
+		fclose(char_db);
 
 
 		//Print the output of the neural Xor after training
