@@ -81,7 +81,7 @@ int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 
 	return 0;
 }
-
+/*
 int main()                                                                      
 {
 	int a[2] = {3,3};
@@ -102,4 +102,4 @@ int main()
 	{
 		return 1;
 	}                                                                     
-}
+}*/
