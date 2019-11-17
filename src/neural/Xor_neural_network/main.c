@@ -198,7 +198,7 @@ int main(int argc, char **argv)
 
 
 
-	/*
+
 	if (argc == 4)
 	{
 		//Seed for the random
@@ -288,7 +288,6 @@ int main(int argc, char **argv)
 		printf("With %d neurons, %d epoch, on %d test => Number of error = %d/%d\n",
 				nb_hidden_layer_neurons, nb_epoch, nb_test, nb_error,nb_test*4);
 	}
-	*/
 	
 	/*if (argc != 1 && argc !=4)
 	{

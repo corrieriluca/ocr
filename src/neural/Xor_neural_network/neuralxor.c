@@ -96,8 +96,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double D2[size_a1[0] * size_a1[1]];
 	int size_D2[] = {size_a1[0], size_a1[1]};
 
-	double tmp2[size_w1[1] * size_w1[0]];
-	int s_tmp2[] = {size_w1[1], size_w1[0]};
+	double tmp2[size_a1[0] * size_a1[1]];
+	int s_tmp2[] = {size_a1[0], size_a1[1]};
 
 	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
 	int size_spo2[] = {size_a1[0], size_a1[1]};
