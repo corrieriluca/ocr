@@ -85,8 +85,6 @@ int main(int argc, char **argv)
 	int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
 	double d_w0[s_d_w0[0] * s_d_w0[1]];
 
-	
-
 
 	init_matrix_random(weight0, size_w0);
 	init_matrix_random(weight1, size_w1);
@@ -165,12 +163,12 @@ int main(int argc, char **argv)
 
 	if (work == 4)
 	{
-		printf("--------------------------------------------------------");
-		printf("IT WORKED---------------------------------------------\n");
+		printf("\033[0;34m---------------------------------------------------");
+		printf("IT WORKED-------------------------------------------\n\033[0m");
 	}
 	else
 	{
-		printf("########################################################");
-		printf("IT FAILED#############################################\n");
+		printf("\033[1;31m###################################################");
+		printf("IT FAILED###########################################\n\033[0m");
 	}
 }
