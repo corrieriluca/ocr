@@ -3,7 +3,7 @@
 #include <err.h>
 #include "../image_operations.h"
 #include "../preprocessing.h"
-#include "segmentation.h"
+#include "../segmentation.h"
 #include "../matrix_tools.h"
 #include "parser.h"
 

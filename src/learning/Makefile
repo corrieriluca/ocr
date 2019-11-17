@@ -6,7 +6,7 @@ CPPFLAGS = `pkg-config --cflags sdl` -MMD
 LDFLAGS =
 LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm
 
-SRC = buildDatabase.c ../image_operations.c segmentation.c ../preprocessing.c ../matrix_tools.c parser.c
+SRC = buildDatabase.c ../image_operations.c ../segmentation.c ../preprocessing.c ../matrix_tools.c parser.c
 
 all: learn
 
