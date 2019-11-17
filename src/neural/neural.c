@@ -14,7 +14,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	char charac[3];
 	fgets(charac, sizeof(charac), char_db);
 	*good_char = charac[0];
-	//printf("charac[0] : %c\n", charac[0]);
+	printf("'%c' ", charac[0]);
 
 
 	char matrix[800]; //TODO : Find good size
@@ -60,6 +60,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 {
 	int size_wanted_output[] = {size_a2[0], size_a2[1]};
 	double wanted_output[size_wanted_output[0] * size_wanted_output[1]];
+
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
 	//MAJ
@@ -73,7 +74,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	{
 		wanted_output[(*good_char % 26) + 26] = 1.0;
 	}
-
 
 
 	int size_error[] = {size_a2[0], size_a2[1]};
@@ -131,7 +131,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double D2[size_a1[0] * size_a1[1]];
 	int size_D2[] = {size_a1[0], size_a1[1]};
 
-	double tmp2[size_w1[1] * size_w1[0]];
+	double tmp2[size_a1[0] * size_a1[1]];
 	int s_tmp2[] = {size_a1[0], size_a1[1]};
 
 	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
