@@ -14,7 +14,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	char charac[3];
 	fgets(charac, sizeof(charac), char_db);
 	*good_char = charac[0];
-	printf("charac[0] : %c\n", charac[0]);
+	//printf("charac[0] : %c\n", charac[0]);
 
 
 	char matrix[800]; //TODO : Find good size
@@ -146,9 +146,9 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	apply_sigmoid_prime_to_matrix(a1, sigmoid_prime_output2, size_a1, size_spo2);
 
-	printf("size0 tmp 2 = %d || size1 tmp2 = %d\n", s_tmp2[0], s_tmp2[1]);
-	printf("size spo2[0] = %d||  size spo2[1] = %d\n", size_spo2[0], size_spo[1]);
-	printf("size D2[0] = %d||  size D2[1] = %d\n\n", size_D2[0], size_D2[1]);
+	//printf("size0 tmp 2 = %d || size1 tmp2 = %d\n", s_tmp2[0], s_tmp2[1]);
+	//printf("size spo2[0] = %d||  size spo2[1] = %d\n", size_spo2[0], size_spo[1]);
+	//printf("size D2[0] = %d||  size D2[1] = %d\n\n", size_D2[0], size_D2[1]);
 	hadamard_product(tmp2, sigmoid_prime_output2, D2, s_tmp2, size_spo2);
 
 	//-------------------------------------------------------------------------

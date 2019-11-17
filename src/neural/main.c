@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 		int nb_output_neurons = 67;
 
 		//Choosing the number of epoch
-		int nb_epoch = 1;
+		int nb_epoch = 1000;
 
 		char path_matrix[] = "../learning/matrix_database.ocr";
 		char path_char[] = "../learning/character_database.ocr";
@@ -106,6 +106,9 @@ int main(int argc, char **argv)
 
 		for (int k = 0; k < nb_epoch; k++)
 		{
+			printf("epoch %d/%d\n", k, nb_epoch);
+
+
 			//Reset the matrix to 0
 			init_matrix_with_0(d_b1, s_d_b1);
 			init_matrix_with_0(d_w1, s_d_w1);
@@ -142,8 +145,8 @@ int main(int argc, char **argv)
 
 		//Print the output of the neural Xor after training
 		printf("\n\nAfter learning process...\n");
-		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, 
-				size_a0, size_a1, size_a2, size_b0, size_b1);
+		/*print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, 
+				size_a0, size_a1, size_a2, size_b0, size_b1);*/
 	}
 
 
