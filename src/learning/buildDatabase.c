@@ -47,8 +47,7 @@ int main_building(char* image_path, char* text_path)
     // save the image of the segmentation for the debugging (in the tmp folder)
     Save_Segmentation(image_surface, lines, nbLines);
 
-    // Character Recognition
-    printf("Recognized text :\n");
+    // Character association to the wantedCharacter
     for (size_t j = 0; j < nbLines; j++)
     {
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
@@ -65,23 +64,14 @@ int main_building(char* image_path, char* text_path)
             // Filling 'character' attribute of this Character from the .txt file
             lines[j].characters[k].character = getCharacterFromFile(text_path, currentCharacterIndex);
 
-            // HERE THE NN ANALYSES lines[j].characters[k].matrix
-            printf("%c", lines[j].characters[k].character);
-            //printf("-");
-
-            // is there a space after this character ?
-            if (k + 1 < lines[j].nbCharacters &&
-                lines[j].characters[k + 1].startingPoint -
-                        lines[j].characters[k].endPoint >
-                    lines[j].averageSpace * 1.5)
-            {
-                printf(" ");
-            }
-
-            free(lines[j].characters[k].matrix); // calloc in matrix_tools.c
+            // free(lines[j].characters[k].matrix); // calloc in matrix_tools.c
         }
-        printf("\n");
-        free(lines[j].characters); // calloc previously
+        // free(lines[j].characters); // calloc previously
+    }
+
+    for (size_t m = 0; m < nbLines; m++)
+    {
+        // Call to NN
     }
 
     free(lines); // calloc previously
