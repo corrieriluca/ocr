@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "segmentation.h"
-#include "image_operations.h"
-#include "matrix_tools.h"
+#include "../image_operations.h"
+#include "../matrix_tools.h"
 
 /* ****************** LINE SEGMENTATION *********************** */
 
@@ -163,7 +163,7 @@ void Get_Characters(Line *line, size_t binarized_matrix[], size_t width)
         current->matrix = resize_matrix(extracted, charHeight, charWidth);
 
         // for debugging
-        print_matrix_double(current->matrix, MATRIX_SIZE, MATRIX_SIZE);
+        //print_matrix_double(current->matrix, MATRIX_SIZE, MATRIX_SIZE);
 
         free(extracted); // needed
     }

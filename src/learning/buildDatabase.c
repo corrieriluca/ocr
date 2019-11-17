@@ -3,13 +3,14 @@
 #include <err.h>
 #include "../image_operations.h"
 #include "../preprocessing.h"
-#include "../segmentation.h"
+#include "segmentation.h"
 #include "../matrix_tools.h"
+#include "parser.h"
 
 int main(int argc, char** argv)
 {
-    if (argc != 2)
-        errx(1, "Error: You must specify the path of the image");
+    if (argc != 3)
+        errx(1, "Error: You must specify the path of the image AND the path of the .txt file");
 
     // Image loading
     SDL_Surface *image_surface;
@@ -32,6 +33,8 @@ int main(int argc, char** argv)
                                 image_height, image_width);
     Debug_Lines(lines, nbLines);
 
+    size_t nbCharactersTotal = 0; //total number of characters
+
     // Get Characters per Line
     for (size_t i = 0; i < nbLines; i++)
     {
@@ -39,6 +42,7 @@ int main(int argc, char** argv)
         current->characters = calloc(MAX_CHARACTER_NUMBER, sizeof(Character));
         Get_Characters(current, binarized_matrix, image_width);
 
+        nbCharactersTotal += current->nbCharacters;
         printf("On line %zu : %zu characters found\n",
                i, current->nbCharacters);
     }
@@ -52,8 +56,21 @@ int main(int argc, char** argv)
     {
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
         {
+            //searching the index of this Character IN THE IMAGE
+            //sum of the nbcharacters of the previous lines
+            size_t currentCharacterIndex = 0;
+            for (size_t l = 0; l < j; l++)
+            {
+                currentCharacterIndex += lines[l].nbCharacters;
+            }
+            currentCharacterIndex += k; //counting this line
+
+            // Filling 'character' attribute of this Character from the .txt file
+            lines[j].characters[k].character = getCharacterFromFile(argv[2], currentCharacterIndex);
+
             // HERE THE NN ANALYSES lines[j].characters[k].matrix
-            printf("-");
+            printf("%c", lines[j].characters[k].character);
+            //printf("-");
 
             // is there a space after this character ?
             if (k + 1 < lines[j].nbCharacters &&
