@@ -194,9 +194,9 @@ int main(int argc, char **argv)
 
 
 		//Print the output of the neural Xor after training
-		printf("\n\nAfter learning process...\n");
-		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, 
-				size_a0, size_a1, size_a2, size_b0, size_b1);
+		//printf("\n\nAfter learning process...\n");
+		//print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, 
+		//		size_a0, size_a1, size_a2, size_b0, size_b1);
 
 		int work = 0;
 
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
 
 		if (work == 4)
 		{
-			printf("Sucess\n");
+			printf("IT WORKED!!!!!!!!\n");
 		}
 		else
 		{
@@ -252,7 +252,7 @@ int main(int argc, char **argv)
 
 
 
-
+/*
 	if (argc == 4)
 	{
 		//Seed for the random
@@ -342,7 +342,7 @@ int main(int argc, char **argv)
 		printf("With %d neurons, %d epoch, on %d test => Number of error = %d/%d\n",
 				nb_hidden_layer_neurons, nb_epoch, nb_test, nb_error,nb_test*4);
 	}
-	
+*/	
 	/*if (argc != 1 && argc !=4)
 	{
 		printf("\nmain: Usage: nb_neurons_hidden_layer nb_epoch nb_test\n");
