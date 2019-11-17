@@ -82,9 +82,9 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		int *size_w1, int *size_a0, int *size_a1, int *size_a2,
 		int *size_b0, int *size_b1)
 {
-	for (double i = 0; i < 2; i++)
+	for (double i = 0.0; i < 2.0; i += 1.0)
    {
-      for (double j = 0; j < 2; j++)
+      for (double j = 0.0; j < 2.0; j += 1.0)
       {
          a0[0] = i;
          a0[1] = j;
