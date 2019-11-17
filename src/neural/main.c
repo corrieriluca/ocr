@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdlib.h> //For atoi
-#include "neuralxor.h"
+#include "neural.h"
 #include "math_tools.h"
 #include "print.h"
 #include "init.h"

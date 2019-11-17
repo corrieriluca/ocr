@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "neuralxor.h"
+#include "neural.h"
 #include "math_tools.h"
 #include "print.h"
 #include "init.h"

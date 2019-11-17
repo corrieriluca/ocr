@@ -6,7 +6,7 @@ CPPFLAGS =
 LDFLAGS =
 LDLIBS = -lm
 
-SRC = $(shell find . -type f -name "*.c")
+SRC = *.c
 
 all: neural
 

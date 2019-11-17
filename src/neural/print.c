@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "neuralxor.h"
+#include "neural.h"
 
 
 void pretty_print_xor(size_t nb_char, char *str)
