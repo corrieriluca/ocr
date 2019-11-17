@@ -5,6 +5,7 @@
 #include "math_tools.h"
 #include "print.h"
 #include "init.h"
+#include "matrix_save.h"
 
 
 void init_a0(double *a0, int *size_a0, char *good_char, 
@@ -13,7 +14,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	char charac[3];
 	fgets(charac, sizeof(charac), char_db);
 	*good_char = charac[0];
-	printf("charac[0] : %c\n\n", charac[0]);
+	printf("charac[0] : %c\n", charac[0]);
 
 
 	char matrix[800]; //TODO : Find good size
@@ -55,35 +56,40 @@ void backpropagation(double *weight1, double *a0, double *a1,
 		double *a2, int *size_w0, int *size_w1, int *size_a0,
 		int *size_a1, int size_a2[], int *size_b0, int *size_b1,
 		double *d_b1, double *d_w1, double *d_b0, double *d_w0,
-		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0)
+		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0, char *good_char)
 {
-	double wanted_output[1];
-	//TODO : Need a way to convert a0[0] ^ a0[1]
-	if ((a0[0] == 0.0 && a0[1] == 0.0) || (a0[0] == 1.0 && a0[1] == 1.0))
+	int size_wanted_output[] = {size_a2[0], size_a2[1]};
+	double wanted_output[size_wanted_output[0] * size_wanted_output[1]];
+	init_matrix_with_0(wanted_output, size_wanted_output);
+
+	//MAJ
+	if (*good_char > 64 && *good_char < 91)
 	{
-		wanted_output[0] = 0.0;
+		wanted_output[(*good_char % 26)] = 1.0;
 	}
-	else
+
+	//MIN
+	if (*good_char > 96 && *good_char < 123)
 	{
-		wanted_output[0] = 1.0;
+		wanted_output[(*good_char % 26) + 26] = 1.0;
 	}
-	int size_wanted_output[] = {1,1};
 
 
-	double error[1];
-	int size_error[] = {1,1};
+
+	int size_error[] = {size_a2[0], size_a2[1]};
+	double error[size_error[0] * size_error[1]];
 
 	subtract_matrix(a2, wanted_output, error, size_a2, size_wanted_output);
 
 	// ------------------------------------------------------------------------
 
-	double sigmoid_prime_output[1];
-	int size_spo[] = {1,1};
+	int size_spo[] = {size_a2[0], size_a2[1]};
+	double sigmoid_prime_output[size_spo[0] * size_spo[1]];
 
 	apply_sigmoid_prime_to_matrix(a2, sigmoid_prime_output, size_a2, size_spo);
 
-	double D[1];
-	int size_D[] = {1,1};
+	int size_D[] = {size_a2[0], size_a2[1]};
+	double D[size_D[0] * size_D[1]];
 
 	hadamard_product(error, sigmoid_prime_output, D, size_error, size_spo);
 
@@ -126,7 +132,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	int size_D2[] = {size_a1[0], size_a1[1]};
 
 	double tmp2[size_w1[1] * size_w1[0]];
-	int s_tmp2[] = {size_w1[1], size_w1[0]};
+	int s_tmp2[] = {size_a1[0], size_a1[1]};
 
 	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
 	int size_spo2[] = {size_a1[0], size_a1[1]};
@@ -140,6 +146,9 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	apply_sigmoid_prime_to_matrix(a1, sigmoid_prime_output2, size_a1, size_spo2);
 
+	printf("size0 tmp 2 = %d || size1 tmp2 = %d\n", s_tmp2[0], s_tmp2[1]);
+	printf("size spo2[0] = %d||  size spo2[1] = %d\n", size_spo2[0], size_spo[1]);
+	printf("size D2[0] = %d||  size D2[1] = %d\n\n", size_D2[0], size_D2[1]);
 	hadamard_product(tmp2, sigmoid_prime_output2, D2, s_tmp2, size_spo2);
 
 	//-------------------------------------------------------------------------

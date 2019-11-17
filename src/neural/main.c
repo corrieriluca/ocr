@@ -7,6 +7,7 @@
 #include "math_tools.h"
 #include "print.h"
 #include "init.h"
+#include "matrix_save.h"
 
 
 int main(int argc, char **argv)
@@ -29,7 +30,7 @@ int main(int argc, char **argv)
 		int nb_output_neurons = 67;
 
 		//Choosing the number of epoch
-		int nb_epoch = 10;
+		int nb_epoch = 1;
 
 		char path_matrix[] = "../learning/matrix_database.ocr";
 		char path_char[] = "../learning/character_database.ocr";
@@ -70,6 +71,8 @@ int main(int argc, char **argv)
 		print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
 				size_a0, size_a1, size_a2, size_b0, size_b1);
 */
+		mat_to_file(size_w0, size_w1, size_b0, size_b1, 
+				weight0, weight1, b0, b1, "test.ocr")
 
 		printf("\n\nBeginning learning process...\n");
 
@@ -100,11 +103,8 @@ int main(int argc, char **argv)
 		{
 			//Reset the matrix to 0
 			init_matrix_with_0(d_b1, s_d_b1);
-
 			init_matrix_with_0(d_w1, s_d_w1);
-
 			init_matrix_with_0(d_b0, s_d_b0);
-
 			init_matrix_with_0(d_w0, s_d_w0);
 
 			//Start the learning phase
@@ -113,15 +113,13 @@ int main(int argc, char **argv)
 			{
 				init_a0(a0, size_a0, &good_char, matrix_db, char_db);
 
-				//TODO : INIT a0 with coresponding matrix from file
 
 				feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 						size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
-				/*backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
+				backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
 						size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
-						s_d_b1, s_d_w1, s_d_b0, s_d_w0);
-						*/
+						s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char);
 			}
 
 			//End of epoch

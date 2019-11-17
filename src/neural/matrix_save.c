@@ -1,23 +1,23 @@
-#include "stdio.h"
-#include "err.h"
+#include <stdio.h>
+#include <err.h>
 
 int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[], 
 	double mat6[], double mat7[], double mat8[], char filename[])
 {
 	FILE * f; //f = flux used to write our file
 
-	f = fopen(filename, "w");
+	f = fopen(filename, "w+");
 
 	if (f != NULL)
 	{
 		int m1 = mat1[1];
-		for(int i = 0; i < mat1[0]; i++)
+		for (int i = 0; i < mat1[0]; i++)
 		{
 			for(int j = 0; j < m1; j++)
 			{
-				if(j == m1-1)
+				if(j == m1 - 1)
 				{
-					fprintf(f, "%f\n", mat5[i*m1+j]);
+					fprintf(f, "%f\n", mat5[i * m1 + j]);
 				}
 				else
 				{
@@ -25,6 +25,8 @@ int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 				}
 			}
 		}
+
+
 		int m2 = mat2[1];
 		for(int i = 0; i < mat2[0]; i++)
 		{
@@ -40,6 +42,8 @@ int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 				}
 			}
 		}
+
+
 		int m3 = mat3[1];
 		for(int i = 0; i < mat3[0]; i++)
 		{
@@ -72,6 +76,7 @@ int mat_to_file(int mat1[], int mat2[], int mat3[], int mat4[], double mat5[],
 				}
 			}                                                       
 		}		
+
 		fclose(f);
 	}
 	else
