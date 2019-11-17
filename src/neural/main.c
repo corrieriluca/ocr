@@ -98,6 +98,11 @@ int main(int argc, char **argv)
 		FILE *char_db;
 		char_db = fopen(path_char, "r");
 
+		if (matrix_db == NULL || char_db == NULL)
+		{
+			errx(1, "Could not acces database");
+		}
+
 
 		for (int k = 0; k < nb_epoch; k++)
 		{
@@ -132,6 +137,8 @@ int main(int argc, char **argv)
 		fclose(matrix_db);
 		fclose(char_db);
 
+		mat_to_file(size_w0, size_w1, size_b0, size_b1,
+				weight0, weight1, b0, b1, "test2.ocr");
 
 		//Print the output of the neural Xor after training
 		printf("\n\nAfter learning process...\n");
