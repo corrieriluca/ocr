@@ -8,78 +8,6 @@
 #include "init.h"
 
 
-void mini_batch(double d_b1[], double d_w1[], double d_b0[], double d_w0[],
-		int s_d_b1[], int s_d_w1[], int s_d_b0[], int s_d_w0[],
-		double weight0[], double weight1[], double a0[], double a1[], double a2[],
-		double b0[], double b1[], int size_w0[], int size_w1[], 
-		int size_a0[], int size_a1[], int size_a2[], int size_b0[], int size_b1[])
-{
-	//Reset the matrix to 0
-	init_matrix_with_0(d_b1, s_d_b1);
-	init_matrix_with_0(d_w1, s_d_w1);
-	init_matrix_with_0(d_b0, s_d_b0);
-	init_matrix_with_0(d_w0, s_d_w0);
-
-	//Start epoch
-	//----------------------------------------------------------------------
-	for (double i = 0; i < 2; i++)
-	{
-		for (double j = 0; j < 2; j++)
-		{
-			a0[0] = i;
-			a0[1] = j;
-
-			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
-					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
-
-			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
-					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
-					s_d_b1, s_d_w1, s_d_b0, s_d_w0);
-		}
-	}
-}
-
-int is_working(double *weight0, double *weight1, double *a0, double *a1,
-		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
-      int *size_a0, int *size_a1, int *size_a2, int *size_b0, int *size_b1)
-{
-	int is_working_output = 0;
-
-	for (double i = 0; i < 2; i++)
-	{
-		for (double j = 0; j < 2; j++)
-		{
-			a0[0] = i;
-			a0[1] = j;
-
-			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
-					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
-			
-			int input1;
-			int input2;
-			int output;
-
-			input1 = a0[0];
-			input2 = a0[1];
-			if (a2[0] >= 0.5)
-			{
-				output = 1;
-			}
-			else
-			{
-				output = 0;
-			}
-
-			if (output != (input1 ^ input2))
-			{
-				is_working_output++;
-			}
-		}
-	}
-
-	return is_working_output;
-}
-
 int main(int argc, char **argv)
 {
 	if (argc == 1)
@@ -296,3 +224,79 @@ int main(int argc, char **argv)
 	}*/
 
 }
+
+
+
+
+/*void mini_batch(double d_b1[], double d_w1[], double d_b0[], double d_w0[],
+		int s_d_b1[], int s_d_w1[], int s_d_b0[], int s_d_w0[],
+		double weight0[], double weight1[], double a0[], double a1[], double a2[],
+		double b0[], double b1[], int size_w0[], int size_w1[], 
+		int size_a0[], int size_a1[], int size_a2[], int size_b0[], int size_b1[])
+{
+	//Reset the matrix to 0
+	init_matrix_with_0(d_b1, s_d_b1);
+	init_matrix_with_0(d_w1, s_d_w1);
+	init_matrix_with_0(d_b0, s_d_b0);
+	init_matrix_with_0(d_w0, s_d_w0);
+
+	//Start epoch
+	//----------------------------------------------------------------------
+	for (double i = 0; i < 2; i++)
+	{
+		for (double j = 0; j < 2; j++)
+		{
+			a0[0] = i;
+			a0[1] = j;
+
+			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+
+			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
+					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
+					s_d_b1, s_d_w1, s_d_b0, s_d_w0);
+		}
+	}
+}*/
+
+/*int is_working(double *weight0, double *weight1, double *a0, double *a1,
+		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
+      int *size_a0, int *size_a1, int *size_a2, int *size_b0, int *size_b1)
+{
+	int is_working_output = 0;
+
+	for (double i = 0; i < 2; i++)
+	{
+		for (double j = 0; j < 2; j++)
+		{
+			a0[0] = i;
+			a0[1] = j;
+
+			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
+					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+			
+			int input1;
+			int input2;
+			int output;
+
+			input1 = a0[0];
+			input2 = a0[1];
+			if (a2[0] >= 0.5)
+			{
+				output = 1;
+			}
+			else
+			{
+				output = 0;
+			}
+
+			if (output != (input1 ^ input2))
+			{
+				is_working_output++;
+			}
+		}
+	}
+
+	return is_working_output;
+}*/
+
