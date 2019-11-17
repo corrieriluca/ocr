@@ -1,28 +1,20 @@
-/*
-   ___            _ _
-  / __\___   __ _(_) |_ ___
- / /  / _ \ / _` | | __/ _ \
-/ /__| (_) | (_| | | || (_) |
-\____/\___/ \__, |_|\__\___/
-            |___/
-
-A SIMPLE OPTICAL CHARACTER RECOGNITION
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
-#include "image_operations.h"
-#include "matrix_tools.h"
-#include "preprocessing.h"
-#include "segmentation.h"
+#include "../image_operations.h"
+#include "../preprocessing.h"
+#include "../segmentation.h"
+#include "../matrix_tools.h"
 
-int ocr_main(char* image_path)
+int main(int argc, char** argv)
 {
+    if (argc != 2)
+        errx(1, "Error: You must specify the path of the image");
+
     // Image loading
     SDL_Surface *image_surface;
     init_sdl();
-    image_surface = load_image(image_path);
+    image_surface = load_image(argv[1]);
     size_t image_width = image_surface->w;
     size_t image_height = image_surface->h;
     save_image(image_surface, "tmp/original.bmp");
@@ -48,7 +40,7 @@ int ocr_main(char* image_path)
         Get_Characters(current, binarized_matrix, image_width);
 
         printf("On line %zu : %zu characters found\n",
-                    i, current->nbCharacters);
+               i, current->nbCharacters);
     }
 
     // save the image of the segmentation for the debugging (in the tmp folder)
@@ -65,8 +57,8 @@ int ocr_main(char* image_path)
 
             // is there a space after this character ?
             if (k + 1 < lines[j].nbCharacters &&
-                    lines[j].characters[k + 1].startingPoint -
-                    lines[j].characters[k].endPoint >
+                lines[j].characters[k + 1].startingPoint -
+                        lines[j].characters[k].endPoint >
                     lines[j].averageSpace * 1.5)
             {
                 printf(" ");
@@ -83,12 +75,4 @@ int ocr_main(char* image_path)
     SDL_FreeSurface(image_surface);
 
     return 0;
-}
-
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-        errx(1, "Error: You must specify the path of the image");
-
-    return ocr_main(argv[1]);
 }
