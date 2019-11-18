@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "neural.h"
+#include "math_tools.h"
+#include <err.h>
 
 
 void pretty_print_xor(size_t nb_char, char *str)
@@ -82,15 +84,69 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		int *size_w1, int *size_a0, int *size_a1, int *size_a2,
 		int *size_b0, int *size_b1)
 {
-	for (double i = 0; i < 2; i++)
-   {
-      for (double j = 0; j < 2; j++)
-      {
-         a0[0] = i;
-         a0[1] = j;
-         feedforward(weight0, weight1, a0, a1, a2, b0, b1,
-               size_w0, size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
-         printf("Inputs: %lf %lf -> %lf\n", a0[0], a0[1], a2[0]);
-      }
-   }
+	//Path to database                                                            
+	char path_matrix_test[] = "../learning/matrix_database_test.ocr";                       
+	char path_char_test[] = "../learning/character_database_test.ocr";
+
+
+	FILE *matrix_db_test;                                                         
+	matrix_db_test = fopen(path_matrix_test, "r");                                
+	                                                                              
+	FILE *char_db_test;                                                           
+	char_db_test = fopen(path_char_test, "r");                                    
+                                                                                
+	if (matrix_db_test == NULL || char_db_test == NULL)                           
+	{                                                                             
+		errx(1, "Could not acces database_test");                                   
+	}                                                                             
+
+	for (int i = 0; i < 10; i++)
+	{
+		char charac[3];
+		fgets(charac, sizeof(charac), char_db_test);
+		char good_char = charac[0];
+
+		char matrix[800]; //TODO : Find good size
+		fgets(matrix, sizeof(matrix), matrix_db_test);
+
+		int size = size_a0[0] * size_a0[1];
+		for (int i = 0; i < size; i++)
+		{
+			if (matrix[i] == '0')
+			{
+				a0[i] = 0.0;
+			}
+			else
+			{
+				a0[i] = 1.0;
+			}
+		}
+
+		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, size_a0, 
+			size_a1, size_a2, size_b0, size_b1);                    
+
+
+		char return_char = '*';
+
+		if (a2[index_max_matrix(a2, size_a2)] > 0 && 
+				a2[index_max_matrix(a2, size_a2)] < 26)
+		{
+			return_char = index_max_matrix(a2, size_a2) + 65;
+		}
+		if (a2[index_max_matrix(a2, size_a2)] > 25 && 
+				a2[index_max_matrix(a2, size_a2)] < 51)
+		{
+			return_char = index_max_matrix(a2, size_a2) + 97 - 26;
+		}
+		if (a2[index_max_matrix(a2, size_a2)] > 50)
+		{
+			return_char = '^';
+		}
+
+		printf("Given letter : %c || output letter %c\n", good_char, return_char);
+	}
+
+
+	fclose(matrix_db_test);                                                       
+	fclose(char_db_test);              
 }

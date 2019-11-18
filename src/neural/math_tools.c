@@ -3,6 +3,19 @@
 #include <math.h>
 #include <time.h>
 
+int index_max_matrix(double mat[], int size[])
+{
+	int max = 0;
+	for (int i = 0; i < size[0] * size[1] - 1; i++)
+	{
+		if (mat[max] < mat[i])
+		{
+			max = i;
+		}
+	}
+
+	return max;
+}
 
 void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[])

@@ -71,9 +71,16 @@ int main(int argc, char **argv)
 	//init_matrix_random(b0, size_b0);
 	//init_matrix_random(b1, size_b1);
 
-	
+
+	//###########################################################
+	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, 
+			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+
+
 	//TODO : Test the neural with randow init
 	//TODO : Update print feedforward for neural
+
+	//#########################################################################
 
 
 	//TODO : Verify that mat_to_file work
@@ -157,4 +164,11 @@ int main(int argc, char **argv)
 	//Print the output of the neural Xor after training
 	printf("\n\nAfter learning process...\n");
 	//TODO : Check it the network work
+	//
+	//
+	//
+	
+	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, 
+			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+
 }
