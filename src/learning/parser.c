@@ -11,7 +11,7 @@ char getCharacterFromFile(char* path, size_t characterIndex)
 
     if (input_file == 0)
     {
-        errx(1, "Cannot open the .txt file");
+        errx(1, "Cannot open the .txt file fir char");
     }
 
     char character = fgetc(input_file);

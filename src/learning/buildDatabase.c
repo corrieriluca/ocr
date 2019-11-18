@@ -110,5 +110,21 @@ int main()
     fclose(matrix_database);
     fclose(char_database);
 
+    FILE *matrix_database_test;
+    FILE *char_database_test;
+    matrix_database_test = fopen("matrix_database_test.ocr", "w+");
+    char_database_test = fopen("character_database_test.ocr", "w+");
+
+		printf("\n------------- LOADING Lorem_test.png... -----------------\n\n");
+		char image_path[40];
+		snprintf(image_path, 40, "../../samples/Lorem_test.png");
+		char text_path[40];
+		snprintf(text_path, 40, "../../samples/Lorem_test.txt");
+
+		main_building(image_path, text_path, matrix_database_test, char_database_test);
+
+    fclose(matrix_database_test);
+    fclose(char_database_test);
+
     return 0;
 }
