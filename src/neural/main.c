@@ -66,8 +66,10 @@ int main(int argc, char **argv)
 
 	init_matrix_random(weight0, size_w0);
 	init_matrix_random(weight1, size_w1);
-	init_matrix_random(b0, size_b0);
-	init_matrix_random(b1, size_b1);
+	init_matrix_with_0(b0, size_b0);
+	init_matrix_with_0(b1, size_b1);
+	//init_matrix_random(b0, size_b0);
+	//init_matrix_random(b1, size_b1);
 
 	
 	//TODO : Test the neural with randow init
