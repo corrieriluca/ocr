@@ -51,6 +51,7 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
+            <property name="stock">gtk-missing-image</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
