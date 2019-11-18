@@ -88,8 +88,14 @@ int main(int argc, char **argv)
 
 	init_matrix_random(weight0, size_w0);
 	init_matrix_random(weight1, size_w1);
-	init_matrix_random(b0, size_b0);
-	init_matrix_random(b1, size_b1);
+	init_matrix_with_0(b0, size_b0);
+	init_matrix_with_0(b1, size_b1);
+	
+	//Before weight and bais were init with random
+	//init_matrix_random(b0, size_b0);
+	//init_matrix_random(b1, size_b1);
+	
+
 	for (int k = 0; k < nb_epoch; k++)
 	{
 		//Reset the matrix to 0
