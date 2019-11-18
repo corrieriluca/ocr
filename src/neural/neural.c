@@ -14,7 +14,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	char charac[3];
 	fgets(charac, sizeof(charac), char_db);
 	*good_char = charac[0];
-	printf("'%c' ", charac[0]);
+	//printf("'%c' ", charac[0]);
 
 
 	char matrix[800]; //TODO : Find good size

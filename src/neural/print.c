@@ -102,6 +102,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 
 	for (int i = 0; i < 10; i++)
 	{
+		printf("--------------------");
 		char charac[3];
 		fgets(charac, sizeof(charac), char_db_test);
 		char good_char = charac[0];
@@ -143,7 +144,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 			return_char = '^';
 		}
 
-		printf("Given letter : %c || output letter %c\n", good_char, return_char);
+		printf("Given letter : %c || output letter %c || index a2 max : %d\n", good_char, return_char, index_max_matrix(a2,size_a2));
 	}
 
 

@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 
 	for (int k = 0; k < nb_epoch; k++)
 	{
-		printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
+		//printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
 
 
 		//Reset the matrix to 0
@@ -171,4 +171,5 @@ int main(int argc, char **argv)
 	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, 
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
+	print_matrix_double(a2, size_a2);
 }
