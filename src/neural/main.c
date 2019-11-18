@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 	}                                                                           
 	else                                                                        
 	{                                                                           
-		nb_hidden_layer_neurons = 200;                                           
+		nb_hidden_layer_neurons = 350;                                           
 		nb_epoch = 3112;                                                      
 	}
 
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 	mat_to_file(size_w0, size_w1, size_b0, size_b1,
 			weight0, weight1, b0, b1, "test.ocr");
 
-	printf("\n\nBeginning learning process...\n");
+	printf("\nBeginning learning process...\n");
 
 	//Init matrix for epoch
 	int s_d_b1[] = {nb_output_neurons, 1};
@@ -93,7 +93,6 @@ int main(int argc, char **argv)
 	int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
 	double d_w0[s_d_w0[0] * s_d_w0[1]];
 
-	printf("\n\nBeginning learning process...\n");
 
 	//Path to database
 	char path_matrix[] = "../learning/matrix_database.ocr";
@@ -107,7 +106,6 @@ int main(int argc, char **argv)
 	
 	FILE *char_db;
 	char_db = fopen(path_char, "r");
-	printf("\n\nBeginning learning process...\n");
 
 	if (matrix_db == NULL || char_db == NULL)
 	{
