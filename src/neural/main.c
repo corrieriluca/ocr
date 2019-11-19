@@ -9,7 +9,6 @@
 #include "init.h"
 #include "matrix_save.h"
 
-
 int main(int argc, char **argv)
 {
 	printf("%s\n",argv[0]);

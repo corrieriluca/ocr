@@ -129,22 +129,10 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 
 		char return_char = '*';
 
-		if (a2[index_max_matrix(a2, size_a2)] > 0 && 
-				a2[index_max_matrix(a2, size_a2)] < 26)
-		{
-			return_char = index_max_matrix(a2, size_a2) + 65;
-		}
-		if (a2[index_max_matrix(a2, size_a2)] > 25 && 
-				a2[index_max_matrix(a2, size_a2)] < 51)
-		{
-			return_char = index_max_matrix(a2, size_a2) + 97 - 26;
-		}
-		if (a2[index_max_matrix(a2, size_a2)] > 50)
-		{
-			return_char = '^';
-		}
+		return_char = find_index_letter2(a2, size_a2);
 
-		printf("Given letter : %c || output letter %c || index a2 max : %d\n", good_char, return_char, index_max_matrix(a2,size_a2));
+		printf("Given letter : %c || output letter %c || index a2 max : %d\n", 
+				good_char, return_char, index_max_matrix(a2,size_a2));
 	}
 
 

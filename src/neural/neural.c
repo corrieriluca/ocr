@@ -36,6 +36,62 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	//print_matrix_double(a0,size_a0);
 }
 
+
+char find_index_letter(double *output_a2, int *size)
+{
+	char letters[] = 
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
+	int good_index = 0;
+	for (int i = 0; i < size[0] * size[1]; i++)
+	{
+		if (output_a2[i] > output_a2[good_index])
+		{
+			good_index = output_a2[i];
+		}
+	}
+
+	return letters[good_index];
+}
+
+
+
+char find_index_letter2(double *output_a2, int *size)
+{
+	char letters[] = 
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
+	int pos_max = 0;
+	for (int i = 0; i < (size[0] * size[1]); i++)
+	{
+		if (output_a2[pos_max] < output_a2[i])
+		{
+			pos_max = i;
+		}
+	}
+
+	return letters[pos_max];
+	//
+}
+
+
+
+void wanted_letter(double *mat, int *size, char *letter)
+{
+	char letters[] = 
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
+
+	int i = 0;
+	int is_found = 0;
+	while ((i < (size[0] * size[1])) && (!is_found))
+	{
+		if (*letter == letters[i])
+		{
+			mat[i] = 1.0;
+			is_found = 1;
+		}
+		i++;
+	}
+}
+
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
 		int *size_a0, int *size_a1, int *size_a2, int *size_b0, int *size_b1)
@@ -63,18 +119,9 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
-	//MAJ
-	if (*good_char > 64 && *good_char < 91)
-	{
-		wanted_output[(*good_char % 26)] = 1.0;
-	}
-
-	//MIN
-	if (*good_char > 96 && *good_char < 123)
-	{
-		wanted_output[(*good_char % 26) + 26] = 1.0;
-	}
-
+	
+	//#############################################################
+	wanted_letter(wanted_output, size_wanted_output, good_char);
 
 	int size_error[] = {size_a2[0], size_a2[1]};
 	double error[size_error[0] * size_error[1]];

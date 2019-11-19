@@ -5,16 +5,16 @@
 
 int index_max_matrix(double mat[], int size[])
 {
-	int max = 0;
-	for (int i = 0; i < size[0] * size[1] - 1; i++)
+	int index_max = 0;
+	for (int i = 0; i < (size[0] * size[1]); i++)
 	{
-		if (mat[max] < mat[i])
+		if (mat[index_max] < mat[i])
 		{
-			max = i;
+			index_max = i;
 		}
 	}
 
-	return max;
+	return index_max;
 }
 
 void transpose_matrix(double mat1[], double mat1_t[],
