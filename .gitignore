@@ -61,3 +61,4 @@ dkms.conf
 .DS_Store
 *test.c
 *.ocr
+*~
