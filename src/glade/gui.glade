@@ -37,12 +37,19 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
     <property name="can_focus">False</property>
     <property name="icon_name">system-run</property>
   </object>
+  <object class="GtkFileFilter" id="filter_image">
+    <patterns>
+      <pattern>*.png</pattern>
+      <pattern>*.bmp</pattern>
+      <pattern>*.jpeg</pattern>
+      <pattern>*jpg</pattern>
+    </patterns>
+  </object>
   <object class="GtkWindow" id="window_main_menu">
     <property name="width_request">700</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Cogito OCR</property>
-    <property name="window_position">center-always</property>
     <property name="default_width">700</property>
     <property name="default_height">500</property>
     <signal name="destroy" handler="on_window_main_menu_destroy" swapped="no"/>
@@ -213,10 +220,15 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
           </packing>
         </child>
         <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="window_main_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Select an image with the button below</property>
+            <property name="margin_left">100</property>
+            <property name="margin_right">100</property>
+            <property name="margin_top">40</property>
+            <property name="margin_bottom">40</property>
+            <property name="label" translatable="yes">Please select an image to convert to text</property>
+            <property name="justify">center</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -228,6 +240,10 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
           <object class="GtkFileChooserButton" id="fcb_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">250</property>
+            <property name="margin_right">250</property>
+            <property name="margin_bottom">15</property>
+            <property name="filter">filter_image</property>
             <property name="title" translatable="yes">Choose an image</property>
             <signal name="file-set" handler="on_fcb_image_file_set" swapped="no"/>
           </object>
@@ -238,7 +254,17 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="stock">gtk-missing-image</property>
+            <property name="icon_size">5</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_convert">
@@ -246,6 +272,10 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="margin_left">250</property>
+            <property name="margin_right">250</property>
+            <property name="margin_top">15</property>
+            <property name="margin_bottom">15</property>
             <property name="image">convert_btn_icon</property>
             <property name="always_show_image">True</property>
             <signal name="clicked" handler="on_btn_convert_clicked" swapped="no"/>
@@ -258,14 +288,6 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkFileFilter" id="filter_image">
-    <mime-types>
-      <mime-type>.bmp</mime-type>
-      <mime-type>.jpg</mime-type>
-      <mime-type>.png</mime-type>
-      <mime-type>.jpeg</mime-type>
-    </mime-types>
   </object>
   <object class="GtkWindow" id="window_start">
     <property name="width_request">500</property>
