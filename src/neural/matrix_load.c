@@ -53,8 +53,8 @@ int file_to_mat(int mat1[], int mat2[], int mat3[], int mat4[],
 				{
 					errx(1, "fscanf failed");
 				}
-			}                                                       
-                }		
+			}
+                }
 		fclose(f);
 	}
 	else
@@ -66,37 +66,37 @@ int file_to_mat(int mat1[], int mat2[], int mat3[], int mat4[],
 }
 
 /*
-void print_matrix_double(double matrix[], int size[])                           
-{                                                                               
-  int width = size[1];                                                          
-  int height = size[0];                                                         
-                                                                                
-  printf("*");                                                                  
-  for (int i = 0; i < width; i++)                                               
-  {                                                                             
-    printf("-");                                                                
-  }                                                                             
-   printf("*\n");                                                               
-                                                                                
-   for (int j = 0; j < height; j++)                                             
-   {                                                                            
-   printf("|");                                                                 
-   for (int k = 0; k < width; k++)                                              
-   {                                                                            
-       printf("%f ", matrix[k + j * width]);                                    
-    }                                                                           
-    printf("|\n");                                                              
-  }                                                                             
-                                                                                
-  printf("*");                                                                  
-  for (int l = 0; l < width; l++)                                               
-  {                                                                             
-    printf("-");                                                                
-  }                                                                             
-  printf("*\n");                                                                
+void print_matrix_double(double matrix[], int size[])
+{
+  int width = size[1];
+  int height = size[0];
+
+  printf("*");
+  for (int i = 0; i < width; i++)
+  {
+    printf("-");
+  }
+   printf("*\n");
+
+   for (int j = 0; j < height; j++)
+   {
+   printf("|");
+   for (int k = 0; k < width; k++)
+   {
+       printf("%f ", matrix[k + j * width]);
+    }
+    printf("|\n");
+  }
+
+  printf("*");
+  for (int l = 0; l < width; l++)
+  {
+    printf("-");
+  }
+  printf("*\n");
 }
 
-int main()                                                                      
+int main()
 {
 	int a[2] = {3,3};
 	int b[2] = {2,3};
@@ -119,6 +119,6 @@ int main()
 	else
 	{
 		return 1;
-	}                                                                     
+	}
 }
 */

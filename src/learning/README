@@ -1,11 +1,13 @@
-Program for training the Neural Network.
+Program for building the database of characters in order to train the Neural Network.
 
 There is a folder for each font.
+There are about 65k characters in the 30 Lorem ipsum samples at the root of the
+repository.
 
-To train the NN with samples : `make && ./learn.out <folder_name>/`
-Do not forget to add a '/' after the folder name. Otherwise the program will
-raise an error.
+The file `learning_old.c` is not used anymore.
 
-When you're done : `make clean`
+To build the database of characters : `make all && ./build.out`
 
-Further instructions explaining where are saved the weights will be added later.
+When you're done : `make clean` (this will also) remove the database (*.ocr files)
+
+Further instructions on training and explaining where are saved the weights will be added later.

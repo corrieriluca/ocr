@@ -28,10 +28,10 @@ void launch_gui(int argc, char *argv[])
     g_window_main_label = GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
 
     gtk_builder_connect_signals(builder, NULL);
-    
+
     g_object_unref(builder);
 
-    gtk_widget_show(window);                
+    gtk_widget_show(window);
     gtk_main();
 }
 

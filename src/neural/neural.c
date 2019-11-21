@@ -8,7 +8,7 @@
 #include "matrix_save.h"
 
 
-void init_a0(double *a0, int *size_a0, char *good_char, 
+void init_a0(double *a0, int *size_a0, char *good_char,
 		FILE *matrix_db, FILE *char_db)
 {
 	char charac[3];
@@ -39,7 +39,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 
 char find_index_letter(double *output_a2, int *size)
 {
-	char letters[] = 
+	char letters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
 	int good_index = 0;
 	for (int i = 0; i < size[0] * size[1]; i++)
@@ -57,7 +57,7 @@ char find_index_letter(double *output_a2, int *size)
 
 char find_index_letter2(double *output_a2, int *size)
 {
-	char letters[] = 
+	char letters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
 	int pos_max = 0;
 	for (int i = 0; i < (size[0] * size[1]); i++)
@@ -76,7 +76,7 @@ char find_index_letter2(double *output_a2, int *size)
 
 void wanted_letter(double *mat, int *size, char *letter)
 {
-	char letters[] = 
+	char letters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
 
 	int i = 0;
@@ -119,7 +119,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
-	
+
 	//#############################################################
 	wanted_letter(wanted_output, size_wanted_output, good_char);
 

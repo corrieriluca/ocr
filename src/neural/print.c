@@ -84,21 +84,21 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		int *size_w1, int *size_a0, int *size_a1, int *size_a2,
 		int *size_b0, int *size_b1)
 {
-	//Path to database                                                            
-	char path_matrix_test[] = "../learning/matrix_database_test.ocr";                       
+	//Path to database
+	char path_matrix_test[] = "../learning/matrix_database_test.ocr";
 	char path_char_test[] = "../learning/character_database_test.ocr";
 
 
-	FILE *matrix_db_test;                                                         
-	matrix_db_test = fopen(path_matrix_test, "r");                                
-	                                                                              
-	FILE *char_db_test;                                                           
-	char_db_test = fopen(path_char_test, "r");                                    
-                                                                                
-	if (matrix_db_test == NULL || char_db_test == NULL)                           
-	{                                                                             
-		errx(1, "Could not acces database_test");                                   
-	}                                                                             
+	FILE *matrix_db_test;
+	matrix_db_test = fopen(path_matrix_test, "r");
+
+	FILE *char_db_test;
+	char_db_test = fopen(path_char_test, "r");
+
+	if (matrix_db_test == NULL || char_db_test == NULL)
+	{
+		errx(1, "Could not acces database_test");
+	}
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -123,19 +123,19 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 			}
 		}
 
-		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, size_a0, 
-			size_a1, size_a2, size_b0, size_b1);                    
+		feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, size_a0,
+			size_a1, size_a2, size_b0, size_b1);
 
 
 		char return_char = '*';
 
 		return_char = find_index_letter2(a2, size_a2);
 
-		printf("Given letter : %c || output letter %c || index a2 max : %d\n", 
+		printf("Given letter : %c || output letter %c || index a2 max : %d\n",
 				good_char, return_char, index_max_matrix(a2,size_a2));
 	}
 
 
-	fclose(matrix_db_test);                                                       
-	fclose(char_db_test);              
+	fclose(matrix_db_test);
+	fclose(char_db_test);
 }

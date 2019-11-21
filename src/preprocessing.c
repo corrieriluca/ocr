@@ -76,7 +76,7 @@ size_t otsu(SDL_Surface *image_surface, size_t h, size_t w)
    		float mF = (sum - sumB) / ForeG;
 
    		// Calculate Between Class Variance
-   		float var_inter = 
+   		float var_inter =
 			(float)BackG * (float)ForeG * (mB - mF) * (mB -mF);
 
    		// Check if new maximum found

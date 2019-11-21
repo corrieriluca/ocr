@@ -1,7 +1,7 @@
 #ifndef NEURAL_H
 #define NEURAL_H
 
-void init_a0(double *a0, int *size_a0, char *good_char, FILE *matrix_db, 
+void init_a0(double *a0, int *size_a0, char *good_char, FILE *matrix_db,
 		FILE *char_db);
 
 char find_index_letter(double *output_a2, int *size);

@@ -1,4 +1,4 @@
-# Makefile Learning process
+# Makefile Database building
 
 CC = gcc
 CFLAGS = -W -Wall -Wextra -std=c99 -Werror -O3
@@ -8,17 +8,17 @@ LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm
 
 SRC = buildDatabase.c ../image_operations.c ../segmentation.c ../preprocessing.c ../matrix_tools.c parser.c
 
-all: learn
+all: build
 
-learn: $(SRC)
+build: $(SRC)
 	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
 	mkdir -p tmp
 
 .PHONY: clean
 
 clean:
-	${RM} learn.out
-	${RM} learn.d
+	${RM} build.out
+	${RM} build.d
 	rm -r tmp/
 	rm *.ocr
 

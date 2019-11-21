@@ -23,21 +23,21 @@ int main(int argc, char **argv)
 	//Choosing the number of output neurons
 	int nb_output_neurons = 67;
 
-	//Choosing the number of neurons in the hidden layer                        
-	int nb_hidden_layer_neurons;                                                
-																		  
-	//Choosing the number of epoch                                              
-	int nb_epoch;                                                               
-																		 
-	if (argc == 3)                                                              
-	{                                                                           
-		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);                        
-		sscanf(argv[2], "%d", &nb_epoch);                                       
-	}                                                                           
-	else                                                                        
-	{                                                                           
-		nb_hidden_layer_neurons = 350;                                           
-		nb_epoch = 3112;                                                      
+	//Choosing the number of neurons in the hidden layer
+	int nb_hidden_layer_neurons;
+
+	//Choosing the number of epoch
+	int nb_epoch;
+
+	if (argc == 3)
+	{
+		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);
+		sscanf(argv[2], "%d", &nb_epoch);
+	}
+	else
+	{
+		nb_hidden_layer_neurons = 350;
+		nb_epoch = 3112;
 	}
 
 	//Init all the weights, biais and activation point
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
 
 	//###########################################################
-	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, 
+	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
 
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
 	FILE *matrix_db;
 	matrix_db = fopen(path_matrix, "r");
-	
+
 	FILE *char_db;
 	char_db = fopen(path_char, "r");
 
@@ -159,15 +159,15 @@ int main(int argc, char **argv)
 	mat_to_file(size_w0, size_w1, size_b0, size_b1,
 			weight0, weight1, b0, b1, "test2.ocr");
 
-	
+
 	//Print the output of the neural Xor after training
 	printf("\n\nAfter learning process...\n");
 	//TODO : Check it the network work
 	//
 	//
 	//
-	
-	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, 
+
+	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
 	print_matrix_double(a2, size_a2);
