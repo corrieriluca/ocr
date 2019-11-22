@@ -19,13 +19,18 @@ void launch_gui(int argc, char *argv[])
 
     builder = gtk_builder_new_from_file("src/glade/gui.glade");
 
-    window = GTK_WIDGET(gtk_builder_get_object(builder, "window_start"));
-    window_main = GTK_WIDGET(gtk_builder_get_object(builder, "window_main_menu"));
+    window = 
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_start"));
+    window_main = 
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_main_menu"));
 
     // file chooser button in window_main_menu
-    g_fcb_image = GTK_WIDGET(gtk_builder_get_object(builder, "fcb_image"));
+    g_fcb_image = 
+        GTK_WIDGET(gtk_builder_get_object(builder, "fcb_image"));
+    
     // label just above the file chooser button
-    g_window_main_label = GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
+    g_window_main_label = 
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
 
     gtk_builder_connect_signals(builder, NULL);
 
@@ -84,19 +89,20 @@ void on_fcb_image_file_set()
     currentImage = filename;
 }
 
-// called when the convert button is clicked (calls the main function of the OCR)
+// called when the convert button is clicked (calls main function of the OCR)
 void on_btn_convert_clicked()
 {
-    printf("\nGTK Debug : on_btn_convert_clicked called !\n");
     if (currentImage)
     {
         printf("GTK Debug : current image for convert is %s\n", currentImage);
-        gtk_label_set_text(GTK_LABEL(g_window_main_label), "Converting image in text...");
+        gtk_label_set_text(GTK_LABEL(g_window_main_label),
+                                        "Converting image in text...");
     }
     else
     {
         printf("GTK Debug : ERROR no image selected !!\n");
-        gtk_label_set_text(GTK_LABEL(g_window_main_label), "ERROR : no file is selected");
+        gtk_label_set_text(GTK_LABEL(g_window_main_label),
+                                        "ERROR : no file is selected");
     }
 }
 
@@ -106,9 +112,45 @@ void on_btn_convert_clicked()
 
 void on_menubar_btn_load_activate()
 {
-    // TODO
-    // something similar to on_fcb_image_file_set() but with a dialog window
-    printf("\nGTK Debug : on_menubar_btn_load_activate() called\n");
+    GtkWidget *dialog;
+    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+    gint res;
+
+    dialog = gtk_file_chooser_dialog_new("Choose an image",
+                                            GTK_WINDOW(window_main),
+                                            action,
+                                            "Cancel",
+                                            GTK_RESPONSE_CANCEL,
+                                            "Open",
+                                            GTK_RESPONSE_ACCEPT,
+                                            NULL);
+
+    // configuring the file filter
+    GtkFileFilter *filter = gtk_file_filter_new();
+    gtk_file_filter_add_pattern(filter, "*.png");
+    gtk_file_filter_add_pattern(filter, "*.bmp");
+    gtk_file_filter_add_pattern(filter, "*.jpg");
+    gtk_file_filter_add_pattern(filter, "*.jpeg");
+    gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
+
+    res = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (res == GTK_RESPONSE_ACCEPT)
+    {
+        char *filename;
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+        filename = gtk_file_chooser_get_filename(chooser);
+        GFile *file = gtk_file_chooser_get_file(chooser);
+
+        // setting the file of the FileChooserButton to the file selected with
+        // this alternative method for coherence
+        GtkFileChooser *chooserButton = GTK_FILE_CHOOSER(g_fcb_image);
+        gtk_file_chooser_set_file(chooserButton, file, NULL);
+
+        printf("\nGTK Debug : file selected is %s\n", filename);
+        currentImage = filename;
+    }
+
+    gtk_widget_destroy(dialog);
 }
 
 void on_menubar_btn_save_activate()
