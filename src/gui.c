@@ -35,6 +35,28 @@ void launch_gui(int argc, char *argv[])
     gtk_main();
 }
 
+// called when the user quits the app from the
+// - start window
+// - the main window (menu bar)
+// - the main window (quit button) NOT IMPLEMENTED
+void on_btn_quit_clicked()
+{
+    gtk_main_quit();
+}
+
+// ****************************************************************************
+// ***************************** START WINDOW *********************************
+// ****************************************************************************
+
+// the "start" button is clicked
+void on_btn_start_app_clicked()
+{
+    open_main_win = 1;
+    gtk_widget_destroy(window);
+    gtk_widget_show(window_main);
+}
+
+
 // called when starting window is closed
 void on_window_start_destroy()
 {
@@ -42,27 +64,14 @@ void on_window_start_destroy()
     	gtk_main_quit();
 }
 
+// ****************************************************************************
+// ***************************** MAIN WINDOW **********************************
+// ****************************************************************************
+
 // called when main window is closed
 void on_window_main_menu_destroy()
 {
 	gtk_main_quit();
-}
-
-// the "start" button is clicked
-void on_btn_start_app_clicked()
-{
-	open_main_win = 1;
-	gtk_widget_destroy(window);
-	gtk_widget_show(window_main);
-}
-
-// called when the user quits the app from the
-// - start window
-// - the main window (menu bar)
-// - the main window (quit button)
-void on_btn_quit_clicked()
-{
-    gtk_main_quit();
 }
 
 // called when a file is selected with the file chooser button
@@ -73,7 +82,6 @@ void on_fcb_image_file_set()
     filename = gtk_file_chooser_get_filename(chooser);
     printf("\nGTK Debug : file selected is %s\n", filename);
     currentImage = filename;
-    g_free(filename);
 }
 
 // called when the convert button is clicked (calls the main function of the OCR)
@@ -90,4 +98,30 @@ void on_btn_convert_clicked()
         printf("GTK Debug : ERROR no image selected !!\n");
         gtk_label_set_text(GTK_LABEL(g_window_main_label), "ERROR : no file is selected");
     }
+}
+
+// ****************************************************************************
+// ***************************** MENU BAR *************************************
+// ****************************************************************************
+
+void on_menubar_btn_load_activate()
+{
+    // TODO
+    // something similar to on_fcb_image_file_set() but with a dialog window
+    printf("\nGTK Debug : on_menubar_btn_load_activate() called\n");
+}
+
+void on_menubar_btn_save_activate()
+{
+    // TODO
+    // save the text
+    printf("\nGTK Debug : on_menubar_btn_save_activate() called\n");
+}
+
+void on_menubar_btn_about_activate()
+{
+    // TODO
+    // show an 'about' window
+    printf("\nGTK Debug : on_menubar_btn_about_activate() called\n");
+
 }
