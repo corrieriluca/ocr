@@ -23,23 +23,6 @@ int main(int argc, char **argv)
 	//Choosing the number of output neurons
 	int nb_output_neurons = 67;
 
-<<<<<<< HEAD
-	//Choosing the number of neurons in the hidden layer                        
-	int nb_hidden_layer_neurons;                                                
-																		  
-	//Choosing the number of epoch                                              
-	int nb_epoch;                                                               
-																		 
-	if (argc == 3)                                                              
-	{                                                                           
-		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);                        
-		sscanf(argv[2], "%d", &nb_epoch);                                       
-	}                                                                           
-	else                                                                        
-	{                                                                           
-		nb_hidden_layer_neurons =  350;
-		nb_epoch = 500;
-=======
 	//Choosing the number of neurons in the hidden layer
 	int nb_hidden_layer_neurons;
 
@@ -55,7 +38,6 @@ int main(int argc, char **argv)
 	{
 		nb_hidden_layer_neurons = 350;
 		nb_epoch = 3112;
->>>>>>> aa5b0298bf639da209042c1cdacaa5e5e7b90a71
 	}
 
 	//Init all the weights, biais and activation point
@@ -95,7 +77,6 @@ int main(int argc, char **argv)
 
 
 	//TODO : Test the neural with randow init
-	//TODO : Update print feedforward for neural
 
 	//#########################################################################
 
@@ -181,8 +162,6 @@ int main(int argc, char **argv)
 	//Print the output of the neural Xor after training
 	printf("\n\nAfter learning process...\n");
 	//TODO : Check it the network work
-	//
-	//
 	//
 
 	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
