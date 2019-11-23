@@ -42,17 +42,6 @@ char find_index_letter(double *output_a2, int *size)
 	char letters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
 	int index_max = 0;
-
-<<<<<<< HEAD
-=======
-
-
-char find_index_letter2(double *output_a2, int *size)
-{
-	char letters[] =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
-	int pos_max = 0;
->>>>>>> aa5b0298bf639da209042c1cdacaa5e5e7b90a71
 	for (int i = 0; i < (size[0] * size[1]); i++)
 	{
 		if (output_a2[index_max] < output_a2[i])

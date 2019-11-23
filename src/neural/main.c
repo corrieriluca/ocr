@@ -39,6 +39,8 @@ int main(int argc, char **argv)
 		nb_hidden_layer_neurons = 350;
 		nb_epoch = 3112;
 	}
+	int a = 0;
+	printf("Breakpoint : %d", a);
 
 	//Init all the weights, biais and activation point
 	//-------------------------------------------------------------------------
