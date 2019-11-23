@@ -1,7 +1,8 @@
 #include <gtk/gtk.h>
 
-GtkWidget *window;
+GtkWidget *window_start;
 GtkWidget *window_main;
+GtkWidget *window_about;
 
 GtkWidget *g_fcb_image;
 GtkWidget *g_window_main_label;
@@ -19,24 +20,26 @@ void launch_gui(int argc, char *argv[])
 
     builder = gtk_builder_new_from_file("src/glade/gui.glade");
 
-    window = 
+    window_start =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_start"));
-    window_main = 
+    window_main =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main_menu"));
+    window_about =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
 
     // file chooser button in window_main_menu
-    g_fcb_image = 
+    g_fcb_image =
         GTK_WIDGET(gtk_builder_get_object(builder, "fcb_image"));
-    
+
     // label just above the file chooser button
-    g_window_main_label = 
+    g_window_main_label =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
 
     gtk_builder_connect_signals(builder, NULL);
 
     g_object_unref(builder);
 
-    gtk_widget_show(window);
+    gtk_widget_show(window_start);
     gtk_main();
 }
 
@@ -57,7 +60,7 @@ void on_btn_quit_clicked()
 void on_btn_start_app_clicked()
 {
     open_main_win = 1;
-    gtk_widget_destroy(window);
+    gtk_widget_destroy(window_start);
     gtk_widget_show(window_main);
 }
 
@@ -73,10 +76,19 @@ void on_window_start_destroy()
 // ***************************** MAIN WINDOW **********************************
 // ****************************************************************************
 
-// called when main window is closed
+// called when main window is closed and on_menubar_btn_load_activate()
 void on_window_main_menu_destroy()
 {
 	gtk_main_quit();
+}
+
+// Called in on_fcb_image_file_set() and on_menubar_btn_load_activate()
+// Displays the loaded image on main_image_view
+void show_loaded_image()
+{
+    // TODO
+    // shows the loaded image
+    printf("\nGUI Debug : show_loaded_image() called\n");
 }
 
 // called when a file is selected with the file chooser button
@@ -87,6 +99,7 @@ void on_fcb_image_file_set()
     filename = gtk_file_chooser_get_filename(chooser);
     printf("\nGTK Debug : file selected is %s\n", filename);
     currentImage = filename;
+    show_loaded_image();
 }
 
 // called when the convert button is clicked (calls main function of the OCR)
@@ -148,6 +161,7 @@ void on_menubar_btn_load_activate()
 
         printf("\nGTK Debug : file selected is %s\n", filename);
         currentImage = filename;
+        show_loaded_image();
     }
 
     gtk_widget_destroy(dialog);
@@ -160,10 +174,14 @@ void on_menubar_btn_save_activate()
     printf("\nGTK Debug : on_menubar_btn_save_activate() called\n");
 }
 
+// Shows an about dialog window (import it from the glade file each time)
 void on_menubar_btn_about_activate()
 {
-    // TODO
-    // show an 'about' window
     printf("\nGTK Debug : on_menubar_btn_about_activate() called\n");
+    GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
+    GtkWidget *window_about =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
+    gtk_widget_show(window_about);
+    g_object_unref(builder);
 
 }

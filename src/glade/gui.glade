@@ -179,7 +179,7 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
           </packing>
         </child>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="main_image_view">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="stock">gtk-missing-image</property>
@@ -210,6 +210,55 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
             <property name="fill">True</property>
             <property name="position">4</property>
           </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAboutDialog" id="window_about">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">About this software</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">dialog</property>
+    <property name="program_name">Cogito OCR</property>
+    <property name="version">v1.0</property>
+    <property name="copyright" translatable="yes">Made as part of a school project at EPITA, Paris, France.</property>
+    <property name="comments" translatable="yes">A simple OCR software</property>
+    <property name="website">https://github.com/corrieriluca/ocr</property>
+    <property name="website_label" translatable="yes">GitHub</property>
+    <property name="authors">Alexis Boissière
+Alexis Boyadjian
+Valentin Cambazard
+Luca Corrieri</property>
+    <property name="logo">cogito-logo.png</property>
+    <property name="license_type">mit-x11</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>
