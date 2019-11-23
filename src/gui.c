@@ -6,6 +6,9 @@ GtkWidget *window_about;
 
 GtkWidget *g_fcb_image;
 GtkWidget *g_window_main_label;
+GtkWidget *g_image_viewport;
+GtkImage *g_main_image_preview;
+GdkPixbuf *pixbuf;
 
 // the current image selected (default is NULL)
 char *currentImage;
@@ -23,7 +26,7 @@ void launch_gui(int argc, char *argv[])
     window_start =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_start"));
     window_main =
-        GTK_WIDGET(gtk_builder_get_object(builder, "window_main_menu"));
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
     window_about =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
 
@@ -34,6 +37,11 @@ void launch_gui(int argc, char *argv[])
     // label just above the file chooser button
     g_window_main_label =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
+
+    g_main_image_preview =
+        GTK_IMAGE(gtk_builder_get_object(builder, "main_image_preview"));
+    g_image_viewport =
+        GTK_WIDGET(gtk_builder_get_object(builder, "image_viewport"));
 
     gtk_builder_connect_signals(builder, NULL);
 
@@ -76,19 +84,55 @@ void on_window_start_destroy()
 // ***************************** MAIN WINDOW **********************************
 // ****************************************************************************
 
-// called when main window is closed and on_menubar_btn_load_activate()
+// called when main window is closed
 void on_window_main_menu_destroy()
 {
 	gtk_main_quit();
 }
 
+// Called when the main window need to be resized
+// (manually or by show_loaded_image)
+// It applies a best fit zoom to the image preview
+void on_window_main_menu_size_allocate()
+{
+    // if no image is loaded
+    if (!pixbuf)
+        return;
+
+    GtkAllocation allocation;
+    gtk_widget_get_allocation(g_image_viewport, &allocation);
+    int wanted_width = allocation.width;
+    int wanted_height = allocation.height;
+    float viewport_ratio = (float) wanted_height / wanted_width;
+    float image_ratio = (float) gdk_pixbuf_get_height(pixbuf) /
+        gdk_pixbuf_get_width(pixbuf);
+
+    if (viewport_ratio > image_ratio)
+    {
+        wanted_width -= 4;
+        wanted_height = (int)(wanted_width * image_ratio);
+    }
+    else
+    {
+        wanted_height -= 4;
+        wanted_width = (int)(wanted_height / image_ratio);
+    }
+    gtk_image_set_from_pixbuf(g_main_image_preview,
+                                gdk_pixbuf_scale_simple(
+                                    pixbuf,
+                                    wanted_width, wanted_height,
+                                    GDK_INTERP_BILINEAR));
+
+    gtk_widget_queue_resize(window_main);
+}
+
 // Called in on_fcb_image_file_set() and on_menubar_btn_load_activate()
-// Displays the loaded image on main_image_view
+// Displays the loaded image on main_image_preview
 void show_loaded_image()
 {
-    // TODO
-    // shows the loaded image
-    printf("\nGUI Debug : show_loaded_image() called\n");
+    pixbuf = gdk_pixbuf_new_from_file(currentImage, NULL);
+    gtk_image_set_from_pixbuf(g_main_image_preview, pixbuf);
+    on_window_main_menu_size_allocate();
 }
 
 // called when a file is selected with the file chooser button
@@ -167,6 +211,7 @@ void on_menubar_btn_load_activate()
     gtk_widget_destroy(dialog);
 }
 
+// Called when the save button is clicked in the menubar
 void on_menubar_btn_save_activate()
 {
     // TODO
