@@ -20,7 +20,7 @@ int index_max_matrix(double mat[], int size[])
 void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[])
 {
-	if (size_mat1[0] != size_mat1_t[1] ||size_mat1[1] != size_mat1_t[0])
+	if ((size_mat1[0] != size_mat1_t[1]) || (size_mat1[1] != size_mat1_t[0]))
 	{
 		printf("transpose_matrix: ");
 		printf("Can't transpose matrix with those dimension\n");

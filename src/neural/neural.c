@@ -41,35 +41,17 @@ char find_index_letter(double *output_a2, int *size)
 {
 	char letters[] = 
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
-	int good_index = 0;
-	for (int i = 0; i < size[0] * size[1]; i++)
-	{
-		if (output_a2[i] > output_a2[good_index])
-		{
-			good_index = output_a2[i];
-		}
-	}
+	int index_max = 0;
 
-	return letters[good_index];
-}
-
-
-
-char find_index_letter2(double *output_a2, int *size)
-{
-	char letters[] = 
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
-	int pos_max = 0;
 	for (int i = 0; i < (size[0] * size[1]); i++)
 	{
-		if (output_a2[pos_max] < output_a2[i])
+		if (output_a2[index_max] < output_a2[i])
 		{
-			pos_max = i;
+			index_max = i;
 		}
 	}
 
-	return letters[pos_max];
-	//
+	return letters[index_max];
 }
 
 

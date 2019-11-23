@@ -36,8 +36,8 @@ int main(int argc, char **argv)
 	}                                                                           
 	else                                                                        
 	{                                                                           
-		nb_hidden_layer_neurons = 350;                                           
-		nb_epoch = 3112;                                                      
+		nb_hidden_layer_neurons =  350;
+		nb_epoch = 500;
 	}
 
 	//Init all the weights, biais and activation point

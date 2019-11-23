@@ -129,7 +129,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 
 		char return_char = '*';
 
-		return_char = find_index_letter2(a2, size_a2);
+		return_char = find_index_letter(a2, size_a2);
 
 		printf("Given letter : %c || output letter %c || index a2 max : %d\n", 
 				good_char, return_char, index_max_matrix(a2,size_a2));

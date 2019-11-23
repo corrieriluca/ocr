@@ -6,8 +6,6 @@ void init_a0(double *a0, int *size_a0, char *good_char, FILE *matrix_db,
 
 char find_index_letter(double *output_a2, int *size);
 
-char find_index_letter2(double *output_a2, int *size);
-
 void wanted_letter(double *mat, int *size, char *letter);
 
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
