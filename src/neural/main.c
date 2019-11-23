@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 
 		//Start the learning phase
 		//----------------------------------------------------------------------
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			init_a0(a0, size_a0, &good_char, matrix_db, char_db);
 
