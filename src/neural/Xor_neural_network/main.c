@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
 	//Choosing the number of neurons in the hidden layer
 	int nb_hidden_layer_neurons;
-	
+
 	//Choosing the number of epoch
 	int nb_epoch;
 
@@ -90,11 +90,11 @@ int main(int argc, char **argv)
 	init_matrix_random(weight1, size_w1);
 	init_matrix_with_0(b0, size_b0);
 	init_matrix_with_0(b1, size_b1);
-	
+
 	//Before weight and bais were init with random
 	//init_matrix_random(b0, size_b0);
 	//init_matrix_random(b1, size_b1);
-	
+
 
 	for (int k = 0; k < nb_epoch; k++)
 	{
@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 
 	//Print the output of the neural Xor after training
 	printf("After learning process...\n");
-	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, 
+	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
 			size_a0, size_a1, size_a2, size_b0, size_b1);
 
 
