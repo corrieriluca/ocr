@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 
 	//Choosing the number of input neurons
-	int nb_input_neurons = 28*28;
+	int nb_input_neurons = 16*16;
 
 	//Choosing the number of output neurons
 	int nb_output_neurons = 67;
@@ -36,7 +36,8 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		nb_hidden_layer_neurons = 350;
+		//nb_hidden_layer_neurons = 350; #Used for input matrix 28 *28
+		nb_hidden_layer_neurons = 1001;
 		nb_epoch = 3112;
 	}
 
@@ -119,12 +120,9 @@ int main(int argc, char **argv)
 		errx(1, "Could not acces database");
 	}
 
-	int a = 0;
-	printf("Breakpoint : %d\n", a);
-	a++;
 	for (int k = 0; k < nb_epoch; k++)
 	{
-		//printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
+		printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
 
 
 		//Reset the matrix to 0
@@ -143,13 +141,9 @@ int main(int argc, char **argv)
 			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
-	printf("Breakpoint : %d\n", a);
-	a++;
 			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
 					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
 					s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char);
-	printf("Breakpoint : %d\n", a);
-	a++;
 		}
 
 		//End of epoch

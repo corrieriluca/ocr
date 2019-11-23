@@ -3,7 +3,7 @@
 
 #define MAX_LINE_NUMBER 100 // for the memory allocation
 #define MAX_CHARACTER_NUMBER 100 // for the memory allocation
-#define MATRIX_SIZE 28 // size of square matrix for input in the NN
+#define MATRIX_SIZE 16 // size of square matrix for input in the NN
 
 #include "image_operations.h"
 

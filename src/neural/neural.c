@@ -14,7 +14,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	char charac[3];
 	fgets(charac, sizeof(charac), char_db);
 	*good_char = charac[0];
-	//printf("'%c' ", charac[0]);
+	printf("'%c' ", charac[0]);
 
 
 	char matrix[800]; //TODO : Find good size
@@ -181,45 +181,29 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	//-------------------------------------------------------------------------
 	//Hidden layer to input
 	//-------------------------------------------------------------------------
-	int a = 0;
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 
 	double tmp3[size_D2[0] * size_D2[1]];
 	int s_tmp3[] = {size_D2[0], size_D2[1]};
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	double a0_t[size_a0[0] * size_a0[1]];
 	int size_a0_t[] = {size_a0[1], size_a0[0]};
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	double delta_b0[size_b0[0] * size_b0[1]];
 	int size_delta_b0[] = {size_b0[0], size_b0[1]};
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
+	//Segfault with following line #########################################
 	double delta_w0[size_w0[0] * size_w0[1]];
 	int size_delta_w0[] = {size_w0[0], size_w0[1]};
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	//Transpose the matrix of a0
 	transpose_matrix(a0, a0_t, size_a0, size_a0_t);
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	//Calculate -nu * D2
 	multiply_matrix_by_constant(D2, nu, tmp3, size_D2, s_tmp3);
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	//Update Delta B0
 	add_matrix(delta_b0, tmp3, size_delta_b0, s_tmp3);
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	//Update Delta W0
 	multiply_matrix(tmp3, a0_t, delta_w0, s_tmp3, size_a0_t);
 
@@ -227,8 +211,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	//End of backpropagation
 	//-------------------------------------------------------------------------
 
-    printf("Backpro_breakpoint : %d\n", a);
-    a++;
 	add_matrix(d_b1, delta_b1, s_d_b1, size_delta_b1);
 	add_matrix(d_w1, delta_w1, s_d_w1, size_delta_w1);
 	add_matrix(d_b0, delta_b0, s_d_b0, size_delta_b0);
