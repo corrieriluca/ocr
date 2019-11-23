@@ -100,7 +100,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		errx(1, "Could not acces database_test");
 	}
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		printf("--------------------");
 		char charac[3];
