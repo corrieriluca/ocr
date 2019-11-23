@@ -100,7 +100,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
-
 	//#############################################################
 	wanted_letter(wanted_output, size_wanted_output, good_char);
 
@@ -178,32 +177,49 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	//printf("size spo2[0] = %d||  size spo2[1] = %d\n", size_spo2[0], size_spo[1]);
 	//printf("size D2[0] = %d||  size D2[1] = %d\n\n", size_D2[0], size_D2[1]);
 	hadamard_product(tmp2, sigmoid_prime_output2, D2, s_tmp2, size_spo2);
-
+	
 	//-------------------------------------------------------------------------
 	//Hidden layer to input
 	//-------------------------------------------------------------------------
+	int a = 0;
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 
 	double tmp3[size_D2[0] * size_D2[1]];
 	int s_tmp3[] = {size_D2[0], size_D2[1]};
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	double a0_t[size_a0[0] * size_a0[1]];
 	int size_a0_t[] = {size_a0[1], size_a0[0]};
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	double delta_b0[size_b0[0] * size_b0[1]];
 	int size_delta_b0[] = {size_b0[0], size_b0[1]};
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	double delta_w0[size_w0[0] * size_w0[1]];
 	int size_delta_w0[] = {size_w0[0], size_w0[1]};
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	//Transpose the matrix of a0
 	transpose_matrix(a0, a0_t, size_a0, size_a0_t);
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	//Calculate -nu * D2
 	multiply_matrix_by_constant(D2, nu, tmp3, size_D2, s_tmp3);
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	//Update Delta B0
 	add_matrix(delta_b0, tmp3, size_delta_b0, s_tmp3);
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	//Update Delta W0
 	multiply_matrix(tmp3, a0_t, delta_w0, s_tmp3, size_a0_t);
 
@@ -211,6 +227,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	//End of backpropagation
 	//-------------------------------------------------------------------------
 
+    printf("Backpro_breakpoint : %d\n", a);
+    a++;
 	add_matrix(d_b1, delta_b1, s_d_b1, size_delta_b1);
 	add_matrix(d_w1, delta_w1, s_d_w1, size_delta_w1);
 	add_matrix(d_b0, delta_b0, s_d_b0, size_delta_b0);

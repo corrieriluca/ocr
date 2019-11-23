@@ -39,8 +39,6 @@ int main(int argc, char **argv)
 		nb_hidden_layer_neurons = 350;
 		nb_epoch = 3112;
 	}
-	int a = 0;
-	printf("Breakpoint : %d", a);
 
 	//Init all the weights, biais and activation point
 	//-------------------------------------------------------------------------
@@ -121,6 +119,9 @@ int main(int argc, char **argv)
 		errx(1, "Could not acces database");
 	}
 
+	int a = 0;
+	printf("Breakpoint : %d\n", a);
+	a++;
 	for (int k = 0; k < nb_epoch; k++)
 	{
 		//printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
@@ -134,7 +135,7 @@ int main(int argc, char **argv)
 
 		//Start the learning phase
 		//----------------------------------------------------------------------
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 1; i++)
 		{
 			init_a0(a0, size_a0, &good_char, matrix_db, char_db);
 
@@ -142,9 +143,13 @@ int main(int argc, char **argv)
 			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
+	printf("Breakpoint : %d\n", a);
+	a++;
 			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
 					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
 					s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char);
+	printf("Breakpoint : %d\n", a);
+	a++;
 		}
 
 		//End of epoch
