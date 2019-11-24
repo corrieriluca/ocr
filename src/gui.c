@@ -396,5 +396,8 @@ void on_btn_copy_clicked()
 
     text = gtk_text_buffer_get_text (txt_buff, &start, &end, FALSE);
 
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
+			text, strlen(text));
+	gtk_clipboard_store(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD));
     printf("\nGTK Debug : copy \"%s\" \n", text);
 }
