@@ -28,7 +28,7 @@ clean:
 	${RM} ocr.out
 	${RM} ocr.d
 	${RM} gui.out # temp
-	rm -r tmp
+	if [ -d tmp ]; then rm -r tmp; fi
 
 -include ${DEP}
 
