@@ -222,11 +222,15 @@ void on_menubar_btn_save_activate()
 // Shows an about dialog window (import it from the glade file each time)
 void on_menubar_btn_about_activate()
 {
-    printf("\nGTK Debug : on_menubar_btn_about_activate() called\n");
     GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
     GtkWidget *window_about =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
+    gtk_builder_connect_signals(builder, NULL);
     gtk_widget_show(window_about);
     g_object_unref(builder);
+}
 
+void on_window_about_response(GtkDialog *dialog)
+{
+    gtk_widget_destroy(GTK_WIDGET(dialog));
 }
