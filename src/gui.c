@@ -398,8 +398,21 @@ void on_btn_copy_clicked()
 // called in on_btn_save_result_clicked() for saving the result in a .txt file
 void save_result(char *path)
 {
-    // TODO
     printf("\nGTK Debug : saving result at %s\n", path);
+
+    GtkTextIter start, end;
+    gchar *text;
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+
+    gtk_text_buffer_get_bounds(txt_buff, &start, &end);
+
+    text = gtk_text_buffer_get_text(txt_buff, &start, &end, FALSE);
+
+    FILE *fs;
+    fs = fopen(path, "w");
+    fprintf(fs, "%s", text);
+    g_free(text);
+    fclose(fs);
 }
 
 // Called when :
