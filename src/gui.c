@@ -4,6 +4,7 @@ GtkWidget *window_start;
 GtkWidget *window_main;
 GtkWidget *window_about;
 GtkWidget *window_advanced;
+GtkWidget *window_result;
 
 GtkWidget *g_fcb_image;
 GtkWidget *g_window_main_label;
@@ -16,6 +17,7 @@ GdkPixbuf *pixbuf;
 GtkWidget *g_advanced_viewport;
 GtkImage *g_advanced_preview;
 GdkPixbuf *advanced_pixbuf;
+GtkTextView *txt_result;
 
 GtkToggleButton *rb_original;
 GtkToggleButton *rb_grayscale;
@@ -43,6 +45,8 @@ void launch_gui(int argc, char *argv[])
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
     window_about =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
+	window_result =
+		GTK_WIDGET(gtk_builder_get_object(builder, "window_result"));
 
     // file chooser button in window_main_menu
     g_fcb_image =
@@ -59,6 +63,8 @@ void launch_gui(int argc, char *argv[])
         GTK_IMAGE(gtk_builder_get_object(builder, "main_image_preview"));
     g_image_viewport =
         GTK_WIDGET(gtk_builder_get_object(builder, "image_viewport"));
+	txt_result =                                                                    
+        GTK_TEXT_VIEW(gtk_builder_get_object(builder, "txt_result"));
 
     gtk_builder_connect_signals(builder, NULL);
 
@@ -288,6 +294,8 @@ void on_btn_convert_clicked()
             create_advanced_window();
         }
     }
+
+	gtk_widget_show(window_result);
 }
 
 // ****************************************************************************
@@ -365,4 +373,28 @@ void on_menubar_btn_about_activate()
 void on_window_about_response(GtkDialog *dialog)
 {
     gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+// ****************************************************************************
+// *************************** RESULT WINDOW **********************************
+// ****************************************************************************
+
+//if closed with top right "X" widget is destroyed and window can't be reopened
+//could use "gtk_widget_hide_on_delete ()" to solve if necessary
+void on_btn_close_result_clicked()
+{
+    gtk_widget_hide(window_result);
+}
+
+void on_btn_copy_clicked()
+{
+    GtkTextIter start, end;
+    gchar *text;
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer (txt_result);
+
+    gtk_text_buffer_get_bounds (txt_buff, &start, &end);
+
+    text = gtk_text_buffer_get_text (txt_buff, &start, &end, FALSE);
+
+    printf("\nGTK Debug : copy \"%s\" \n", text);
 }
