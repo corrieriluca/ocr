@@ -250,7 +250,7 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
     <property name="title" translatable="yes">About this software</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
-    <property name="type_hint">dialog</property>
+    <property name="type_hint">normal</property>
     <property name="program_name">Cogito OCR</property>
     <property name="version">v1.0</property>
     <property name="copyright" translatable="yes">Made as part of a school project at EPITA, Paris, France.</property>
@@ -263,6 +263,7 @@ Valentin Cambazard
 Luca Corrieri</property>
     <property name="logo">cogito-logo.png</property>
     <property name="license_type">mit-x11</property>
+    <signal name="response" handler="on_window_about_response" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
     </child>
