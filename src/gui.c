@@ -3,13 +3,16 @@
 GtkWidget *window_start;
 GtkWidget *window_main;
 GtkWidget *window_about;
-GtkWidget *btn_convert;
 
 GtkWidget *g_fcb_image;
 GtkWidget *g_window_main_label;
 GtkWidget *g_image_viewport;
+GtkWidget *btn_convert;
+
 GtkImage *g_main_image_preview;
 GdkPixbuf *pixbuf;
+
+gboolean show_advanced;
 
 // the current image selected (default is NULL)
 char *currentImage;
@@ -150,6 +153,21 @@ void on_fcb_image_file_set()
     printf("\nGTK Debug : file selected is %s\n", filename);
     currentImage = filename;
     show_loaded_image();
+    gtk_widget_set_sensitive(btn_convert,
+            TRUE);
+}
+
+void on_cb_advanced_toggled(GtkToggleButton *toggleButton)
+{
+    show_advanced = gtk_toggle_button_get_active(toggleButton);
+    if (show_advanced)
+    {
+        printf("\nGTK Debug : show_advanced is TRUE\n");
+    }
+    else
+    {
+        printf("\nGTK Debug : show_advanced is FALSE\n");
+    }
 }
 
 // called when the convert button is clicked (calls main function of the OCR)
@@ -160,12 +178,6 @@ void on_btn_convert_clicked()
         printf("GTK Debug : current image for convert is %s\n", currentImage);
         gtk_label_set_text(GTK_LABEL(g_window_main_label),
                                         "Converting image in text...");
-    }
-    else
-    {
-        printf("GTK Debug : ERROR no image selected !!\n");
-        gtk_label_set_text(GTK_LABEL(g_window_main_label),
-                                        "ERROR : no file is selected");
     }
 }
 
@@ -239,6 +251,8 @@ void on_menubar_btn_about_activate()
     g_object_unref(builder);
 }
 
+// Called when the user tries to close the about window
+// with the close button of the dialog
 void on_window_about_response(GtkDialog *dialog)
 {
     gtk_widget_destroy(GTK_WIDGET(dialog));
