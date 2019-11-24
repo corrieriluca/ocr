@@ -17,6 +17,7 @@ GdkPixbuf *pixbuf;
 GtkWidget *g_advanced_viewport;
 GtkImage *g_advanced_preview;
 GdkPixbuf *advanced_pixbuf;
+
 GtkTextView *txt_result;
 
 GtkToggleButton *rb_original;
@@ -45,8 +46,8 @@ void launch_gui(int argc, char *argv[])
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
     window_about =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
-	window_result =
-		GTK_WIDGET(gtk_builder_get_object(builder, "window_result"));
+    window_result =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_result"));
 
     // file chooser button in window_main_menu
     g_fcb_image =
@@ -56,14 +57,15 @@ void launch_gui(int argc, char *argv[])
     g_window_main_label =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
 
-    btn_convert = 
-		GTK_WIDGET(gtk_builder_get_object(builder, "btn_convert"));
+    btn_convert =
+        GTK_WIDGET(gtk_builder_get_object(builder, "btn_convert"));
 
-	g_main_image_preview =
+    g_main_image_preview =
         GTK_IMAGE(gtk_builder_get_object(builder, "main_image_preview"));
     g_image_viewport =
         GTK_WIDGET(gtk_builder_get_object(builder, "image_viewport"));
-	txt_result =                                                                    
+
+    txt_result =
         GTK_TEXT_VIEW(gtk_builder_get_object(builder, "txt_result"));
 
     gtk_builder_connect_signals(builder, NULL);
@@ -93,7 +95,7 @@ void on_btn_start_app_clicked()
     open_main_win = 1;
     gtk_widget_destroy(window_start);
     gtk_widget_show(window_main);
-	gtk_widget_set_sensitive(btn_convert,
+    gtk_widget_set_sensitive(btn_convert,
             FALSE);
 }
 
@@ -101,8 +103,8 @@ void on_btn_start_app_clicked()
 // called when starting window is closed
 void on_window_start_destroy()
 {
-	if(open_main_win == 0)
-    	gtk_main_quit();
+    if(open_main_win == 0)
+        gtk_main_quit();
 }
 
 // ****************************************************************************
@@ -156,10 +158,10 @@ void create_advanced_window()
         gtk_widget_destroy(window_advanced);
 
     GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
-    
+
     window_advanced =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_advanced"));
-    
+
     rb_original =
         GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "rb_original"));
     rb_grayscale =
@@ -207,7 +209,7 @@ void on_rb_advanced_toggled()
 // called when main window is closed
 void on_window_main_menu_destroy()
 {
-	gtk_main_quit();
+    gtk_main_quit();
 }
 
 // Called when the main window need to be resized
@@ -293,9 +295,8 @@ void on_btn_convert_clicked()
         {
             create_advanced_window();
         }
+        gtk_widget_show(window_result);
     }
-
-	gtk_widget_show(window_result);
 }
 
 // ****************************************************************************
@@ -342,7 +343,7 @@ void on_menubar_btn_load_activate()
         currentImage = filename;
         show_loaded_image();
 
-		gtk_widget_set_sensitive(btn_convert,
+        gtk_widget_set_sensitive(btn_convert,
             TRUE);
     }
 
@@ -379,13 +380,14 @@ void on_window_about_response(GtkDialog *dialog)
 // *************************** RESULT WINDOW **********************************
 // ****************************************************************************
 
-//if closed with top right "X" widget is destroyed and window can't be reopened
-//could use "gtk_widget_hide_on_delete ()" to solve if necessary
+// if closed with top right "X" gtk_widget_hide_on_delete() is directly called
+// as defined in the gui.glade file
 void on_btn_close_result_clicked()
 {
     gtk_widget_hide(window_result);
 }
 
+// Copies the text in the system clipboard
 void on_btn_copy_clicked()
 {
     GtkTextIter start, end;
@@ -396,8 +398,8 @@ void on_btn_copy_clicked()
 
     text = gtk_text_buffer_get_text (txt_buff, &start, &end, FALSE);
 
-	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
-			text, strlen(text));
-	gtk_clipboard_store(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD));
+    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
+            text, strlen(text));
+    gtk_clipboard_store(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD));
     printf("\nGTK Debug : copy \"%s\" \n", text);
 }
