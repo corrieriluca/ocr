@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include "ocr.h"
 
 GtkWidget *window_start;
 GtkWidget *window_main;
@@ -282,6 +283,9 @@ void on_cb_advanced_toggled(GtkToggleButton *toggleButton)
     }
 }
 
+// defined later but needed in on_btn_convert_clicked
+void result_to_text_view(GtkTextView *text_view, gchar *text);
+
 // called when the convert button is clicked (calls main function of the OCR)
 void on_btn_convert_clicked()
 {
@@ -290,6 +294,11 @@ void on_btn_convert_clicked()
         printf("GTK Debug : current image for convert is %s\n", currentImage);
         gtk_label_set_text(GTK_LABEL(g_window_main_label),
                                         "Converting image in text...");
+
+        gchar *recognized_text;
+        recognized_text = ocr_main(currentImage);
+        result_to_text_view(txt_result, recognized_text);
+
         if (show_advanced)
         {
             create_advanced_window();
@@ -370,6 +379,13 @@ void on_window_about_response(GtkDialog *dialog)
 // ****************************************************************************
 // *************************** RESULT WINDOW **********************************
 // ****************************************************************************
+
+void result_to_text_view(GtkTextView *text_view, gchar *text)
+{
+    GtkTextBuffer *textBuffer;
+    textBuffer = gtk_text_view_get_buffer(text_view);
+    gtk_text_buffer_set_text(textBuffer, text, strlen(text));
+}
 
 // if closed with top right "X" gtk_widget_hide_on_delete() is directly called
 // as defined in the gui.glade file

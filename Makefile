@@ -4,20 +4,19 @@ CC = gcc
 CFLAGS = -W -Wall -Wextra -std=c99 -Werror -O3
 CPPFLAGS = `pkg-config --cflags sdl` -MMD
 LDFLAGS =
-LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm
+LDLIBS = `pkg-config --libs sdl` -lSDL_image -lm `pkg-config --cflags --libs gtk+-3.0`
 
-GTKLIB=`pkg-config --cflags --libs gtk+-3.0`
-
-SRC = src/segmentation.c src/preprocessing.c src/matrix_tools.c src/main.c src/image_operations.c
+SRC = src/ocr.c src/gui.c src/segmentation.c src/preprocessing.c src/matrix_tools.c src/image_operations.c
 
 all: ocr tmp
 
-ocr: $(SRC)
-	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
+ocr: $(SRC) src/main.c
+	$(CC) -o $@.out src/main.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS) -export-dynamic
 
-# temporary, to test the gui without the rest
-gui: src/gui.c src/main-gui.c
-	$(CC) -o gui.out src/gui.c src/main-gui.c $(CFLAGS) $(GTKLIB) -export-dynamic
+# to use the OCR without the GUI
+cli: $(SRC) src/main-cli.c
+	$(CC) -o ocr-$@.out src/main-cli.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
+	mkdir -p tmp
 
 tmp:
 	mkdir -p tmp
@@ -27,7 +26,8 @@ tmp:
 clean:
 	${RM} ocr.out
 	${RM} ocr.d
-	${RM} gui.out # temp
+	${RM} ocr-cli.out
+	${RM} ocr-cli.d
 	if [ -d tmp ]; then rm -r tmp; fi
 
 -include ${DEP}
