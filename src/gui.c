@@ -3,6 +3,7 @@
 GtkWidget *window_start;
 GtkWidget *window_main;
 GtkWidget *window_about;
+GtkWidget *btn_convert;
 
 GtkWidget *g_fcb_image;
 GtkWidget *g_window_main_label;
@@ -38,7 +39,10 @@ void launch_gui(int argc, char *argv[])
     g_window_main_label =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_main_label"));
 
-    g_main_image_preview =
+    btn_convert = 
+		GTK_WIDGET(gtk_builder_get_object(builder, "btn_convert"));
+
+	g_main_image_preview =
         GTK_IMAGE(gtk_builder_get_object(builder, "main_image_preview"));
     g_image_viewport =
         GTK_WIDGET(gtk_builder_get_object(builder, "image_viewport"));
@@ -70,6 +74,8 @@ void on_btn_start_app_clicked()
     open_main_win = 1;
     gtk_widget_destroy(window_start);
     gtk_widget_show(window_main);
+	gtk_widget_set_sensitive(btn_convert,
+            FALSE);
 }
 
 
@@ -206,6 +212,9 @@ void on_menubar_btn_load_activate()
         printf("\nGTK Debug : file selected is %s\n", filename);
         currentImage = filename;
         show_loaded_image();
+
+		gtk_widget_set_sensitive(btn_convert,
+            TRUE);
     }
 
     gtk_widget_destroy(dialog);
