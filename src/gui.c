@@ -185,7 +185,6 @@ void create_advanced_window()
 // called on destroy window_advanced
 void on_window_advanced_destroy(GtkWidget *object)
 {
-    //gtk_widget_destroy(object);
     gtk_widget_destroyed(object, &window_advanced);
 }
 
@@ -350,14 +349,6 @@ void on_menubar_btn_load_activate()
     gtk_widget_destroy(dialog);
 }
 
-// Called when the save button is clicked in the menubar
-void on_menubar_btn_save_activate()
-{
-    // TODO
-    // save the text
-    printf("\nGTK Debug : on_menubar_btn_save_activate() called\n");
-}
-
 // Shows an about dialog window (import it from the glade file each time)
 void on_menubar_btn_about_activate()
 {
@@ -392,14 +383,59 @@ void on_btn_copy_clicked()
 {
     GtkTextIter start, end;
     gchar *text;
-    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer (txt_result);
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
 
-    gtk_text_buffer_get_bounds (txt_buff, &start, &end);
+    gtk_text_buffer_get_bounds(txt_buff, &start, &end);
 
-    text = gtk_text_buffer_get_text (txt_buff, &start, &end, FALSE);
+    text = gtk_text_buffer_get_text(txt_buff, &start, &end, FALSE);
 
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
             text, strlen(text));
     gtk_clipboard_store(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD));
-    printf("\nGTK Debug : copy \"%s\" \n", text);
+    printf("\nGTK Debug : copy \"%s\"\n", text);
+}
+
+// called in on_btn_save_result_clicked() for saving the result in a .txt file
+void save_result(char *path)
+{
+    // TODO
+    printf("\nGTK Debug : saving result at %s\n", path);
+}
+
+// Called when :
+// - the save button is clicked in the result window
+// - the save button in the menubar is clicked
+void on_btn_save_result_clicked()
+{
+    GtkWidget *dialog;
+    GtkFileChooser *chooser;
+    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
+    gint res;
+
+    dialog = gtk_file_chooser_dialog_new("Save Result",
+                                        GTK_WINDOW(window_main),
+                                        action,
+                                        "Cancel",
+                                        GTK_RESPONSE_CANCEL,
+                                        "Save",
+                                        GTK_RESPONSE_ACCEPT,
+                                        NULL);
+
+    chooser = GTK_FILE_CHOOSER(dialog);
+
+    // for overwriting a file
+    gtk_file_chooser_set_do_overwrite_confirmation(chooser, TRUE);
+
+    gtk_file_chooser_set_current_name(chooser, "Untitled.txt");
+
+    res = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (res == GTK_RESPONSE_ACCEPT)
+    {
+        char *result_path;
+        result_path = gtk_file_chooser_get_filename(chooser);
+        save_result(result_path);
+        g_free(result_path);
+    }
+
+    gtk_widget_destroy(dialog);
 }
