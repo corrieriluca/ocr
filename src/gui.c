@@ -3,14 +3,24 @@
 GtkWidget *window_start;
 GtkWidget *window_main;
 GtkWidget *window_about;
+GtkWidget *window_advanced;
 
 GtkWidget *g_fcb_image;
 GtkWidget *g_window_main_label;
-GtkWidget *g_image_viewport;
 GtkWidget *btn_convert;
 
+GtkWidget *g_image_viewport;
 GtkImage *g_main_image_preview;
 GdkPixbuf *pixbuf;
+
+GtkWidget *g_advanced_viewport;
+GtkImage *g_advanced_preview;
+GdkPixbuf *advanced_pixbuf;
+
+GtkToggleButton *rb_original;
+GtkToggleButton *rb_grayscale;
+GtkToggleButton *rb_binarize;
+GtkToggleButton *rb_segmentation;
 
 gboolean show_advanced;
 
@@ -87,6 +97,101 @@ void on_window_start_destroy()
 {
 	if(open_main_win == 0)
     	gtk_main_quit();
+}
+
+// ****************************************************************************
+// ***************************** ADVANCED WINDOW ******************************
+// ****************************************************************************
+
+void on_window_advanced_size_allocate()
+{
+    // if no image is loaded
+    if (!advanced_pixbuf)
+        return;
+
+    GtkAllocation allocation;
+    gtk_widget_get_allocation(g_advanced_viewport, &allocation);
+    int wanted_width = allocation.width;
+    int wanted_height = allocation.height;
+    float viewport_ratio = (float) wanted_height / wanted_width;
+    float image_ratio = (float) gdk_pixbuf_get_height(advanced_pixbuf) /
+        gdk_pixbuf_get_width(advanced_pixbuf);
+
+    if (viewport_ratio > image_ratio)
+    {
+        wanted_width -= 4;
+        wanted_height = (int)(wanted_width * image_ratio);
+    }
+    else
+    {
+        wanted_height -= 4;
+        wanted_width = (int)(wanted_height / image_ratio);
+    }
+    gtk_image_set_from_pixbuf(g_advanced_preview,
+                                gdk_pixbuf_scale_simple(
+                                    advanced_pixbuf,
+                                    wanted_width, wanted_height,
+                                    GDK_INTERP_BILINEAR));
+
+    gtk_widget_queue_resize(window_advanced);
+}
+
+void change_advanced_image(char *path)
+{
+    advanced_pixbuf = gdk_pixbuf_new_from_file(path, NULL);
+    gtk_image_set_from_pixbuf(g_advanced_preview, pixbuf);
+    on_window_advanced_size_allocate();
+}
+
+// called if show_advanced is set to TRUE
+void create_advanced_window()
+{
+    if (window_advanced)
+        gtk_widget_destroy(window_advanced);
+
+    GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
+    
+    window_advanced =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_advanced"));
+    
+    rb_original =
+        GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "rb_original"));
+    rb_grayscale =
+        GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "rb_grayscale"));
+    rb_binarize =
+        GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "rb_binarize"));
+    rb_segmentation =
+        GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "rb_segmentation"));
+
+    g_advanced_preview =
+        GTK_IMAGE(gtk_builder_get_object(builder, "advanced_preview"));
+    g_advanced_viewport =
+        GTK_WIDGET(gtk_builder_get_object(builder, "advanced_viewport"));
+
+    gtk_builder_connect_signals(builder, NULL);
+    gtk_widget_show(window_advanced);
+    change_advanced_image("tmp/original.bmp");
+    g_object_unref(builder);
+}
+
+// called on destroy window_advanced
+void on_window_advanced_destroy(GtkWidget *object)
+{
+    //gtk_widget_destroy(object);
+    gtk_widget_destroyed(object, &window_advanced);
+}
+
+// called when the value of a radio button changes
+void on_rb_advanced_toggled()
+{
+    if (gtk_toggle_button_get_active(rb_original))
+        change_advanced_image("tmp/original.bmp");
+    else if (gtk_toggle_button_get_active(rb_grayscale))
+        change_advanced_image("tmp/grayscale.bmp");
+    else if (gtk_toggle_button_get_active(rb_binarize))
+        change_advanced_image("tmp/binarized.bmp");
+    else if (gtk_toggle_button_get_active(rb_segmentation))
+        change_advanced_image("tmp/segmentation.bmp");
 }
 
 // ****************************************************************************
@@ -178,6 +283,10 @@ void on_btn_convert_clicked()
         printf("GTK Debug : current image for convert is %s\n", currentImage);
         gtk_label_set_text(GTK_LABEL(g_window_main_label),
                                         "Converting image in text...");
+        if (show_advanced)
+        {
+            create_advanced_window();
+        }
     }
 }
 
