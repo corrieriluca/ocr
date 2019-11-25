@@ -29,6 +29,10 @@ int main(int argc, char **argv)
 	//Choosing the number of epoch
 	int nb_epoch;
 
+	int batch_size = 10;
+
+	int nb_training_data = 62262;
+
 	if (argc == 3)
 	{
 		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);
@@ -38,7 +42,7 @@ int main(int argc, char **argv)
 	{
 		//nb_hidden_layer_neurons = 350; #Used for input matrix 28 *28
 		nb_hidden_layer_neurons = 1001;
-		nb_epoch = 3112;
+		nb_epoch = (nb_training_data / batch_size);
 	}
 
 	//Init all the weights, biais and activation point
@@ -133,7 +137,7 @@ int main(int argc, char **argv)
 
 		//Start the learning phase
 		//----------------------------------------------------------------------
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < batch_size; i++)
 		{
 			init_a0(a0, size_a0, &good_char, matrix_db, char_db);
 
