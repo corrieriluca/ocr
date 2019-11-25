@@ -124,6 +124,9 @@ int main(int argc, char **argv)
 		errx(1, "Could not acces database");
 	}
 
+
+	double sum_cost = 0;
+
 	for (int k = 0; k < nb_epoch; k++)
 	{
 		printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
@@ -147,7 +150,7 @@ int main(int argc, char **argv)
 
 			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
 					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
-					s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char);
+					s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char, &sum_cost);
 		}
 
 		//End of epoch
@@ -171,6 +174,8 @@ int main(int argc, char **argv)
 
 	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+
+	printf("Cost_function: %lf\n", sum_cost / (nb_epoch * batch_size));
 
 	print_matrix_double(a2, size_a2);
 }
