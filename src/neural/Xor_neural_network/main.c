@@ -132,7 +132,6 @@ int main(int argc, char **argv)
 		add_matrix(weight1, d_w1, size_w1, s_d_w1);
 		add_matrix(b0, d_b0, size_b0, s_d_b0);
 		add_matrix(weight0, d_w0, size_w0, s_d_w0);
-		printf("\n");
 	}
 
 
