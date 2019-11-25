@@ -7,9 +7,6 @@
 #include "init.h"
 #include "matrix_save.h"
 
-
-
-
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
 		int *size_a0, int *size_a1, int *size_a2, int *size_b0, int *size_b1)
@@ -39,7 +36,9 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
 	//#############################################################
-	wanted_letter(wanted_output, size_wanted_output, good_char);
+	int a = wanted_letter(good_char);
+	wanted_output[a] = 1.0;
+
 
 	*sum_cost += cost_function(wanted_output, a2, size_wanted_output, size_a2);
 

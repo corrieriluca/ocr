@@ -136,13 +136,14 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		//Ugly but usefull to print a2
 		for (int z = 0; z < (size_a2[0] * size_a2[1]); z++)
 		{
-
 			if ((z % 10) == 0 && (z != 0))
 			{
 				printf("\n");
 			}
+
 			printf("|%lf|",a2[z]);
 		}
+
 		printf("\n");
 	}
 

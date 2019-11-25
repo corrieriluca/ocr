@@ -3,42 +3,6 @@
 #include <math.h>
 #include <time.h>
 
-int index_max_matrix(double mat[], int size[])
-{
-	int index_max = 0;
-	for (int i = 0; i < (size[0] * size[1]); i++)
-	{
-		if (mat[index_max] < mat[i])
-		{
-			index_max = i;
-		}
-	}
-
-	return index_max;
-}
-
-double cost_function(double mat1[], double mat2[],
-		int size1[], int size2[])
-{
-	double sum = 0.0;
-
-	if ((size1[0] != size2[0]) || (size1[1] != size2[1]))
-	{
-		printf("cost_function: ");
-		printf("Can't compute cost function  with those dimension\n");
-	}
-	else
-	{
-		for (int i = 0; i < (size1[0] * size1[1]); i++)
-		{
-			sum += pow((mat1[i] - mat2[i]), 2);
-		}
-	}
-
-	return sum;
-}
-
-
 void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[])
 {
@@ -206,6 +170,7 @@ void multiply_matrix_by_constant(double mat1[], double c, double mat_out[],
 	}
 }
 
+
 void apply_softmax_to_matrix(double mat[], int size[])
 {
 	double sum = 0;
@@ -230,7 +195,6 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	*good_char = charac[0];
 	printf("'%c' ", charac[0]);
 
-
 	char matrix[800]; //TODO : Find good size
 	fgets(matrix, sizeof(matrix), matrix_db);
 
@@ -246,9 +210,45 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 			a0[i] = 1.0;
 		}
 	}
-
-	//print_matrix_double(a0,size_a0);
 }
+
+
+int index_max_matrix(double mat[], int size[])
+{
+	int index_max = 0;
+	for (int i = 0; i < (size[0] * size[1]); i++)
+	{
+		if (mat[index_max] < mat[i])
+		{
+			index_max = i;
+		}
+	}
+
+	return index_max;
+}
+
+
+double cost_function(double mat1[], double mat2[],
+		int size1[], int size2[])
+{
+	double sum = 0.0;
+
+	if ((size1[0] != size2[0]) || (size1[1] != size2[1]))
+	{
+		printf("cost_function: ");
+		printf("Can't compute cost function  with those dimension\n");
+	}
+	else
+	{
+		for (int i = 0; i < (size1[0] * size1[1]); i++)
+		{
+			sum += pow((mat1[i] - mat2[i]), 2);
+		}
+	}
+
+	return sum;
+}
+
 
 
 char find_index_letter(double *output_a2, int *size)
@@ -268,24 +268,24 @@ char find_index_letter(double *output_a2, int *size)
 }
 
 
-void wanted_letter(double *mat, int *size, char *letter)
+int wanted_letter(char *letter)
 {
 	char letters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
 
 	int i = 0;
 	int is_found = 0;
-	while ((i < (size[0] * size[1])) && (!is_found))
+	//
+	//TODO : Clean the 67 with actual variable nd make a propre loop
+	while ((i < 67) && (!is_found))
 	{
 		if (*letter == letters[i])
 		{
-			mat[i] = 1.0;
 			is_found = 1;
+			return i;
 		}
 		i++;
 	}
+
+	return i;
 }
-
-
-
-
