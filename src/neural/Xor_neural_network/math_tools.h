@@ -4,6 +4,9 @@
 void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[]);
 
+double cost_function(double mat1[], double mat2[],
+		int size1[], int size2[]);
+
 void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[]);
 

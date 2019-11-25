@@ -3,6 +3,8 @@
 
 int index_max_matrix(double mat[], int size[]);
 
+double cost_function(double mat1[], double mat2[], int size1[], int size2[]);
+
 void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[]);
 

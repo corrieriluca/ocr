@@ -40,6 +40,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	}
 	int size_wanted_output[] = {1,1};
 
+    printf("Cost function = %lf ||  ",cost_function(wanted_output, a2, size_wanted_output, size_a2));
 
 	double error[1];
 	int size_error[] = {1,1};

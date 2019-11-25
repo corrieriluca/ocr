@@ -24,6 +24,26 @@ void transpose_matrix(double mat1[], double mat1_t[],
 	}
 }
 
+double cost_function(double mat1[], double mat2[],
+		int size1[], int size2[])
+{
+	double sum = 0.0;
+
+	if ((size1[0] != size2[0]) || (size1[1] != size2[1]))
+	{
+		printf("cost_function: ");
+		printf("Can't compute cost function  with those dimension\n");
+	}
+	else
+	{
+		for (int i = 0; i < (size1[0] * size1[1]); i++)
+		{
+			sum += pow((mat1[i] - mat2[i]), 2);
+		}
+	}
+
+	return sum;
+}
 
 void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 		int size_mat1[], int size_mat2[])

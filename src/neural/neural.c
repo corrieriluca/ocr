@@ -103,6 +103,9 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	//#############################################################
 	wanted_letter(wanted_output, size_wanted_output, good_char);
 
+	printf("Cost function = %lf \n",cost_function(wanted_output, a2, size_wanted_output, size_a2));
+
+
 	int size_error[] = {size_a2[0], size_a2[1]};
 	double error[size_error[0] * size_error[1]];
 
