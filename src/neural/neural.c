@@ -85,7 +85,7 @@ void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 
 	multiply_matrix(weight1, a1, a2, size_w1, size_a1);
 	add_matrix(a2, b1, size_a2, size_b1);
-	apply_sigmoid_to_matrix(a2, size_a2);
+	apply_softmax_to_matrix(a2, size_a2);
 }
 
 

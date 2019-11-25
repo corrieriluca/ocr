@@ -32,5 +32,6 @@ void hadamard_product(double mat1[], double mat2[], double mat_out[],
 void multiply_matrix_by_constant(double mat1[], double c, double mat_out[],
 		int size_mat1[], int size_mat_out[]);
 
-#endif
+void apply_softmax_to_matrix(double mat[], int size[]);
 
+#endif

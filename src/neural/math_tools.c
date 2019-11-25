@@ -208,3 +208,18 @@ void multiply_matrix_by_constant(double mat1[], double c, double mat_out[],
 		}
 	}
 }
+
+void apply_softmax_to_matrix(double mat[], int size[])
+{
+	double sum = 0;
+
+	for (int i = 0; i < (size[0] * size[1]); i++)
+	{
+		sum += exp(mat[i]);
+	}
+
+	for (int i = 0; i < (size[0] * size[1]); i++)
+	{
+		mat[i] = (exp(mat[i]) / sum);
+	}
+}
