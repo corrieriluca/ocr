@@ -26,7 +26,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 		double *a2, int *size_w0, int *size_w1, int *size_a0,
 		int *size_a1, int size_a2[], int *size_b0, int *size_b1,
 		double *d_b1, double *d_w1, double *d_b0, double *d_w0,
-		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0)
+		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0, double* sum_cost)
 {
 	double wanted_output[1];
 	//TODO : Need a way to convert a0[0] ^ a0[1]
@@ -40,7 +40,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	}
 	int size_wanted_output[] = {1,1};
 
-    printf("Cost function = %lf ||  ",cost_function(wanted_output, a2, size_wanted_output, size_a2));
+    *sum_cost += cost_function(wanted_output, a2, size_wanted_output, size_a2);
+
 
 	double error[1];
 	int size_error[] = {1,1};
