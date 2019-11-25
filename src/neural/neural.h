@@ -1,13 +1,6 @@
 #ifndef NEURAL_H
 #define NEURAL_H
 
-void init_a0(double *a0, int *size_a0, char *good_char, FILE *matrix_db,
-		FILE *char_db);
-
-char find_index_letter(double *output_a2, int *size);
-
-void wanted_letter(double *mat, int *size, char *letter);
-
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
       int *size_a0, int *size_a1, int *size_a2, int *size_b0, int *size_b1);

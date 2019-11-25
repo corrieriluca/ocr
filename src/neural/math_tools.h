@@ -34,4 +34,11 @@ void multiply_matrix_by_constant(double mat1[], double c, double mat_out[],
 
 void apply_softmax_to_matrix(double mat[], int size[]);
 
+void init_a0(double *a0, int *size_a0, char *good_char, FILE *matrix_db,        
+        FILE *char_db);                                                         
+                                                                                
+char find_index_letter(double *output_a2, int *size);                           
+                                                                                
+void wanted_letter(double *mat, int *size, char *letter);
+
 #endif

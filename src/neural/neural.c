@@ -8,70 +8,7 @@
 #include "matrix_save.h"
 
 
-void init_a0(double *a0, int *size_a0, char *good_char,
-		FILE *matrix_db, FILE *char_db)
-{
-	char charac[3];
-	fgets(charac, sizeof(charac), char_db);
-	*good_char = charac[0];
-	printf("'%c' ", charac[0]);
 
-
-	char matrix[800]; //TODO : Find good size
-	fgets(matrix, sizeof(matrix), matrix_db);
-
-	int size = size_a0[0] * size_a0[1];
-	for (int i = 0; i < size; i++)
-	{
-		if (matrix[i] == '0')
-		{
-			a0[i] = 0.0;
-		}
-		else
-		{
-			a0[i] = 1.0;
-		}
-	}
-
-	//print_matrix_double(a0,size_a0);
-}
-
-
-char find_index_letter(double *output_a2, int *size)
-{
-	char letters[] =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
-	int index_max = 0;
-	for (int i = 0; i < (size[0] * size[1]); i++)
-	{
-		if (output_a2[index_max] < output_a2[i])
-		{
-			index_max = i;
-		}
-	}
-
-	return letters[index_max];
-}
-
-
-
-void wanted_letter(double *mat, int *size, char *letter)
-{
-	char letters[] =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
-
-	int i = 0;
-	int is_found = 0;
-	while ((i < (size[0] * size[1])) && (!is_found))
-	{
-		if (*letter == letters[i])
-		{
-			mat[i] = 1.0;
-			is_found = 1;
-		}
-		i++;
-	}
-}
 
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
