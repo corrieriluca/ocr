@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 
 	for (int k = 0; k < nb_epoch; k++)
 	{
-		printf("\nBegin epoch %d/%d\n", k+1, nb_epoch);
+		printf("\nBegin epoch \033[1;34m%0*d/%0*d\033[0m  =>  ", 4, k+1, 4, nb_epoch);
 
 
 		//Reset the matrix to 0
@@ -177,5 +177,6 @@ int main(int argc, char **argv)
 
 	printf("Cost_function: %lf\n", sum_cost / (nb_epoch * batch_size));
 
-	print_matrix_double(a2, size_a2);
+	//print_matrix_double(a2, size_a2);
+	
 }

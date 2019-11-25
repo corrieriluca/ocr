@@ -100,9 +100,8 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		errx(1, "Could not acces database_test");
 	}
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 15; i++)
 	{
-		printf("--------------------");
 		char charac[3];
 		fgets(charac, sizeof(charac), char_db_test);
 		char good_char = charac[0];
@@ -131,8 +130,20 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 
 		return_char = find_index_letter(a2, size_a2);
 
-		printf("Given letter : %c || output letter %c || index a2 max : %d\n",
-				good_char, return_char, index_max_matrix(a2,size_a2));
+		printf("\033[1;31m---------------------\033[0m");
+		printf("\033[1;34mGiven letter : %c || output letter %c || index a2 max : %d\033[0m", good_char, return_char, index_max_matrix(a2,size_a2));
+		printf("\033[1;31m----------------------\033[0m\n");
+		//Ugly but usefull to print a2
+		for (int z = 0; z < (size_a2[0] * size_a2[1]); z++)
+		{
+
+			if ((z % 10) == 0 && (z != 0))
+			{
+				printf("\n");
+			}
+			printf("|%lf|",a2[z]);
+		}
+		printf("\n");
 	}
 
 
