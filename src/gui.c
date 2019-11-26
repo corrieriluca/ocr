@@ -33,6 +33,7 @@ gboolean show_advanced;
 char *currentImage;
 
 int open_main_win = 0;
+int is_converted = 0;
 
 void launch_gui(int argc, char *argv[])
 {
@@ -307,6 +308,11 @@ void on_btn_convert_clicked()
         recognized_text = ocr_main(currentImage);
         result_to_text_view(txt_result, recognized_text);
 
+        if (recognized_text == NULL)
+            return;
+
+        is_converted = 1;
+
         if (show_advanced)
         {
             create_advanced_window();
@@ -444,6 +450,23 @@ void save_result(char *path)
 // - the save button in the menubar is clicked
 void on_btn_save_result_clicked()
 {
+    // we don't open the save window since nothing has been converted
+    // it shows to the user an alert
+    if (!is_converted)
+    {
+        GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
+        GtkWidget *dialog;
+        dialog = gtk_message_dialog_new(GTK_WINDOW(window_main),
+                                        flags,
+                                        GTK_MESSAGE_ERROR,
+                                        GTK_BUTTONS_CLOSE,
+                        "The image has not been converted to text yet !");
+
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
+        return;
+    }
+
     GtkWidget *dialog;
     GtkFileChooser *chooser;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
