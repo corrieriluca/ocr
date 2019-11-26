@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <gspell/gspell.h>
 #include "ocr.h"
 
 GtkWidget *window_start;
@@ -61,13 +62,20 @@ void launch_gui(int argc, char *argv[])
     btn_convert =
         GTK_WIDGET(gtk_builder_get_object(builder, "btn_convert"));
 
+    // image previewing
     g_main_image_preview =
         GTK_IMAGE(gtk_builder_get_object(builder, "main_image_preview"));
     g_image_viewport =
         GTK_WIDGET(gtk_builder_get_object(builder, "image_viewport"));
 
+    // GtkTextView Result
     txt_result =
         GTK_TEXT_VIEW(gtk_builder_get_object(builder, "txt_result"));
+
+    // GSpell support for txt_result
+    GspellTextView *gspell_text_view =
+        gspell_text_view_get_from_gtk_text_view(txt_result);
+    gspell_text_view_basic_setup(gspell_text_view);
 
     gtk_builder_connect_signals(builder, NULL);
 
@@ -442,7 +450,7 @@ void on_btn_save_result_clicked()
     gint res;
 
     dialog = gtk_file_chooser_dialog_new("Save Result",
-                                        GTK_WINDOW(window_main),
+                                        GTK_WINDOW(window_result),
                                         action,
                                         "Cancel",
                                         GTK_RESPONSE_CANCEL,
@@ -467,4 +475,18 @@ void on_btn_save_result_clicked()
     }
 
     gtk_widget_destroy(dialog);
+}
+
+// ****************************************************************************
+// ***************************** SPELL-CHECK **********************************
+// ****************************************************************************
+
+// called when the button "Spellchecker" is clicked in the result window
+void on_btn_spellchecker_clicked()
+{
+    GtkWidget *spellchecker_dialog = gspell_checker_dialog_new(
+        GTK_WINDOW(window_result),
+        gspell_navigator_text_view_new(txt_result));
+
+    gtk_widget_show(spellchecker_dialog);
 }
