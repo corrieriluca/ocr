@@ -503,14 +503,29 @@ Luca Corrieri</property>
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_top">10</property>
         <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">20</property>
+            <property name="label" translatable="yes">Here is the result of the conversion, you can edit and correct this text.</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkTextView" id="txt_result">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="margin_left">20</property>
             <property name="margin_right">20</property>
-            <property name="margin_top">15</property>
+            <property name="margin_top">10</property>
           </object>
           <packing>
             <property name="expand">True</property>
