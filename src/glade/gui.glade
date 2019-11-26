@@ -46,12 +46,12 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
     </patterns>
   </object>
   <object class="GtkWindow" id="window_main">
-    <property name="width_request">700</property>
+    <property name="width_request">500</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Cogito OCR</property>
     <property name="default_width">700</property>
-    <property name="default_height">500</property>
+    <property name="default_height">700</property>
     <signal name="destroy" handler="on_window_main_menu_destroy" swapped="no"/>
     <signal name="size-allocate" handler="on_window_main_menu_size_allocate" swapped="no"/>
     <child>
@@ -262,6 +262,27 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="label">gtk-quit</property>
+                <property name="width_request">100</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">end</property>
+                <property name="valign">end</property>
+                <property name="margin_right">15</property>
+                <property name="margin_bottom">15</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_btn_quit_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
