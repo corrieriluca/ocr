@@ -106,8 +106,8 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		fgets(charac, sizeof(charac), char_db_test);
 		char good_char = charac[0];
 
-		char matrix[800]; //TODO : Find good size
-		fgets(matrix, sizeof(matrix), matrix_db_test);
+		char matrix[258]; //TODO : Find good size
+		fgets(matrix, 258, matrix_db_test);
 
 		int size = size_a0[0] * size_a0[1];
 		for (int i = 0; i < size; i++)
