@@ -190,6 +190,7 @@ void apply_softmax_to_matrix(double mat[], int size[])
 void init_a0(double *a0, int *size_a0, char *good_char,
 		FILE *matrix_db, FILE *char_db)
 {
+	printf("########################################################################\n");
 	char charac[3];
 	fgets(charac, sizeof(charac), char_db);
 	*good_char = charac[0];
@@ -197,6 +198,34 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 
 	char matrix[256]; //TODO : Find good size
 	fgets(matrix, sizeof(matrix), matrix_db);
+
+	printf("%s\n", matrix);
+
+	printf("\n");
+	for (int z = 0; z < (256); z++)
+	{
+		if ((z % 16) == 0 && (z != 0))
+		{
+			printf("\n");
+		}
+
+		if (matrix[z] == '0')
+		{
+			printf(" ");
+		}
+		else
+		{
+			if (matrix[z] == '1')
+			{
+			printf("O");
+			}
+			else
+			{
+				printf("*");
+			}
+		}
+	}
+	printf("\n");
 
 	int size = size_a0[0] * size_a0[1];
 	for (int i = 0; i < size; i++)
@@ -207,9 +236,30 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 		}
 		else
 		{
-			a0[i] = 1.0;
+			if (matrix[i] == '1')
+			{
+				a0[i] = 1.0;
+			}
+			else
+			{
+				printf("||**|*||");
+			}
 		}
 	}
+
+	printf("\n");
+	printf("\n");
+	//Ugly but usefull to print a0
+	for (int z = 0; z < (size_a0[0] * size_a0[1]); z++)
+	{
+		if ((z % 16) == 0 && (z != 0))
+		{
+			printf("\n");
+		}
+
+		printf("|%lf|",a0[z]);
+	}
+	printf("########################################################################\n");
 }
 
 
