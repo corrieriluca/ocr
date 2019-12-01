@@ -99,7 +99,10 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		errx(1, "Could not acces database_test");
 	}
 
-	for (int i = 0; i < 60; i++)
+	double compteur = 0.0;
+	int nb_test = 60;
+
+	for (int i = 0; i < nb_test; i++)
 	{
 		char charac[3];
 		fgets(charac, sizeof(charac), char_db_test);
@@ -132,6 +135,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 
 		if (return_char_index == index_max_matrix(a2, size_a2))
 		{
+			compteur++;
 			printf("\033[1;34m");
 		}
 		else
@@ -157,7 +161,10 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		printf("\n");*/
 	}
 
+	double success_rate = compteur / nb_test;
+	printf("Success rate = %lf\n", success_rate);
 
 	fclose(matrix_db_test);
 	fclose(char_db_test);
 }
+
