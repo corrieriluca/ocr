@@ -248,7 +248,8 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 		}
 	}
 
-	printf("\n");/*
+	//printf("\n");
+	/*
 	printf("\n");
 	//Ugly but usefull to print a0
 	for (int z = 0; z < (size_a0[0] * size_a0[1]); z++)

@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	//Choosing the number of epoch
 	int nb_epoch;
 
-	int batch_size = 10;
+	int batch_size = 15;
 
 	int nb_training_data = 62262;
 

@@ -63,7 +63,7 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	//Output to hidden layer
 	//-------------------------------------------------------------------------
 
-	double nu = -0.1;
+	double nu = -0.001;
 
 	double tmp1[size_D[0] * size_D[1]];
 	int s_tmp1[] = {size_D[0], size_D[1]};
