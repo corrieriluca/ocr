@@ -196,9 +196,9 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 	*good_char = charac[0];
 	printf("'%c' ", charac[0]);
 
-	char matrix[258]; //TODO : Find good size
+	char matrix[486]; //TODO : Find good size
 	//fgets(matrix, sizeof(matrix), matrix_db);
-	fgets(matrix, 258, matrix_db);
+	fgets(matrix, 486, matrix_db);
 
 	/*printf("%s\n", matrix);
 

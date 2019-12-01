@@ -88,7 +88,6 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 	char path_matrix_test[] = "../learning/matrix_database_test.ocr";
 	char path_char_test[] = "../learning/character_database_test.ocr";
 
-
 	FILE *matrix_db_test;
 	matrix_db_test = fopen(path_matrix_test, "r");
 
@@ -100,14 +99,14 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		errx(1, "Could not acces database_test");
 	}
 
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 60; i++)
 	{
 		char charac[3];
 		fgets(charac, sizeof(charac), char_db_test);
 		char good_char = charac[0];
 
-		char matrix[258]; //TODO : Find good size
-		fgets(matrix, 258, matrix_db_test);
+		char matrix[486]; //TODO : Find good size
+		fgets(matrix, 486, matrix_db_test);
 
 		int size = size_a0[0] * size_a0[1];
 		for (int i = 0; i < size; i++)
@@ -129,11 +128,22 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		char return_char = '*';
 
 		return_char = find_index_letter(a2, size_a2);
+		int return_char_index = wanted_letter(&good_char);
 
-		printf("\033[1;31m---------------------\033[0m");
-		printf("\033[1;34mGiven letter : %c || output letter %c || index a2 max : %d\033[0m", good_char, return_char, index_max_matrix(a2,size_a2));
-		printf("\033[1;31m----------------------\033[0m\n");
-		//Ugly but usefull to print a2
+		if (return_char_index == index_max_matrix(a2, size_a2))
+		{
+			printf("\033[1;34m");
+		}
+		else
+		{
+			printf("\033[1;31m");
+		}
+
+		printf("Given letter : %c (index = %02d) || ", good_char, return_char_index);
+		printf("output letter : %c (index = %02d)\033[0m\n", return_char, index_max_matrix(a2,size_a2));
+
+
+		/*//Ugly but usefull to print a2
 		for (int z = 0; z < (size_a2[0] * size_a2[1]); z++)
 		{
 			if ((z % 10) == 0 && (z != 0))
@@ -144,7 +154,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 			printf("|%lf|",a2[z]);
 		}
 
-		printf("\n");
+		printf("\n");*/
 	}
 
 
