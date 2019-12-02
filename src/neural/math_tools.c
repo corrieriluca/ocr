@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <err.h>
 
 void transpose_matrix(double mat1[], double mat1_t[],
 		int size_mat1[], int size_mat1_t[])
@@ -173,7 +174,7 @@ void multiply_matrix_by_constant(double mat1[], double c, double mat_out[],
 
 void apply_softmax_to_matrix(double mat[], int size[])
 {
-	double sum = 0;
+	long double sum = 0;
 
 	for (int i = 0; i < (size[0] * size[1]); i++)
 	{
@@ -182,6 +183,10 @@ void apply_softmax_to_matrix(double mat[], int size[])
 
 	for (int i = 0; i < (size[0] * size[1]); i++)
 	{
+		if (sum <= 0.0)
+		{
+			errx(1, "division by 0 in softmax");
+		}
 		mat[i] = (exp(mat[i]) / sum);
 	}
 }
