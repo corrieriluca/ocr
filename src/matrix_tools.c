@@ -159,7 +159,7 @@ void remove_blank(size_t sourceMatrix[], size_t height, size_t width,
         }
         if (nbOne) // > 0
         {
-            startingRow = row - 1;
+            startingRow = row;
             break;
         }
     }
