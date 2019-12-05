@@ -47,6 +47,7 @@ void print_matrix_double(double matrix[], size_t height, size_t width)
                 printf("o");
             else
                 printf(" ");
+            //printf("%f ", matrix[j * width + k]);
         }
         printf("|\n");
     }
@@ -63,6 +64,60 @@ void matrix_random_fill(size_t matrix[], size_t height, size_t width)
     for (size_t i = 0; i < width * height; i++)
         matrix[i] = (size_t)rand() % 2; // random values : 0 or 1
 }
+
+// FUNCTIONS FOR BILINEAR INTERPOLATION ----------------------------------------
+
+size_t getpixel(size_t matrix[], size_t width, size_t x, size_t y)
+{
+    return matrix[(y * width) + x];
+}
+
+float lerp(float s, float e, float t)
+{
+    return s + (e - s) * t;
+}
+
+float blerp(float c00, float c10, float c01, float c11, float tx, float ty)
+{
+    return lerp(lerp(c00, c10, tx), lerp(c01, c11, tx), ty);
+}
+
+void putpixel(double matrix[], size_t width, size_t x, size_t y, double value)
+{
+    matrix[(y * width) + x] = value;
+}
+
+void scale_matrix(size_t src[], size_t src_width, size_t src_height,
+                    double dst[])
+{
+    int newWidth = MATRIX_SIZE;
+    int newHeight = MATRIX_SIZE;
+    int x, y;
+
+    for(x = 0, y = 0; y < newHeight; x++)
+    {
+        if(x > newWidth)
+        {
+            x = 0; y++;
+        }
+
+        float gx = x / (float)(newWidth) * (src_width - 1);
+        float gy = y / (float)(newHeight) * (src_height - 1);
+        int gxi = (int)gx;
+        int gyi = (int)gy;
+        double result = 0;
+        float c00 = (float)getpixel(src, src_width, gxi, gyi);
+        float c10 = (float)getpixel(src, src_width, gxi+1, gyi);
+        float c01 = (float)getpixel(src, src_width, gxi, gyi+1);
+        float c11 = (float)getpixel(src, src_width, gxi+1, gyi+1);
+
+        result = (double)blerp(c00, c10, c01, c11, gx - gxi, gy - gyi);
+
+        putpixel(dst, newWidth, x, y, result);
+    }
+}
+
+// -----------------------------------------------------------------------------
 
 /* This function creates a matrix by extracting it from a source matrix at
  * a specified row and column, for specified width and column.
@@ -141,19 +196,25 @@ void resize_square_matrix(size_t square[], double resized[],
  */
 double *resize_matrix(size_t matrix[], size_t height, size_t width)
 {
+    /*printf("%d / %zu\n", MATRIX_SIZE, width);
+    float scalex = (float)MATRIX_SIZE / width;
+    float scaley = (float)MATRIX_SIZE / height;
+    printf("ScaleX = %f\n", scalex);
+    printf("ScaleY = %f\n", scaley);*/
+
     double *result = calloc(MATRIX_SIZE * MATRIX_SIZE, sizeof(double));
 
     // Determine the size of the larger square for the 'matrix_in_square'
     // function. Using MATRIX_SIZE is necessary to obtain a divisor of it.
-    size_t squareSize = (height > width) ?
-        height + (MATRIX_SIZE - height % MATRIX_SIZE) :
-        width + (MATRIX_SIZE - width % MATRIX_SIZE);
+    size_t squareSize = (height > width) ? height : width;
 
     size_t *square = calloc(squareSize * squareSize, sizeof(size_t));
 
     matrix_in_square(matrix, square, height, width, squareSize);
 
-    resize_square_matrix(square, result, squareSize, MATRIX_SIZE);
+    //resize_square_matrix(square, result, squareSize, MATRIX_SIZE);
+
+    scale_matrix(square, squareSize, squareSize, result);
 
     free(square); // needed
     return result;
