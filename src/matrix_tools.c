@@ -226,58 +226,21 @@ void matrix_in_square(size_t matrix[], size_t square[], size_t height,
     }
 }
 
-/* This function resizes a square matrix of size squareSize into a smaller one
- * of size resizedSize (with resizedSize being a divisor of squareSize)
- */
-void resize_square_matrix(size_t square[], double resized[],
-        size_t squareSize, size_t resizedSize)
-{
-    // ratio is size_t because resizedSize divides squareSize
-    size_t ratio = squareSize / resizedSize;
-
-    // double for loop inside the resized matrix !
-    for (size_t row = 0; row < resizedSize; row++)
-    {
-        for (size_t col = 0; col < resizedSize; col++)
-        {
-            // Counting for the number of ones in the square matrix
-            // double for loop inside the square matrix !
-            size_t nbOne = 0;
-            for (size_t i = row * ratio; i < (row + 1) * ratio; i++)
-            {
-                for (size_t j = col * ratio; j < (col + 1) * ratio; j++)
-                    if (square[i * squareSize + j]) // == 1
-                        nbOne++;
-            }
-            double value = (nbOne / ratio >= 0.4) ? 1.0 : 0.0;
-            resized[row * resizedSize + col] = value;
-        }
-    }
-}
-
 /* This functions returns the transformed matrix 'matrix' into a squared one
  * of size MATRIX_SIZE * MATRIX_SIZE (defined in "segmentation.h").
  * Return type is double for Character matrix
  */
 double *resize_matrix(size_t matrix[], size_t height, size_t width)
 {
-    /*printf("%d / %zu\n", MATRIX_SIZE, width);
-    float scalex = (float)MATRIX_SIZE / width;
-    float scaley = (float)MATRIX_SIZE / height;
-    printf("ScaleX = %f\n", scalex);
-    printf("ScaleY = %f\n", scaley);*/
-
     double *result = calloc(MATRIX_SIZE * MATRIX_SIZE, sizeof(double));
 
     // Determine the size of the larger square for the 'matrix_in_square'
-    // function. Using MATRIX_SIZE is necessary to obtain a divisor of it.
+    // function.
     size_t squareSize = (height > width) ? height : width;
 
     size_t *square = calloc(squareSize * squareSize, sizeof(size_t));
 
     matrix_in_square(matrix, square, height, width, squareSize);
-
-    //resize_square_matrix(square, result, squareSize, MATRIX_SIZE);
 
     scale_matrix(square, squareSize, squareSize, result);
 

@@ -17,9 +17,6 @@ size_t *crop_matrix(size_t sourceMatrix[], size_t blankRes[], size_t width);
 void matrix_in_square(size_t matrix[], size_t square[], size_t height,
                       size_t width, size_t squareSize);
 
-void resize_square_matrix(size_t square[], double resized[],
-                          size_t square_size, size_t resized_size);
-
 double *resize_matrix(size_t matrix[], size_t height, size_t width);
 
 #endif
