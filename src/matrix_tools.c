@@ -78,8 +78,9 @@ size_t *extract_matrix(size_t sourceMatrix[], size_t width,
     {
         for (size_t col = 0; col < resultWidth; col++)
         {
-            result[row * resultWidth + col] =
-                sourceMatrix[(startingRow + row) * width + (startingColumn + col)];
+            result[row * resultWidth + col] = sourceMatrix[
+                (startingRow + row) * width + (startingColumn + col)
+            ];
         }
     }
 
