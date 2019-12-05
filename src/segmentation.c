@@ -156,23 +156,25 @@ void Get_Characters(Line *line, size_t binarized_matrix[], size_t width)
 
         size_t charHeight = line->endPoint - line->startingPoint;
         size_t charWidth = current->endPoint - current->startingPoint;
-        printf("Original height = %zu\n", charHeight);
-        printf("Original width = %zu\n", charWidth);
 
         size_t *extracted = extract_matrix(binarized_matrix, width,
             line->startingPoint, current->startingPoint, charHeight, charWidth);
 
-        // for debugging
-        print_matrix(extracted, charHeight, charWidth);
+        size_t blankRes[2];
+        remove_blank(extracted, charHeight, charWidth, blankRes);
 
-        current->matrix = resize_matrix(extracted, charHeight, charWidth);
+        size_t *cropped = crop_matrix(extracted, blankRes, charWidth);
 
         // for debugging
-        printf("New Height = %d\n", MATRIX_SIZE);
-        printf("New Width = %d\n", MATRIX_SIZE);
+        print_matrix(cropped, blankRes[0], charWidth);
+
+        current->matrix = resize_matrix(cropped, blankRes[0], charWidth);
+
+        // for debugging
         print_matrix_double(current->matrix, MATRIX_SIZE, MATRIX_SIZE);
 
-        free(extracted); // needed
+        free(extracted);
+        free(cropped);
     }
 }
 
