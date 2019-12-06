@@ -176,6 +176,7 @@ void apply_softmax_to_matrix(double mat[], int size[])
 {
 	long double sum = 0;
 
+
 	for (int i = 0; i < (size[0] * size[1]); i++)
 	{
 		sum += exp(mat[i]);
@@ -185,16 +186,39 @@ void apply_softmax_to_matrix(double mat[], int size[])
 	{
 		if (sum <= 0.0)
 		{
-			printf("\n");
-			for (int z = 0; z < (size[0] * size[1]); z++)
-			{
-				if ((z % 16) == 0 && (z != 0))
+			/*
+				printf("\n");
+				printf("\n");
+				for (int z = 0; z < (size[0] * size[1]); z++)
 				{
-					printf("\n");
-				}
+					if ((z % 10) == 0 && (z != 0))
+					{
+						printf("\n");
+					}
 
-				printf("|%lf|",mat[z]);
-			}
+					if (mat[z] >= 0.35)
+					{
+						printf("\033[1;31m");
+					}
+					printf("|%lf|\033[0m",exp(mat[z]));
+				}
+				printf("\n");
+				printf("\n");
+				for (int z = 0; z < (size[0] * size[1]); z++)
+				{
+					if ((z % 10) == 0 && (z != 0))
+					{
+						printf("\n");
+					}
+
+					if (mat[z] >= 0.35)
+					{
+						printf("\033[1;31m");
+					}
+					printf("|%lf|\033[0m",mat[z]);
+				}
+				printf("\n");
+				printf("\n");*/
 			errx(1, "division by 0 in softmax");
 		}
 		else 
@@ -202,6 +226,36 @@ void apply_softmax_to_matrix(double mat[], int size[])
 			mat[i] = (exp(mat[i]) / sum);
 		}
 	}
+	
+
+	/*long double total = 0;
+	long double total_exp = 0;
+	for (int i = 0; i < (size[0] * size[1]); i++)
+	{
+		total += mat[i];
+		total_exp += mat[i];
+	}
+
+	printf("\n");
+	printf("\n");
+	printf("%Lf et exp : %Lf", total, total_exp);
+	printf("\n");
+	for (int z = 0; z < (size[0] * size[1]); z++)
+	{
+		if ((z % 10) == 0 && (z != 0))
+		{
+			printf("\n");
+		}
+
+		if (mat[z] >= 0.5)
+		{
+			printf("\033[1;31m");
+		}
+		printf("|%lf|\033[0m",mat[z]);
+	}
+	printf("\n");
+	printf("\n");
+	*/
 }
 
 
