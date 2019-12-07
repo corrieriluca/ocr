@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		nb_hidden_layer_neurons = 10000;
+		nb_hidden_layer_neurons = 12000;
 		nb_epoch = (nb_training_data / batch_size);
 	}
 
@@ -92,10 +92,6 @@ int main(int argc, char **argv)
 	print_feed_forward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
-
-	//TODO : Verify that mat_to_file work
-	mat_to_file(weight0, weight1, b0, b1, 
-			size_w0, size_w1, size_b0, size_b1, "test.ocr");
 
 	printf("\nBeginning learning process...\n");
 
@@ -173,7 +169,7 @@ int main(int argc, char **argv)
 	fclose(char_db);
 
 	mat_to_file(weight0, weight1, b0, b1, 
-			size_w0, size_w1, size_b0, size_b1, "test2.ocr");
+			size_w0, size_w1, size_b0, size_b1, "weights_and_biais.ocr");
 
 
 	//Print the output of the neural Xor after training
