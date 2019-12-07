@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 	int batch_size;
 
 	//int nb_training_data = 62262;
-	int nb_training_data = 48000;
+	int nb_training_data = 45000;
 
 	if (argc == 4)
 	{
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	else
 	{
 		//nb_hidden_layer_neurons = 350; #Used for input matrix 28 *28
-		nb_hidden_layer_neurons = 1325;
+		nb_hidden_layer_neurons = 3000;
 		nb_epoch = (nb_training_data / batch_size);
 	}
 
