@@ -183,4 +183,8 @@ int main(int argc, char **argv)
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
 	printf("Cost_function: %lf\n", sum_cost / (nb_epoch * batch_size));
+	free(weight0);
+	free(weight1);
+	free(d_w1);
+	free(d_w0);
 }

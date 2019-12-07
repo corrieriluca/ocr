@@ -157,4 +157,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	add_matrix(d_w1, delta_w1, s_d_w1, size_delta_w1);
 	add_matrix(d_b0, delta_b0, s_d_b0, size_delta_b0);
 	add_matrix(d_w0, delta_w0, s_d_w0, size_delta_w0);
+
+	free(delta_w1);
+	free(delta_w0);
+	free(w1_t);
 }
