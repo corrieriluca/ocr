@@ -62,3 +62,4 @@ dkms.conf
 *test.c
 *.ocr
 *~
+samples/Training/
