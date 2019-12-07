@@ -7,11 +7,8 @@
 #include "print.h"
 #include "save_and_load.h"
 
-int main(int argc, char **argv)
+int main()
 {
-	printf("%s\n",argv[0]);
-	pretty_print_xor(40, "NEURAL");
-
 	//Choosing the number of input neurons
 	int nb_input_neurons = 16*16;
 
@@ -20,16 +17,6 @@ int main(int argc, char **argv)
 
 	//Choosing the number of neurons in the hidden layer
 	int nb_hidden_layer_neurons = 12000;
-
-	//Choosing the number of epoch
-	int nb_epoch = 4150;
-
-	//Choosing the number of element per batch
-	int batch_size = 15;
-
-	//Total number of training data
-	int nb_training_data = 62250;
-
 
 	//Init all the weights, biais and activation point
 	//-------------------------------------------------------------------------
