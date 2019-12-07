@@ -5,7 +5,7 @@
 #include "math_tools.h"
 #include "print.h"
 #include "init.h"
-#include "matrix_save.h"
+#include "save_and_load.h"
 
 void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 		double *a2, double *b0, double *b1, int *size_w0, int *size_w1,
