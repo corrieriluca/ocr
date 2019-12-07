@@ -74,7 +74,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double delta_b1[size_b1[0] * size_b1[1]];
 	int size_delta_b1[] = {size_b1[0], size_b1[1]};
 
-	double delta_w1[size_w1[0] * size_w1[1]];
+	double *delta_w1 = malloc((size_w1[0]*size_w1[1]) * sizeof(double));
+	//double delta_w1[size_w1[0] * size_w1[1]];
 	int size_delta_w1[] = {size_w1[0], size_w1[1]};
 
 	//Transpose the matrix of a1
@@ -103,7 +104,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
 	int size_spo2[] = {size_a1[0], size_a1[1]};
 
-	double w1_t[size_w1[0] * size_w1[1]];
+	//double w1_t[size_w1[0] * size_w1[1]];
+	double *w1_t = malloc((size_w1[0]*size_w1[1]) * sizeof(double));
 	int s_w1_t[] = {size_w1[1], size_w1[0]};
 
 	transpose_matrix(weight1, w1_t, size_w1, s_w1_t);
@@ -131,7 +133,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	int size_delta_b0[] = {size_b0[0], size_b0[1]};
 
 	//Segfault with following line #########################################
-	double delta_w0[size_w0[0] * size_w0[1]];
+	//double delta_w0[size_w0[0] * size_w0[1]];
+	double *delta_w0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
 	int size_delta_w0[] = {size_w0[0], size_w0[1]};
 
 	//Transpose the matrix of a0

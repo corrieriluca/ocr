@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	else
 	{
 		//nb_hidden_layer_neurons = 350; #Used for input matrix 28 *28
-		nb_hidden_layer_neurons = 1000;
+		nb_hidden_layer_neurons = 1325;
 		nb_epoch = (nb_training_data / batch_size);
 	}
 
@@ -68,10 +68,12 @@ int main(int argc, char **argv)
 	double a2[size_a2[0] * size_a1[1]];
 
 	int size_w0[] = {nb_hidden_layer_neurons,nb_input_neurons};
-	double weight0[size_w0[0] * size_w0[1]];
+	double *weight0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
+	//double weight0[size_w0[0] * size_w0[1]];
 
 	int size_w1[] = {nb_output_neurons,nb_hidden_layer_neurons};
-	double weight1[size_w1[0] * size_w1[1]];
+	double *weight1 = malloc((size_w1[0]*size_w1[1]) * sizeof(double));
+	//double weight1[size_w1[0] * size_w1[1]];
 
 	int size_b0[] = {nb_hidden_layer_neurons,1};
 	double b0[size_b0[0] * size_b0[1]];
@@ -102,13 +104,15 @@ int main(int argc, char **argv)
 	double d_b1[s_d_b1[0] * s_d_b1[1]];
 
 	int s_d_w1[] = {nb_output_neurons, nb_hidden_layer_neurons};
-	double d_w1[s_d_w1[0] * s_d_w1[1]];
+	double *d_w1 = malloc((s_d_w1[0]*s_d_w1[1]) * sizeof(double));
+	//double d_w1[s_d_w1[0] * s_d_w1[1]];
 
 	int s_d_b0[] = {nb_hidden_layer_neurons, 1};
 	double d_b0[s_d_b0[0] * s_d_b0[1]];
 
 	int s_d_w0[] = {nb_hidden_layer_neurons, nb_input_neurons};
-	double d_w0[s_d_w0[0] * s_d_w0[1]];
+	double *d_w0 = malloc((s_d_w0[0]*s_d_w0[1]) * sizeof(double));
+	//double d_w0[s_d_w0[0] * s_d_w0[1]];
 
 
 	//Path to database
