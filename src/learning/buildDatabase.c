@@ -95,7 +95,7 @@ int main()
     matrix_database = fopen("matrix_database.ocr", "w+");
     char_database = fopen("character_database.ocr", "w+");
 
-    for (size_t i = 0; i < 35; i++)
+    for (size_t i = 0; i < 47; i++)
     {
 		if (i == 21)
 		{
