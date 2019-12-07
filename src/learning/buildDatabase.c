@@ -95,13 +95,18 @@ int main()
     matrix_database = fopen("matrix_database.ocr", "w+");
     char_database = fopen("character_database.ocr", "w+");
 
-    for (size_t i = 0; i < 27; i++)
+    for (size_t i = 0; i < 35; i++)
     {
+		if (i == 21)
+		{
+			continue;
+		}
+
         printf("\n------------- LOADING %zu.png... -----------------\n\n", i);
         char image_path[40];
-        snprintf(image_path, 40, "../../samples/Training/%zu.png", i);
+        snprintf(image_path, 40, "../../samples/Lorem/Lorem%zu.png", i);
         char text_path[40];
-        snprintf(text_path, 40, "../../samples/Training/%zu.txt", i);
+        snprintf(text_path, 40, "../../samples/Lorem/Lorem%zu.txt", i);
 
         main_building(image_path, text_path, matrix_database, char_database);
     }
