@@ -44,6 +44,8 @@ int main_building(char* image_path, char* text_path, FILE* matrix_database, FILE
                i, current->nbCharacters);
     }
 
+    printf("Total number of characters detected : %zu\n", nbCharactersTotal);
+
     // save the image of the segmentation for the debugging (in the tmp folder)
     Save_Segmentation(image_surface, lines, nbLines);
 
@@ -93,16 +95,14 @@ int main()
     matrix_database = fopen("matrix_database.ocr", "w+");
     char_database = fopen("character_database.ocr", "w+");
 
-    for (size_t i = 0; i < 35; i++)
+    for (size_t i = 1; i < 8; i++)
     {
-        if (i == 21)
-            continue;
 
-        printf("\n------------- LOADING Lorem%zu.png... -----------------\n\n", i);
+        printf("\n------------- LOADING %zu.png... -----------------\n\n", i);
         char image_path[40];
-        snprintf(image_path, 40, "../../samples/Lorem/Lorem%zu.png", i);
+        snprintf(image_path, 40, "../../samples/Training/%zu.png", i);
         char text_path[40];
-        snprintf(text_path, 40, "../../samples/Lorem/Lorem%zu.txt", i);
+        snprintf(text_path, 40, "../../samples/Training/%zu.txt", i);
 
         main_building(image_path, text_path, matrix_database, char_database);
     }

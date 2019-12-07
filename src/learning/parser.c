@@ -19,7 +19,7 @@ char getCharacterFromFile(char* path, size_t characterIndex)
     while (alphaIndex < characterIndex)
     {
         character = fgetc(input_file);
-        if (isalpha(character) || ispunct(character))
+        if (isalpha(character) || ispunct(character) || isdigit(character))
             alphaIndex++;
     }
 
