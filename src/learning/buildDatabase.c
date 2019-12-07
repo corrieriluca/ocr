@@ -95,9 +95,8 @@ int main()
     matrix_database = fopen("matrix_database.ocr", "w+");
     char_database = fopen("character_database.ocr", "w+");
 
-    for (size_t i = 1; i < 8; i++)
+    for (size_t i = 0; i < 8; i++)
     {
-
         printf("\n------------- LOADING %zu.png... -----------------\n\n", i);
         char image_path[40];
         snprintf(image_path, 40, "../../samples/Training/%zu.png", i);
