@@ -30,7 +30,7 @@ void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 {
 	if (size_mat1[1] != size_mat2[0])
 	{
-		printf("multiply_matrix : Can't multiply matrix with these dimension\n");
+		errx(1, "multiply_matrix : Can't multiply matrix with these dimension\n");
 	}
 	else
 	{
@@ -212,17 +212,18 @@ void apply_softmax_to_matrix(double mat[], int size[])
 }
 
 
-void init_a0(double *a0, int *size_a0, char *good_char,
-		FILE *matrix_db, FILE *char_db)
+void init_a0(double *a0, int *size_a0, char path_matrix[])
 {
-	char charac[3];
-	fgets(charac, sizeof(charac), char_db);
-	*good_char = charac[0];
-	printf("'%c' ", charac[0]);
+	FILE *matrix_db;
+	char matrix[(size_a0[0]*size_a0[1]*2+2)]; 
+    matrix_db = fopen(path_matrix, "r");
+	if (matrix_db == NULL)
+    {
+        errx(1, "Could not acces database");
+    }
 
-	char matrix[(size_a0[0]*size_a0[1]*2+2)]; //TODO : Find good size
-	//fgets(matrix, sizeof(matrix), matrix_db);
 	fgets(matrix, (size_a0[0]*size_a0[1]*2+2), matrix_db);
+
 
 	int size = size_a0[0] * size_a0[1];
 	for (int i = 0; i < size; i++)
@@ -243,19 +244,7 @@ void init_a0(double *a0, int *size_a0, char *good_char,
 			}
 		}
 	}
-	/*
-	//Ugly but usefull to print a0
-	printf("\n");
-	for (int z = 0; z < (size_a0[0] * size_a0[1]); z++)
-	{
-		if ((z % 16) == 0 && (z != 0))
-		{
-			printf("\n");
-		}
-
-		printf("|%lf|",a0[z]);
-	}
-	*/
+	fclose(matrix_db);
 }
 
 
@@ -301,7 +290,7 @@ char find_index_letter(double *output_a2, int *size)
 }
 
 
-int wanted_letter(char *letter)
+int wanted_letter(char letter)
 {
 	char letters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
@@ -312,7 +301,7 @@ int wanted_letter(char *letter)
 	//TODO : Clean the 67 with actual variable nd make a propre loop
 	while ((i < 67) && (!is_found))
 	{
-		if (*letter == letters[i])
+		if (letter == letters[i])
 		{
 			is_found = 1;
 			return i;

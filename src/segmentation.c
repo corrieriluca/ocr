@@ -160,12 +160,18 @@ void Get_Characters(Line *line, size_t binarized_matrix[], size_t width)
         size_t *extracted = extract_matrix(binarized_matrix, width,
             line->startingPoint, current->startingPoint, charHeight, charWidth);
 
-        current->matrix = resize_matrix(extracted, charHeight, charWidth);
+        size_t blankRes[2];
+        remove_blank(extracted, charHeight, charWidth, blankRes);
+
+        size_t *cropped = crop_matrix(extracted, blankRes, charWidth);
+
+        current->matrix = resize_matrix(cropped, blankRes[0], charWidth);
 
         // for debugging
         //print_matrix_double(current->matrix, MATRIX_SIZE, MATRIX_SIZE);
 
-        free(extracted); // needed
+        free(extracted);
+        free(cropped);
     }
 }
 

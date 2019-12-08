@@ -14,31 +14,47 @@ void feedforward(double *weight0, double *weight1, double *a0, double *a1,
 	multiply_matrix(weight0, a0, a1, size_w0, size_a0);
 	add_matrix(a1, b0, size_a1, size_b0);
 	apply_sigmoid_to_matrix(a1, size_a1);
-
 	//------------------------------------------------
-
 	multiply_matrix(weight1, a1, a2, size_w1, size_a1);
 	add_matrix(a2, b1, size_a2, size_b1);
 	apply_softmax_to_matrix(a2, size_a2);
 }
 
 
-void backpropagation(double *weight1, double *a0, double *a1,
-		double *a2, int *size_w0, int *size_w1, int *size_a0,
-		int *size_a1, int size_a2[], int *size_b0, int *size_b1,
-		double *d_b1, double *d_w1, double *d_b0, double *d_w0,
-		int *s_d_b1, int *s_d_w1, int *s_d_b0, int *s_d_w0, 
-		char *good_char, double *sum_cost)
+void backpropagation(double *weight0, double *weight1, double *b0, double *b1,
+		double *a0, double *a1,	double *a2, int *size_w0, int *size_w1,
+		int *size_b0, int *size_b1, int *size_a0, int *size_a1, int size_a2[],
+		double *d_b1, double *d_w1, double *d_b0, double *d_w0,	int *s_d_b1, 
+		int *s_d_w1, int *s_d_b0, int *s_d_w0, char good_char, double *sum_cost)
 {
+	//feedforward to set a2 for backpro
+	multiply_matrix(weight0, a0, a1, size_w0, size_a0);
+	add_matrix(a1, b0, size_a1, size_b0);
+	/*double z1[size_a1[0] * size_a1[1]];
+	for (int i = 0; i < (size_a1[0] * size_a1[1]); i++)
+	{
+		z1[i] = a1[i];
+	}*/
+	apply_sigmoid_to_matrix(a1, size_a1);
+	//------------------------------------------------
+	multiply_matrix(weight1, a1, a2, size_w1, size_a1);
+	add_matrix(a2, b1, size_a2, size_b1);
+
+	/*double z2[size_a2[0] * size_a2[1]];
+	for (int i = 0; i < (size_a2[0] * size_a2[1]); i++)
+	{
+		z2[i] = a2[i];
+	}*/
+	apply_softmax_to_matrix(a2, size_a2);
+
+	//Beginning backpro
 	int size_wanted_output[] = {size_a2[0], size_a2[1]};
 	double wanted_output[size_wanted_output[0] * size_wanted_output[1]];
 
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
-	//#############################################################
 	int a = wanted_letter(good_char);
 	wanted_output[a] = 1.0;
-
 
 	*sum_cost += cost_function(wanted_output, a2, size_wanted_output, size_a2);
 
@@ -104,7 +120,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
 	int size_spo2[] = {size_a1[0], size_a1[1]};
 
-	//double w1_t[size_w1[0] * size_w1[1]];
 	double *w1_t = malloc((size_w1[0]*size_w1[1]) * sizeof(double));
 	int s_w1_t[] = {size_w1[1], size_w1[0]};
 
@@ -114,9 +129,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	apply_sigmoid_prime_to_matrix(a1, sigmoid_prime_output2, size_a1, size_spo2);
 
-	//printf("size0 tmp 2 = %d || size1 tmp2 = %d\n", s_tmp2[0], s_tmp2[1]);
-	//printf("size spo2[0] = %d||  size spo2[1] = %d\n", size_spo2[0], size_spo[1]);
-	//printf("size D2[0] = %d||  size D2[1] = %d\n\n", size_D2[0], size_D2[1]);
 	hadamard_product(tmp2, sigmoid_prime_output2, D2, s_tmp2, size_spo2);
 	
 	//-------------------------------------------------------------------------
@@ -132,8 +144,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double delta_b0[size_b0[0] * size_b0[1]];
 	int size_delta_b0[] = {size_b0[0], size_b0[1]};
 
-	//Segfault with following line #########################################
-	//double delta_w0[size_w0[0] * size_w0[1]];
 	double *delta_w0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
 	int size_delta_w0[] = {size_w0[0], size_w0[1]};
 

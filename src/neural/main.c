@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
 #include <stdlib.h> //For atoi
 #include <err.h>
@@ -11,7 +10,6 @@
 
 int main(int argc, char **argv)
 {
-	printf("%s\n",argv[0]);
 	pretty_print_xor(40, "NEURAL");
 
 	//Seed for the random
@@ -31,23 +29,17 @@ int main(int argc, char **argv)
 
 	int batch_size;
 
-	int nb_training_data = 88510;
+	int nb_training_data = 62000;
 
 	if (argc == 4)
 	{
+		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);
+		sscanf(argv[2], "%d", &nb_epoch);
 		sscanf(argv[3], "%d", &batch_size);
 	}
 	else
 	{
 		batch_size = 15;
-	}
-	if (argc >= 3)
-	{
-		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);
-		sscanf(argv[2], "%d", &nb_epoch);
-	}
-	else
-	{
 		nb_hidden_layer_neurons = 3000;
 		nb_epoch = (nb_training_data / batch_size);
 	}
@@ -63,7 +55,7 @@ int main(int argc, char **argv)
 	double a1[size_a1[0] * size_a1[1]];
 
 	int size_a2[] = {nb_output_neurons,1};
-	double a2[size_a2[0] * size_a1[1]];
+	double a2[size_a2[0] * size_a2[1]];
 
 	int size_w0[] = {nb_hidden_layer_neurons,nb_input_neurons};
 	double *weight0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
@@ -108,26 +100,6 @@ int main(int argc, char **argv)
 	double *d_w0 = malloc((s_d_w0[0]*s_d_w0[1]) * sizeof(double));
 	//double d_w0[s_d_w0[0] * s_d_w0[1]];
 
-
-	//Path to database
-	char path_matrix[] = "../learning/matrix_database.ocr";
-	char path_char[] = "../learning/character_database.ocr";
-
-	//Expected char for a given matrix
-	char good_char;
-
-	FILE *matrix_db;
-	matrix_db = fopen(path_matrix, "r");
-
-	FILE *char_db;
-	char_db = fopen(path_char, "r");
-
-	if (matrix_db == NULL || char_db == NULL)
-	{
-		errx(1, "Could not acces database");
-	}
-
-
 	double sum_cost = 0;
 
 	for (int k = 0; k < nb_epoch; k++)
@@ -145,15 +117,22 @@ int main(int argc, char **argv)
 		//----------------------------------------------------------------------
 		for (int i = 0; i < batch_size; i++)
 		{
-			init_a0(a0, size_a0, &good_char, matrix_db, char_db);
+			char letters[] =
+				"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
+			int index_rand = rand() % 67;
+
+			char path_matrix[80];
+			snprintf(path_matrix, 80, "../learning/database/%d.txt", index_rand);
 
 
-			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
-					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
+			char good_char = letters[index_rand];
+			printf("'%c' ", good_char);
 
-			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
-					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
-					s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char, &sum_cost);
+			init_a0(a0, size_a0, path_matrix);
+
+			backpropagation(weight0, weight1, b0, b1, a0, a1, a2, size_w0, size_w1,
+					size_b0, size_b1, size_a0, size_a1, size_a2, d_b1, d_w1, d_b0, d_w0,
+					s_d_b1, s_d_w1, s_d_b0, s_d_w0, good_char, &sum_cost);
 		}
 
 		//End of epoch
@@ -162,9 +141,6 @@ int main(int argc, char **argv)
 		add_matrix(b0, d_b0, size_b0, s_d_b0);
 		add_matrix(weight0, d_w0, size_w0, s_d_w0);
 	}
-
-	fclose(matrix_db);
-	fclose(char_db);
 
 	mat_to_file(weight0, weight1, b0, b1, 
 			size_w0, size_w1, size_b0, size_b1, "weights_and_biais.ocr");
@@ -177,6 +153,7 @@ int main(int argc, char **argv)
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
 	printf("Cost_function: %lf\n", sum_cost / (nb_epoch * batch_size));
+	printf("nb_neuron:%d | nb_char:%d | batch:%d\n", nb_hidden_layer_neurons, batch_size * nb_epoch, batch_size);
 	free(weight0);
 	free(weight1);
 	free(d_w1);
