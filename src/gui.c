@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include "ocr.h"
+#include "spellcheck.h"
 
 GtkWidget *window_start;
 GtkWidget *window_main;
@@ -409,7 +410,7 @@ void on_btn_copy_clicked()
     gchar *text;
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
 
-    gtk_text_buffer_get_bounds(txt_buff, &start, &end);
+    gtk_text_buffer_get_bounds(txt_buff, &start, &end) ;
 
     text = gtk_text_buffer_get_text(txt_buff, &start, &end, FALSE);
 
@@ -492,4 +493,16 @@ void on_btn_save_result_clicked()
     }
 
     gtk_widget_destroy(dialog);
+}
+
+// ****************************************************************************
+// *************************** SPELLCHECK *************************************
+// ****************************************************************************
+
+void on_btn_spellchecker_clicked()
+{
+    printf("GTK Debug : Spellchecker called !\n");
+    char* mispelled = "lihgt";
+    char* correct = spellcheck(mispelled);
+    printf("Test : %s should be %s\n", mispelled, correct);
 }

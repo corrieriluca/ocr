@@ -568,7 +568,7 @@ Luca Corrieri</property>
             </child>
             <child>
               <object class="GtkButton" id="btn_spellchecker">
-                <property name="label" translatable="yes">Spellchecker</property>
+                <property name="label" translatable="yes">Spellcheck</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

@@ -10,7 +10,7 @@ SDL = `pkg-config --cflags --libs sdl` -lSDL_image
 GTK = `pkg-config --cflags --libs gtk+-3.0`
 LM = -lm
 
-SRC = src/ocr.c src/segmentation.c src/preprocessing.c src/matrix_tools.c src/image_operations.c
+SRC = src/ocr.c src/segmentation.c src/preprocessing.c src/matrix_tools.c src/image_operations.c src/spellcheck.c
 
 all: ocr tmp
 
