@@ -60,7 +60,7 @@ gchar* ocr_main(char* image_path)
     //Init all the weights, biais and activation point
     //-------------------------------------------------------------------------
     int size_a0[] = {nb_input_neurons,1};
-    double a0[size_a0[0] * size_a0[1]];
+    //double a0[size_a0[0] * size_a0[1]];
 
     int size_a1[] = {nb_hidden_layer_neurons,1};
     double a1[size_a1[0] * size_a1[1]];
@@ -86,14 +86,15 @@ gchar* ocr_main(char* image_path)
 
     // Character Recognition
     printf("Recognized text :\n");
-    gchar *result = "";
+    gchar *result = "A";
+    char resultChar;
     for (size_t j = 0; j < nbLines; j++)
     {
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
         {
             // HERE THE NN ANALYSES lines[j].characters[k].matrix
-            char resultChar = recognize(lines[j].characters[k].matrix,
-                weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
+            resultChar = recognize(weight0, weight1,
+                lines[j].characters[k].matrix, a1, a2, b0, b1, size_w0, size_w1,
                 size_a0, size_a1, size_a2, size_b0, size_b1);
             char resultString[2] = { resultChar, 0 };
             result = g_strconcat(result, resultString, NULL);
@@ -114,8 +115,6 @@ gchar* ocr_main(char* image_path)
         result = g_strconcat(result, "\n", NULL);
         free(lines[j].characters); // calloc previously
     }
-
-    printf("Recognition done !\n");
 
     free(lines); // calloc previously
 

@@ -4,16 +4,16 @@
 #include "neural.h"
 #include "math_tools.h"
 
-char recognize(double matchar[], double *weight0, double *weight1, double *a0,
+char recognize(double *weight0, double *weight1, double *a0,
 		double *a1, double *a2, double *b0, double *b1, int *size_w0,
 		int *size_w1, int *size_a0, int *size_a1, int *size_a2,
 		int *size_b0, int *size_b1)
 {
-
+	/*
 	int size = size_a0[0] * size_a0[1];
 	for (int i = 0; i < size; i++)
 	{
-		if (matchar[i] == '0')
+		if (matchar[i] == 0.0)
 		{
 			a0[i] = 0.0;
 		}
@@ -21,7 +21,7 @@ char recognize(double matchar[], double *weight0, double *weight1, double *a0,
 		{
 			a0[i] = 1.0;
 		}
-	}
+	}*/
 
 	feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1, size_a0,
 		size_a1, size_a2, size_b0, size_b1);
