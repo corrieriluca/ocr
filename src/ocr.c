@@ -8,6 +8,7 @@
 #include "preprocessing.h"
 #include "segmentation.h"
 #include "neural/test/print.h"
+#include "neural/test/save_and_load.h"
 
 gchar* ocr_main(char* image_path)
 {
@@ -59,7 +60,7 @@ gchar* ocr_main(char* image_path)
     //Init all the weights, biais and activation point
     //-------------------------------------------------------------------------
     int size_a0[] = {nb_input_neurons,1};
-    double a0[size_a0[0] * size_a0[1]];
+    //double a0[size_a0[0] * size_a0[1]];
 
     int size_a1[] = {nb_hidden_layer_neurons,1};
     double a1[size_a1[0] * size_a1[1]];
@@ -79,22 +80,24 @@ gchar* ocr_main(char* image_path)
     int size_b1[] = {nb_output_neurons,1};
     double b1[size_b1[0] * size_b1[1]];
 
-//    file_to_mat(weight0, weight1, b0, b1,
-  //          size_w0, size_w1, size_b0, size_b1,
-    //        "src/neural/test/weights_and_biais.ocr");
+    file_to_mat(weight0, weight1, b0, b1,
+            size_w0, size_w1, size_b0, size_b1,
+            "weights_and_biais.ocr");
 
     // Character Recognition
     printf("Recognized text :\n");
-    gchar *result = "";
+    gchar *result = "A";
+    char resultChar;
     for (size_t j = 0; j < nbLines; j++)
     {
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
         {
             // HERE THE NN ANALYSES lines[j].characters[k].matrix
-            char resultChar = recognize(lines[j].characters[k].matrix,
-                weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
+            resultChar = recognize(weight0, weight1,
+                lines[j].characters[k].matrix, a1, a2, b0, b1, size_w0, size_w1,
                 size_a0, size_a1, size_a2, size_b0, size_b1);
-            result = g_strconcat(result, resultChar, NULL);
+            char resultString[2] = { resultChar, 0 };
+            result = g_strconcat(result, resultString, NULL);
 
             // is there a space after this character ?
             if (k + 1 < lines[j].nbCharacters &&
