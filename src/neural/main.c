@@ -153,6 +153,7 @@ int main(int argc, char **argv)
 			size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
 
 	printf("Cost_function: %lf\n", sum_cost / (nb_epoch * batch_size));
+	printf("nb_neuron:%d | nb_char:%d | batch:%d\n", nb_hidden_layer_neurons, batch_size * nb_epoch, batch_size);
 	free(weight0);
 	free(weight1);
 	free(d_w1);
