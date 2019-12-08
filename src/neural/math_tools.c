@@ -30,7 +30,7 @@ void multiply_matrix(double mat1[], double mat2[], double mat_out[],
 {
 	if (size_mat1[1] != size_mat2[0])
 	{
-		printf("multiply_matrix : Can't multiply matrix with these dimension\n");
+		errx(1, "multiply_matrix : Can't multiply matrix with these dimension\n");
 	}
 	else
 	{
