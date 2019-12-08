@@ -27,6 +27,10 @@ GtkToggleButton *rb_grayscale;
 GtkToggleButton *rb_binarize;
 GtkToggleButton *rb_segmentation;
 
+GtkWidget *window_spellcheck;
+GtkLabel *current_wd_lbl;
+GtkLabel *suggested_lbl;
+
 gboolean show_advanced;
 
 // the current image selected (default is NULL)
@@ -499,10 +503,74 @@ void on_btn_save_result_clicked()
 // *************************** SPELLCHECK *************************************
 // ****************************************************************************
 
+GtkTextIter *startIterator;
+GtkTextIter *endIterator;
+
+void next_word_spellcheck()
+{
+    //GtkTextIter current, endOfWord;
+    gchar *word;
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+
+    //current = startIterator;
+    //endOfWord = endIterator;
+
+    while (!gtk_text_iter_starts_word(startIterator))
+    {
+        gtk_text_iter_forward_char(startIterator);
+    }
+
+    while (!gtk_text_iter_ends_word(endIterator))
+    {
+        gtk_text_iter_forward_char(endIterator);
+    }
+
+    word = gtk_text_buffer_get_text(txt_buff, startIterator, endIterator, FALSE);
+    printf("Spell check : current word is %s\n", word);
+}
+
 void on_btn_spellchecker_clicked()
 {
-    printf("GTK Debug : Spellchecker called !\n");
-    char* mispelled = "lihgt";
+    printf("\nGTK Debug : Spellchecker called !\n");
+    /*char* mispelled = "lihgt";
     char* correct = spellcheck(mispelled);
-    printf("Test : %s should be %s\n", mispelled, correct);
+    printf("Test : %s should be %s\n", mispelled, correct);*/
+    GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
+
+    window_spellcheck =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_spellcheck"));
+
+    suggested_lbl = GTK_LABEL(gtk_builder_get_object(builder, "suggested_lbl"));
+
+    current_wd_lbl =
+        GTK_LABEL(gtk_builder_get_object(builder, "current_wd_lbl"));
+
+    gtk_builder_connect_signals(builder, NULL);
+    gtk_widget_show(window_spellcheck);
+    g_object_unref(builder);
+
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+    gtk_text_buffer_get_start_iter(txt_buff, startIterator);
+
+    next_word_spellcheck();
+}
+
+void on_btn_cancel_clicked()
+{
+    gtk_widget_destroy(window_spellcheck);
+}
+
+void on_next_btn_clicked()
+{
+    next_word_spellcheck();
+}
+
+void on_previous_btn_clicked()
+{
+    printf("\nSpellcheck : previous clicked\n");
+}
+
+void on_correct_btn_clicked()
+{
+    printf("\nSpellcheck : applying correction...\n");
 }
