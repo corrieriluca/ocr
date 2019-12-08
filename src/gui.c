@@ -506,6 +506,14 @@ void on_btn_save_result_clicked()
 
 GtkTextIter nextIterator;
 
+GtkTextIter startCorrection;
+GtkTextIter endCorrection;
+
+GtkTextMark *mark;
+
+gchar *corrected;
+gint word_length;
+
 void next_word_spellcheck()
 {
     GtkTextIter current, endOfWord;
@@ -537,8 +545,12 @@ void next_word_spellcheck()
 
     if (strlen(word))
     {
+        word_length = strlen(word);
         gtk_label_set_text(current_wd_lbl, word);
-        gtk_label_set_text(suggested_lbl, spellcheck(word));
+        corrected = spellcheck(word);
+        gtk_label_set_text(suggested_lbl, corrected);
+        startCorrection = current;
+        endCorrection = endOfWord;
     }
 
     if (gtk_text_iter_is_end(&endOfWord))
@@ -555,14 +567,11 @@ void next_word_spellcheck()
     }
 
     nextIterator = endOfWord;
+    gtk_text_buffer_move_mark(txt_buff, mark, &nextIterator);
 }
 
 void on_btn_spellchecker_clicked()
 {
-    printf("\nGTK Debug : Spellchecker called !\n");
-    /*char* mispelled = "lihgt";
-    char* correct = spellcheck(mispelled);
-    printf("Test : %s should be %s\n", mispelled, correct);*/
     GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
 
     window_spellcheck =
@@ -580,6 +589,9 @@ void on_btn_spellchecker_clicked()
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
     gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
 
+    mark =
+        gtk_text_buffer_create_mark(txt_buff, "spellcheck", &nextIterator,TRUE);
+
     next_word_spellcheck();
 }
 
@@ -593,12 +605,10 @@ void on_next_btn_clicked()
     next_word_spellcheck();
 }
 
-void on_previous_btn_clicked()
-{
-    printf("\nSpellcheck : previous clicked\n");
-}
-
 void on_correct_btn_clicked()
 {
-    printf("\nSpellcheck : applying correction...\n");
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+    gtk_text_buffer_delete(txt_buff, &startCorrection, &endCorrection);
+    gtk_text_buffer_insert(txt_buff, &startCorrection, corrected, word_length);
+    gtk_text_buffer_get_iter_at_mark(txt_buff, &nextIterator, mark);
 }
