@@ -11,7 +11,6 @@
 
 int main(int argc, char **argv)
 {
-	printf("%s\n",argv[0]);
 	pretty_print_xor(40, "NEURAL");
 
 	//Seed for the random
@@ -35,19 +34,13 @@ int main(int argc, char **argv)
 
 	if (argc == 4)
 	{
+		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);
+		sscanf(argv[2], "%d", &nb_epoch);
 		sscanf(argv[3], "%d", &batch_size);
 	}
 	else
 	{
 		batch_size = 15;
-	}
-	if (argc >= 3)
-	{
-		sscanf(argv[1], "%d", &nb_hidden_layer_neurons);
-		sscanf(argv[2], "%d", &nb_epoch);
-	}
-	else
-	{
 		nb_hidden_layer_neurons = 3000;
 		nb_epoch = (nb_training_data / batch_size);
 	}
@@ -63,7 +56,7 @@ int main(int argc, char **argv)
 	double a1[size_a1[0] * size_a1[1]];
 
 	int size_a2[] = {nb_output_neurons,1};
-	double a2[size_a2[0] * size_a1[1]];
+	double a2[size_a2[0] * size_a2[1]];
 
 	int size_w0[] = {nb_hidden_layer_neurons,nb_input_neurons};
 	double *weight0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
