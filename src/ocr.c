@@ -8,6 +8,7 @@
 #include "preprocessing.h"
 #include "segmentation.h"
 #include "neural/test/print.h"
+#include "neural/test/save_and_load.h"
 
 gchar* ocr_main(char* image_path)
 {
@@ -81,7 +82,7 @@ gchar* ocr_main(char* image_path)
 
     file_to_mat(weight0, weight1, b0, b1,
             size_w0, size_w1, size_b0, size_b1,
-            "src/neural/test/weights_and_biais.ocr");
+            "weights_and_biais.ocr");
 
     // Character Recognition
     printf("Recognized text :\n");
