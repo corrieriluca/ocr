@@ -95,7 +95,8 @@ gchar* ocr_main(char* image_path)
             char resultChar = recognize(lines[j].characters[k].matrix,
                 weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
                 size_a0, size_a1, size_a2, size_b0, size_b1);
-            result = g_strconcat(result, resultChar, NULL);
+            char resultString[2] = { resultChar, 0 };
+            result = g_strconcat(result, resultString, NULL);
 
             // is there a space after this character ?
             if (k + 1 < lines[j].nbCharacters &&
@@ -113,6 +114,8 @@ gchar* ocr_main(char* image_path)
         result = g_strconcat(result, "\n", NULL);
         free(lines[j].characters); // calloc previously
     }
+
+    printf("Recognition done !\n");
 
     free(lines); // calloc previously
 
