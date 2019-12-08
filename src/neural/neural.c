@@ -35,10 +35,8 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	init_matrix_with_0(wanted_output, size_wanted_output);
 
-	//#############################################################
 	int a = wanted_letter(good_char);
 	wanted_output[a] = 1.0;
-
 
 	*sum_cost += cost_function(wanted_output, a2, size_wanted_output, size_a2);
 
@@ -104,7 +102,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double sigmoid_prime_output2[size_a1[0] * size_a1[1]];
 	int size_spo2[] = {size_a1[0], size_a1[1]};
 
-	//double w1_t[size_w1[0] * size_w1[1]];
 	double *w1_t = malloc((size_w1[0]*size_w1[1]) * sizeof(double));
 	int s_w1_t[] = {size_w1[1], size_w1[0]};
 
@@ -114,9 +111,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 
 	apply_sigmoid_prime_to_matrix(a1, sigmoid_prime_output2, size_a1, size_spo2);
 
-	//printf("size0 tmp 2 = %d || size1 tmp2 = %d\n", s_tmp2[0], s_tmp2[1]);
-	//printf("size spo2[0] = %d||  size spo2[1] = %d\n", size_spo2[0], size_spo[1]);
-	//printf("size D2[0] = %d||  size D2[1] = %d\n\n", size_D2[0], size_D2[1]);
 	hadamard_product(tmp2, sigmoid_prime_output2, D2, s_tmp2, size_spo2);
 	
 	//-------------------------------------------------------------------------
@@ -132,8 +126,6 @@ void backpropagation(double *weight1, double *a0, double *a1,
 	double delta_b0[size_b0[0] * size_b0[1]];
 	int size_delta_b0[] = {size_b0[0], size_b0[1]};
 
-	//Segfault with following line #########################################
-	//double delta_w0[size_w0[0] * size_w0[1]];
 	double *delta_w0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
 	int size_delta_w0[] = {size_w0[0], size_w0[1]};
 
