@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <string.h>
 #include "ocr.h"
 #include "spellcheck.h"
 
@@ -503,30 +504,57 @@ void on_btn_save_result_clicked()
 // *************************** SPELLCHECK *************************************
 // ****************************************************************************
 
-GtkTextIter *startIterator;
-GtkTextIter *endIterator;
+GtkTextIter nextIterator;
 
 void next_word_spellcheck()
 {
-    //GtkTextIter current, endOfWord;
+    GtkTextIter current, endOfWord;
     gchar *word;
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
 
-    //current = startIterator;
-    //endOfWord = endIterator;
+    current = nextIterator;
 
-    while (!gtk_text_iter_starts_word(startIterator))
+    endOfWord = current;
+
+    if (gtk_text_iter_is_end(&nextIterator))
+        gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
+
+    while (!gtk_text_iter_starts_word(&current))
     {
-        gtk_text_iter_forward_char(startIterator);
+        if (gtk_text_iter_is_end(&current))
+            break;
+        gtk_text_iter_forward_char(&current);
     }
 
-    while (!gtk_text_iter_ends_word(endIterator))
+    while (!gtk_text_iter_ends_word(&endOfWord))
     {
-        gtk_text_iter_forward_char(endIterator);
+        if (gtk_text_iter_is_end(&endOfWord))
+            break;
+        gtk_text_iter_forward_char(&endOfWord);
     }
 
-    word = gtk_text_buffer_get_text(txt_buff, startIterator, endIterator, FALSE);
-    printf("Spell check : current word is %s\n", word);
+    word = gtk_text_buffer_get_text(txt_buff, &current, &endOfWord, FALSE);
+
+    if (strlen(word))
+    {
+        gtk_label_set_text(current_wd_lbl, word);
+        gtk_label_set_text(suggested_lbl, spellcheck(word));
+    }
+
+    if (gtk_text_iter_is_end(&endOfWord))
+    {
+        gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
+        return;
+    }
+
+    while (!gtk_text_iter_starts_word(&endOfWord))
+    {
+        if (gtk_text_iter_is_end(&endOfWord))
+            break;
+        gtk_text_iter_forward_char(&endOfWord);
+    }
+
+    nextIterator = endOfWord;
 }
 
 void on_btn_spellchecker_clicked()
@@ -550,7 +578,7 @@ void on_btn_spellchecker_clicked()
     g_object_unref(builder);
 
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
-    gtk_text_buffer_get_start_iter(txt_buff, startIterator);
+    gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
 
     next_word_spellcheck();
 }
