@@ -7,6 +7,7 @@
 #include "matrix_tools.h"
 #include "preprocessing.h"
 #include "segmentation.h"
+#include "neural/test/print.h"
 
 gchar* ocr_main(char* image_path)
 {
@@ -45,6 +46,43 @@ gchar* ocr_main(char* image_path)
     // save the image of the segmentation for the debugging (in the tmp folder)
     Save_Segmentation(image_surface, lines, nbLines);
 
+    // Initializing the Neural Network
+    //Choosing the number of input neurons
+    int nb_input_neurons = 16*16;
+
+    //Choosing the number of output neurons
+    int nb_output_neurons = 67;
+
+    //Choosing the number of neurons in the hidden layer
+    int nb_hidden_layer_neurons = 12000;
+
+    //Init all the weights, biais and activation point
+    //-------------------------------------------------------------------------
+    int size_a0[] = {nb_input_neurons,1};
+    double a0[size_a0[0] * size_a0[1]];
+
+    int size_a1[] = {nb_hidden_layer_neurons,1};
+    double a1[size_a1[0] * size_a1[1]];
+
+    int size_a2[] = {nb_output_neurons,1};
+    double a2[size_a2[0] * size_a1[1]];
+
+    int size_w0[] = {nb_hidden_layer_neurons,nb_input_neurons};
+    double *weight0 = malloc((size_w0[0]*size_w0[1]) * sizeof(double));
+
+    int size_w1[] = {nb_output_neurons,nb_hidden_layer_neurons};
+    double *weight1 = malloc((size_w1[0]*size_w1[1]) * sizeof(double));
+
+    int size_b0[] = {nb_hidden_layer_neurons,1};
+    double b0[size_b0[0] * size_b0[1]];
+
+    int size_b1[] = {nb_output_neurons,1};
+    double b1[size_b1[0] * size_b1[1]];
+
+    file_to_mat(weight0, weight1, b0, b1,
+            size_w0, size_w1, size_b0, size_b1,
+            "src/neural/test/weights_and_biais.ocr");
+
     // Character Recognition
     printf("Recognized text :\n");
     gchar *result = "";
@@ -53,8 +91,10 @@ gchar* ocr_main(char* image_path)
         for (size_t k = 0; k < lines[j].nbCharacters; k++)
         {
             // HERE THE NN ANALYSES lines[j].characters[k].matrix
-            //printf("-");
-            result = g_strconcat(result, "-", NULL);
+            char resultChar = recognize(lines[j].characters[k].matrix,
+                weight0, weight1, a0, a1, a2, b0, b1, size_w0, size_w1,
+                size_a0, size_a1, size_a2, size_b0, size_b1);
+            result = g_strconcat(result, resultChar, NULL);
 
             // is there a space after this character ?
             if (k + 1 < lines[j].nbCharacters &&
@@ -74,6 +114,9 @@ gchar* ocr_main(char* image_path)
     }
 
     free(lines); // calloc previously
+
+    free(weight0);
+    free(weight1);
 
     SDL_FreeSurface(image_surface);
 
