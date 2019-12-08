@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
 	int batch_size;
 
-	int nb_training_data = 88510;
+	int nb_training_data = 62000;
 
 	if (argc == 4)
 	{
@@ -140,12 +140,8 @@ int main(int argc, char **argv)
 		{
 			init_a0(a0, size_a0, &good_char, matrix_db, char_db);
 
-
-			feedforward(weight0, weight1, a0, a1, a2, b0, b1, size_w0,
-					size_w1, size_a0, size_a1, size_a2, size_b0, size_b1);
-
-			backpropagation(weight1, a0, a1, a2, size_w0, size_w1, size_a0,
-					size_a1, size_a2, size_b0, size_b1, d_b1, d_w1, d_b0, d_w0,
+			backpropagation(weight0, weight1, b0, b1, a0, a1, a2, size_w0, size_w1,
+					size_b0, size_b1, size_a0, size_a1, size_a2, d_b1, d_w1, d_b0, d_w0,
 					s_d_b1, s_d_w1, s_d_b0, s_d_w0, &good_char, &sum_cost);
 		}
 
