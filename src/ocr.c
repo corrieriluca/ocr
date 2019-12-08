@@ -79,9 +79,9 @@ gchar* ocr_main(char* image_path)
     int size_b1[] = {nb_output_neurons,1};
     double b1[size_b1[0] * size_b1[1]];
 
-    file_to_mat(weight0, weight1, b0, b1,
-            size_w0, size_w1, size_b0, size_b1,
-            "src/neural/test/weights_and_biais.ocr");
+//    file_to_mat(weight0, weight1, b0, b1,
+  //          size_w0, size_w1, size_b0, size_b1,
+    //        "src/neural/test/weights_and_biais.ocr");
 
     // Character Recognition
     printf("Recognized text :\n");
