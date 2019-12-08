@@ -8,7 +8,6 @@ LDFLAGS = -export-dynamic
 # libraries
 SDL = `pkg-config --cflags --libs sdl` -lSDL_image
 GTK = `pkg-config --cflags --libs gtk+-3.0`
-GSPELL = `pkg-config --cflags --libs gspell-1`
 LM = -lm
 
 SRC = src/ocr.c src/segmentation.c src/preprocessing.c src/matrix_tools.c src/image_operations.c
@@ -16,7 +15,7 @@ SRC = src/ocr.c src/segmentation.c src/preprocessing.c src/matrix_tools.c src/im
 all: ocr tmp
 
 ocr: $(SRC) src/main.c
-	$(CC) -o $@.out src/main.c src/gui.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(SDL) $(GTK) $(LM) $(GSPELL) $(LDFLAGS)
+	$(CC) -o $@.out src/main.c src/gui.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(SDL) $(GTK) $(LM) $(LDFLAGS)
 
 # to use the OCR without the GUI
 cli: $(SRC) src/main-cli.c
