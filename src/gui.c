@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
-#include <gspell/gspell.h>
+#include <string.h>
 #include "ocr.h"
+#include "spellcheck.h"
 
 GtkWidget *window_start;
 GtkWidget *window_main;
@@ -26,6 +27,10 @@ GtkToggleButton *rb_original;
 GtkToggleButton *rb_grayscale;
 GtkToggleButton *rb_binarize;
 GtkToggleButton *rb_segmentation;
+
+GtkWidget *window_spellcheck;
+GtkLabel *current_wd_lbl;
+GtkLabel *suggested_lbl;
 
 gboolean show_advanced;
 
@@ -72,11 +77,6 @@ void launch_gui(int argc, char *argv[])
     // GtkTextView Result
     txt_result =
         GTK_TEXT_VIEW(gtk_builder_get_object(builder, "txt_result"));
-
-    // GSpell support for txt_result
-    GspellTextView *gspell_text_view =
-        gspell_text_view_get_from_gtk_text_view(txt_result);
-    gspell_text_view_basic_setup(gspell_text_view);
 
     gtk_builder_connect_signals(builder, NULL);
 
@@ -415,7 +415,7 @@ void on_btn_copy_clicked()
     gchar *text;
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
 
-    gtk_text_buffer_get_bounds(txt_buff, &start, &end);
+    gtk_text_buffer_get_bounds(txt_buff, &start, &end) ;
 
     text = gtk_text_buffer_get_text(txt_buff, &start, &end, FALSE);
 
@@ -501,15 +501,114 @@ void on_btn_save_result_clicked()
 }
 
 // ****************************************************************************
-// ***************************** SPELL-CHECK **********************************
+// *************************** SPELLCHECK *************************************
 // ****************************************************************************
 
-// called when the button "Spellchecker" is clicked in the result window
+GtkTextIter nextIterator;
+
+GtkTextIter startCorrection;
+GtkTextIter endCorrection;
+
+GtkTextMark *mark;
+
+gchar *corrected;
+gint word_length;
+
+void next_word_spellcheck()
+{
+    GtkTextIter current, endOfWord;
+    gchar *word;
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+
+    current = nextIterator;
+
+    endOfWord = current;
+
+    if (gtk_text_iter_is_end(&nextIterator))
+        gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
+
+    while (!gtk_text_iter_starts_word(&current))
+    {
+        if (gtk_text_iter_is_end(&current))
+            break;
+        gtk_text_iter_forward_char(&current);
+    }
+
+    while (!gtk_text_iter_ends_word(&endOfWord))
+    {
+        if (gtk_text_iter_is_end(&endOfWord))
+            break;
+        gtk_text_iter_forward_char(&endOfWord);
+    }
+
+    word = gtk_text_buffer_get_text(txt_buff, &current, &endOfWord, FALSE);
+
+    if (strlen(word))
+    {
+        word_length = strlen(word);
+        gtk_label_set_text(current_wd_lbl, word);
+        corrected = spellcheck(word);
+        gtk_label_set_text(suggested_lbl, corrected);
+        startCorrection = current;
+        endCorrection = endOfWord;
+    }
+
+    if (gtk_text_iter_is_end(&endOfWord))
+    {
+        gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
+        return;
+    }
+
+    while (!gtk_text_iter_starts_word(&endOfWord))
+    {
+        if (gtk_text_iter_is_end(&endOfWord))
+            break;
+        gtk_text_iter_forward_char(&endOfWord);
+    }
+
+    nextIterator = endOfWord;
+    gtk_text_buffer_move_mark(txt_buff, mark, &nextIterator);
+}
+
 void on_btn_spellchecker_clicked()
 {
-    GtkWidget *spellchecker_dialog = gspell_checker_dialog_new(
-        GTK_WINDOW(window_result),
-        gspell_navigator_text_view_new(txt_result));
+    GtkBuilder *builder = gtk_builder_new_from_file("src/glade/gui.glade");
 
-    gtk_widget_show(spellchecker_dialog);
+    window_spellcheck =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_spellcheck"));
+
+    suggested_lbl = GTK_LABEL(gtk_builder_get_object(builder, "suggested_lbl"));
+
+    current_wd_lbl =
+        GTK_LABEL(gtk_builder_get_object(builder, "current_wd_lbl"));
+
+    gtk_builder_connect_signals(builder, NULL);
+    gtk_widget_show(window_spellcheck);
+    g_object_unref(builder);
+
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+    gtk_text_buffer_get_start_iter(txt_buff, &nextIterator);
+
+    mark =
+        gtk_text_buffer_create_mark(txt_buff, "spellcheck", &nextIterator,TRUE);
+
+    next_word_spellcheck();
+}
+
+void on_btn_cancel_clicked()
+{
+    gtk_widget_destroy(window_spellcheck);
+}
+
+void on_next_btn_clicked()
+{
+    next_word_spellcheck();
+}
+
+void on_correct_btn_clicked()
+{
+    GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
+    gtk_text_buffer_delete(txt_buff, &startCorrection, &endCorrection);
+    gtk_text_buffer_insert(txt_buff, &startCorrection, corrected, word_length);
+    gtk_text_buffer_get_iter_at_mark(txt_buff, &nextIterator, mark);
 }
