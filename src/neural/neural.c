@@ -30,10 +30,21 @@ void backpropagation(double *weight0, double *weight1, double *b0, double *b1,
 	//feedforward to set a2 for backpro
 	multiply_matrix(weight0, a0, a1, size_w0, size_a0);
 	add_matrix(a1, b0, size_a1, size_b0);
+	/*double z1[size_a1[0] * size_a1[1]];
+	for (int i = 0; i < (size_a1[0] * size_a1[1]); i++)
+	{
+		z1[i] = a1[i];
+	}*/
 	apply_sigmoid_to_matrix(a1, size_a1);
 	//------------------------------------------------
 	multiply_matrix(weight1, a1, a2, size_w1, size_a1);
 	add_matrix(a2, b1, size_a2, size_b1);
+
+	/*double z2[size_a2[0] * size_a2[1]];
+	for (int i = 0; i < (size_a2[0] * size_a2[1]); i++)
+	{
+		z2[i] = a2[i];
+	}*/
 	apply_softmax_to_matrix(a2, size_a2);
 
 	//Beginning backpro
