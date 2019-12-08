@@ -286,13 +286,14 @@ void on_fcb_image_file_set()
     filename = gtk_file_chooser_get_filename(chooser);
     printf("\nGTK Debug : file selected is %s\n", filename);
     currentImage = filename;
-    show_loaded_image();
     gtk_widget_set_sensitive(btn_convert,
             TRUE);
 	gtk_widget_set_sensitive(btn_rr,
             TRUE);
 	gtk_widget_set_sensitive(btn_rl,
             TRUE);
+    show_loaded_image();
+    printf("--------------------------");                                                                            
 }
 
 void on_cb_advanced_toggled(GtkToggleButton *toggleButton)
@@ -340,8 +341,8 @@ void on_btn_convert_clicked()
 SDL_Surface *load_rotimage()
 {
 	// Image loading                                                            
-    SDL_Surface *image_surface;                                                 
     init_sdl();                                                                 
+    SDL_Surface *image_surface;                                                 
     image_surface = load_image(currentImage);                                     
     size_t image_width = image_surface->w;                                      
     size_t image_height = image_surface->h;                                     
@@ -350,42 +351,50 @@ SDL_Surface *load_rotimage()
     image_rotated_surface = SDL_CreateRGBSurface(0, image_height,
 			image_width, 32, 0, 0, 0, 0);
 
-	SDL_FreeSurface(image_surface);
-	return image_rotated_surface;
+    SDL_FreeSurface(image_surface);
+    return image_rotated_surface;
 }
 
 //rotation right of the picture
 void on_btn_rr_clicked()
 {
 
-	SDL_Surface *image_rotated = load_rotimage();
-	size_t rotated_width = image_rotated->w;
+    SDL_Surface *image_rotated = load_rotimage();
+    size_t rotated_width = image_rotated->w;
 
-	SDL_Surface *image_surface;
-	image_surface = load_image(currentImage);                                     
+    SDL_Surface *image_surface;
+    image_surface = load_image(currentImage);                                     
     size_t image_width = image_surface->w;                                      
     size_t image_height = image_surface->h;
 
-	for (size_t x = 0; x < image_width; x++)
-		for(size_t y = 0; y < image_height; y++)
-		{
-			Uint32 pixel = get_pixel(image_surface, x, y);
-			put_pixel(image_rotated, rotated_width-y, x, pixel);
-		}
-	
+    for (size_t x = 0; x < image_width; x++)
+    {
+        for (size_t y = 0; y < image_height; y++)
+	{
+	    Uint32 pixel = get_pixel(image_surface, x, y);
+	    put_pixel(image_rotated, rotated_width-y, x, pixel);
+	}
+    }
 
-	save_image(image_rotated, "tmp/rotated.bmp");
+    printf("before save");                                                                 
+    save_image(image_rotated, "tmp/rotated.bmp");
+    printf("after save");
 
-	currentImage = "tmp/rotated.bmp";
-	show_loaded_image(); 
-	SDL_FreeSurface(image_rotated);
-	SDL_FreeSurface(image_surface);
+    currentImage = "tmp/rotated.bmp";
+    printf("set current image");
+    show_loaded_image();
+    printf("showed loaded image");
+    SDL_FreeSurface(image_rotated);
+    printf("freed image rotated");
+    SDL_FreeSurface(image_surface);
+    printf("freed image surcface");
 }
 
 //rotation left of the picture
 void on_btn_rl_clicked()
 {
-	SDL_Surface *image_rotated = load_rotimage();                               
+/*  
+  SDL_Surface *image_rotated = load_rotimage();                               
     size_t rotated_height = image_rotated->h;                                   
                                                                                 
     SDL_Surface *image_surface;                                                 
@@ -394,18 +403,26 @@ void on_btn_rl_clicked()
     size_t image_height = image_surface->h;                                     
                                                                                 
     for (size_t x = 0; x < image_width; x++)                                    
-        for(size_t y = 0; y < image_height; y++)                                
+        for (size_t y = 0; y < image_height; y++)                                
         {                                                                       
             Uint32 pixel = get_pixel(image_surface, x, y);                      
             put_pixel(image_rotated, y, rotated_height -x, pixel);                
         }                                                                       
-                                                                                
+    
     save_image(image_rotated, "tmp/rotated.bmp");                               
                                                                                 
     currentImage = "tmp/rotated.bmp";                                           
+    printf("set current image");
     show_loaded_image();
-	SDL_FreeSurface(image_rotated);
-	SDL_FreeSurface(image_surface); 
+    printf("showed loaded image");
+    SDL_FreeSurface(image_rotated);
+    printf("freed image rotated");
+    SDL_FreeSurface(image_surface); 
+    printf("freed image surcface");
+*/
+on_btn_rr_clicked();
+on_btn_rr_clicked();
+on_btn_rr_clicked();
 }
 
 // ****************************************************************************
