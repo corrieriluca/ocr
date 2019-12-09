@@ -82,7 +82,7 @@ gchar* ocr_main(char* image_path)
 
     file_to_mat(weight0, weight1, b0, b1,
             size_w0, size_w1, size_b0, size_b1,
-            "weights_and_biais.ocr");
+            "src/weights_and_biais.txt");
 
     // Character Recognition
     printf("Recognized text :\n");
