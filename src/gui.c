@@ -36,6 +36,7 @@ GtkToggleButton *rb_segmentation;
 GtkWidget *window_spellcheck;
 GtkLabel *current_wd_lbl;
 GtkLabel *suggested_lbl;
+GtkLabel *corrected_lbl;
 
 gboolean show_advanced;
 
@@ -600,6 +601,7 @@ gint word_length;
 
 void next_word_spellcheck()
 {
+    gtk_label_set_text(corrected_lbl, "");
     GtkTextIter current, endOfWord;
     gchar *word;
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
@@ -666,6 +668,9 @@ void on_btn_spellchecker_clicked()
     current_wd_lbl =
         GTK_LABEL(gtk_builder_get_object(builder, "current_wd_lbl"));
 
+    corrected_lbl =
+        GTK_LABEL(gtk_builder_get_object(builder, "corrected_lbl"));
+
     gtk_builder_connect_signals(builder, NULL);
     gtk_widget_show(window_spellcheck);
     g_object_unref(builder);
@@ -694,5 +699,6 @@ void on_correct_btn_clicked()
     GtkTextBuffer *txt_buff = gtk_text_view_get_buffer(txt_result);
     gtk_text_buffer_delete(txt_buff, &startCorrection, &endCorrection);
     gtk_text_buffer_insert(txt_buff, &startCorrection, corrected, word_length);
+    gtk_label_set_text(corrected_lbl, "Corrected");
     gtk_text_buffer_get_iter_at_mark(txt_buff, &nextIterator, mark);
 }

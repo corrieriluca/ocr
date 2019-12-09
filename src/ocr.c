@@ -55,7 +55,7 @@ gchar* ocr_main(char* image_path)
     int nb_output_neurons = 67;
 
     //Choosing the number of neurons in the hidden layer
-    int nb_hidden_layer_neurons = 3000;
+    int nb_hidden_layer_neurons = 14000;
 
     //Init all the weights, biais and activation point
     //-------------------------------------------------------------------------
