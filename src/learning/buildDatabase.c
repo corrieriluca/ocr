@@ -103,10 +103,10 @@ int main()
 		}
 
         printf("\n------------- LOADING %zu.png... -----------------\n\n", i);
-        char image_path[40];
-        snprintf(image_path, 40, "../../samples/Lorem/Lorem%zu.png", i);
-        char text_path[40];
-        snprintf(text_path, 40, "../../samples/Lorem/Lorem%zu.txt", i);
+        char image_path[80];
+        snprintf(image_path, 80, "../../samples/Lorem_english/englishh%zu.png", i);
+        char text_path[80];
+        snprintf(text_path, 80, "../../samples/Lorem_english/english%zu.txt", i);
 
         main_building(image_path, text_path, matrix_database, char_database);
     }
@@ -120,10 +120,10 @@ int main()
     char_database_test = fopen("character_database_test.ocr", "w+");
 
 		printf("\n------------- LOADING Lorem_test.png... -----------------\n\n");
-		char image_path[40];
-		snprintf(image_path, 40, "../../samples/Lorem_test.png");
-		char text_path[40];
-		snprintf(text_path, 40, "../../samples/Lorem_test.txt");
+		char image_path[80];
+		snprintf(image_path, 80, "../../samples/Lorem_english_test.png");
+		char text_path[80];
+		snprintf(text_path, 80, "../../samples/Lorem_english_test.txt");
 
 		main_building(image_path, text_path, matrix_database_test, char_database_test);
 
