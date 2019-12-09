@@ -1,10 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <err.h>
 #include "neural.h"
 #include "math_tools.h"
+#include <err.h>
 
 
 void pretty_print_xor(size_t nb_char, char *str)
@@ -86,35 +84,33 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		int *size_w1, int *size_a0, int *size_a1, int *size_a2,
 		int *size_b0, int *size_b1)
 {
-	char letters[] =                                                    
-	   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?'0123456789";
+	//Path to database
+	char path_matrix_test[] = "../learning/matrix_database_test.ocr";
+	char path_char_test[] = "../learning/character_database_test.ocr";
 
-	srand(time(NULL));
+	FILE *matrix_db_test;
+	matrix_db_test = fopen(path_matrix_test, "r");
+
+	FILE *char_db_test;
+	char_db_test = fopen(path_char_test, "r");
+
+	if (matrix_db_test == NULL || char_db_test == NULL)
+	{
+		errx(1, "Could not acces database_test");
+	}
 
 	double compteur = 0.0;
-	int nb_test = 100;
+	int nb_test = 400;
 
 	for (int i = 0; i < nb_test; i++)
 	{
-		int index_rand = rand() % 67;                                       
-																			
-		char path_matrix[80];                                               
-		snprintf(path_matrix, 80, "../learning/database/%d.txt", index_rand);
-																			
-		char good_char = letters[index_rand];                               
-		printf("'%c' ", good_char);                                         
-																			
-		FILE *matrix_db;
-		char matrix[(size_a0[0]*size_a0[1]*2+2)];
-		matrix_db = fopen(path_matrix, "r");
-		if (matrix_db == NULL)
-		{
-			printf("%s\n", path_matrix);
-			printf("%d\n", index_rand);
-			errx(1, "Could not acces database");
-		}
+		char charac[3];
+		fgets(charac, sizeof(charac), char_db_test);
+		char good_char = charac[0];
 
-		fgets(matrix, (size_a0[0]*size_a0[1]*2+2), matrix_db);
+		char matrix[(size_a0[0]*size_a0[1]*2+2)]; //TODO : Find good size
+		fgets(matrix, (size_a0[0]*size_a0[1]*2+2), matrix_db_test);
+
 		int size = size_a0[0] * size_a0[1];
 		for (int i = 0; i < size; i++)
 		{
@@ -124,14 +120,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 			}
 			else
 			{
-				if (matrix[i] == '1')
-				{
-					a0[i] = 1.0;
-				}
-				else
-				{
-					printf("||**|*||");
-				}
+				a0[i] = 1.0;
 			}
 		}
 
@@ -142,7 +131,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 		char return_char = '*';
 
 		return_char = find_index_letter(a2, size_a2);
-		int return_char_index = wanted_letter(good_char);
+		int return_char_index = wanted_letter(&good_char);
 
 		if (return_char_index == index_max_matrix(a2, size_a2))
 		{
@@ -156,11 +145,26 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 
 		printf("Given letter : %c (index = %02d) || ", good_char, return_char_index);
 		printf("output letter : %c (index = %02d)\033[0m\n", return_char, index_max_matrix(a2,size_a2));
-		fclose(matrix_db);
+
+
+		/*//Ugly but usefull to print a2
+		for (int z = 0; z < (size_a2[0] * size_a2[1]); z++)
+		{
+			if ((z % 10) == 0 && (z != 0))
+			{
+				printf("\n");
+			}
+
+			printf("|%lf|",a2[z]);
+		}
+
+		printf("\n");*/
 	}
 
 	double success_rate = compteur / nb_test;
 	printf("Success rate = %lf\n", success_rate);
 
+	fclose(matrix_db_test);
+	fclose(char_db_test);
 }
 
