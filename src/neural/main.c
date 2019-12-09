@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 	else
 	{
 		batch_size = 15;
-		nb_hidden_layer_neurons = 3000;
+		nb_hidden_layer_neurons = 14000;
 		nb_epoch = (nb_training_data / batch_size);
 	}
 
