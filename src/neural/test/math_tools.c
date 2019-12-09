@@ -204,7 +204,7 @@ void apply_softmax_to_matrix(double mat[], int size[])
 		{
 			errx(1, "division by 0 in softmax");
 		}
-		else 
+		else
 		{
 			mat[i] = exp((mat[i]) - maxmat) / sum;
 		}

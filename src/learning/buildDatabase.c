@@ -113,7 +113,7 @@ int main()
 
     fclose(matrix_database);
     fclose(char_database);
-    
+
     FILE *matrix_database_test;
     FILE *char_database_test;
     matrix_database_test = fopen("matrix_database_test.ocr", "w+");
@@ -129,7 +129,7 @@ int main()
 
     fclose(matrix_database_test);
     fclose(char_database_test);
-   
+
 
     return 0;
 }

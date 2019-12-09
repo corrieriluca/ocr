@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 	fclose(matrix_db);
 	fclose(char_db);
 
-	mat_to_file(weight0, weight1, b0, b1, 
+	mat_to_file(weight0, weight1, b0, b1,
 			size_w0, size_w1, size_b0, size_b1, "weights_and_biais.ocr");
 
 

@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include "ocr.h"
-#include "SDL/SDL.h"                                                            
+#include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "image_operations.h"
 #include "spellcheck.h"
@@ -72,7 +72,7 @@ void launch_gui(int argc, char *argv[])
 
     btn_convert =
         GTK_WIDGET(gtk_builder_get_object(builder, "btn_convert"));
-	
+
 	btn_rr = GTK_WIDGET(gtk_builder_get_object(builder, "btn_rr"));
 	btn_rl = GTK_WIDGET(gtk_builder_get_object(builder, "btn_rl"));
 
@@ -339,14 +339,14 @@ void on_btn_convert_clicked()
 
 SDL_Surface *load_rotimage()
 {
-	// Image loading                                                            
-    init_sdl();                                                                 
-    SDL_Surface *image_surface;                                                 
-    image_surface = load_image(currentImage);                                     
-    size_t image_width = image_surface->w;                                      
-    size_t image_height = image_surface->h;                                     
-                                                                                
-    SDL_Surface *image_rotated_surface;                                         
+	// Image loading
+    init_sdl();
+    SDL_Surface *image_surface;
+    image_surface = load_image(currentImage);
+    size_t image_width = image_surface->w;
+    size_t image_height = image_surface->h;
+
+    SDL_Surface *image_rotated_surface;
     image_rotated_surface = SDL_CreateRGBSurface(0, image_height,
 			image_width, 32, 0, 0, 0, 0);
 
@@ -362,8 +362,8 @@ void on_btn_rr_clicked()
     size_t rotated_width = image_rotated->w;
 
     SDL_Surface *image_surface;
-    image_surface = load_image(currentImage);                                     
-    size_t image_width = image_surface->w;                                      
+    image_surface = load_image(currentImage);
+    size_t image_width = image_surface->w;
     size_t image_height = image_surface->h;
 
     for (size_t x = 0; x < image_width; x++)
