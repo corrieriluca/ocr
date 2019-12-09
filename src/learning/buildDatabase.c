@@ -97,14 +97,10 @@ int main()
 
     for (size_t i = 0; i < 47; i++)
     {
-		if (i == 21)
-		{
-			continue;
-		}
 
-        printf("\n------------- LOADING %zu.png... -----------------\n\n", i);
+        printf("\n------------- LOADING english%zu.png... -----------------\n\n", i);
         char image_path[80];
-        snprintf(image_path, 80, "../../samples/Lorem_english/englishh%zu.png", i);
+        snprintf(image_path, 80, "../../samples/Lorem_english/english%zu.png", i);
         char text_path[80];
         snprintf(text_path, 80, "../../samples/Lorem_english/english%zu.txt", i);
 
@@ -119,7 +115,7 @@ int main()
     matrix_database_test = fopen("matrix_database_test.ocr", "w+");
     char_database_test = fopen("character_database_test.ocr", "w+");
 
-		printf("\n------------- LOADING Lorem_test.png... -----------------\n\n");
+		printf("\n------------- LOADING Lorem_english_test.png... -----------------\n\n");
 		char image_path[80];
 		snprintf(image_path, 80, "../../samples/Lorem_english_test.png");
 		char text_path[80];
