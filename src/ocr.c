@@ -55,7 +55,7 @@ gchar* ocr_main(char* image_path)
     int nb_output_neurons = 67;
 
     //Choosing the number of neurons in the hidden layer
-    int nb_hidden_layer_neurons = 12000;
+    int nb_hidden_layer_neurons = 3000;
 
     //Init all the weights, biais and activation point
     //-------------------------------------------------------------------------
@@ -86,7 +86,7 @@ gchar* ocr_main(char* image_path)
 
     // Character Recognition
     printf("Recognized text :\n");
-    gchar *result = "A";
+    gchar *result = "";
     char resultChar;
     for (size_t j = 0; j < nbLines; j++)
     {
