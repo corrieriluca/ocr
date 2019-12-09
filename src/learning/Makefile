@@ -12,13 +12,14 @@ all: build
 
 build: $(SRC)
 	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(LDLIBS)
-	mkdir -p database
+	mkdir -p tmp
 
 .PHONY: clean
 
 clean:
 	${RM} build.out
 	${RM} build.d
-	rm -r database
+	rm -r tmp
+	rm *.ocr
 
 # END
