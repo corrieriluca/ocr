@@ -55,7 +55,7 @@ void print_feed_forward(double *weight0, double *weight1, double *a0,
 	}
 
 	double compteur = 0.0;
-	int nb_test = 400;
+	int nb_test = 2000;
 
 	for (int i = 0; i < nb_test; i++)
 	{

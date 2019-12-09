@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
 	int batch_size;
 
-	int nb_training_data = 62000;
+	int nb_training_data = 115760;
 
 	if (argc == 4)
 	{
