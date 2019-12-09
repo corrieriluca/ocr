@@ -45,6 +45,16 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
       <pattern>*.jpg</pattern>
     </patterns>
   </object>
+  <object class="GtkImage" id="rl_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">object-rotate-left-symbolic</property>
+  </object>
+  <object class="GtkImage" id="rr_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">object-rotate-right-symbolic</property>
+  </object>
   <object class="GtkWindow" id="window_main">
     <property name="width_request">500</property>
     <property name="height_request">500</property>
@@ -214,10 +224,10 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
                     <property name="layout_style">start</property>
                     <child>
                       <object class="GtkButton" id="btn_rl">
-                        <property name="label" translatable="yes">&lt;---</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="image">rl_image</property>
                         <signal name="clicked" handler="on_btn_rl_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -228,10 +238,10 @@ Author: Luca Corrieri, Alexis Boissière, Alexis Boyadjian, Valentin Cambazard
                     </child>
                     <child>
                       <object class="GtkButton" id="btn_rr">
-                        <property name="label" translatable="yes">---&gt;</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="image">rr_image</property>
                         <signal name="clicked" handler="on_btn_rr_clicked" swapped="no"/>
                       </object>
                       <packing>

@@ -387,7 +387,7 @@ void on_btn_rr_clicked()
 
     save_image(image_rotated, "tmp/rotated.bmp");
 
-    currentImage = "/home/val/Prog/ocr/tmp/rotated.bmp";
+    currentImage = "tmp/rotated.bmp";
     show_loaded_image();
     SDL_FreeSurface(image_rotated);
     SDL_FreeSurface(image_surface);
