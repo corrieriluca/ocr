@@ -4,6 +4,13 @@ A simple optical character recognition system made for the final S3 project at E
 
 # Building
 
+## Dependencies
+
+- SDL
+- GTK
+
+## Compiling
+
 Type `make all` in the repository root to build the OCR with its GUI.
 
 You can type `make cli` to build the OCR without its GUI.
